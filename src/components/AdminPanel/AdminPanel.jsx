@@ -7,9 +7,15 @@ const AdminPanel = () => {
   const [user, setUser] = useState({});
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
+  const loginHandler = (username, password) => {
+    console.log('Succesfully logged in!');
+    // TODO: Real login functionallity
+    setIsLoggedIn(true);
+  }
+
   return (
     <>
-      {!isLoggedIn && <LoginForm/>}
+      {!isLoggedIn && <LoginForm loginHandler={loginHandler}/>}
       {isLoggedIn && <AdminHomePage/>}
     </>
   );
