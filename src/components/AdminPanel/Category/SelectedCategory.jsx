@@ -15,12 +15,12 @@ const SelectedCategory = () => {
   useEffect(() =>{
     const getCategory = async () =>{
         const response = await axios.get(`http://localhost:4000/admin/categories/${id}`);
-        console.log(response.data.name)
         setSelectedCategory(response.data.name)
+        console.log(response.data.name)
     }
 
     getCategory();
-  },[])
+  },[id])
 
   const handleClickOpen = () => {
     setShowModal(true);
