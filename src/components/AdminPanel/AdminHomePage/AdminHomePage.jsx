@@ -1,6 +1,7 @@
 import { Routes, Route, Link } from "react-router-dom";
 
-import Procedures from "../Procedures/Procedures";
+import CategoriesList from "../CategoriesList/CategoriesList";
+import ProductsList from "../ProductsList";
 
 import Button from "@mui/material/Button";
 import styles from "./AdminHomePage.module.css";
@@ -15,15 +16,18 @@ const AdminHomePage = () => {
             ПРОЦЕДУРИ
           </Button>
         </Link>
+        <Link to='/admin/products'>
         <Button variant="contained" size="large" className={styles.button}>
           ПРОДУКТИ
         </Button>
+        </Link>
         <Button variant="contained" size="large" className={styles.button}>
           ПРОМОЦИИ
         </Button>
       </div>
       <Routes>
-        <Route path="/procedures" element={<Procedures />} />
+        <Route path="/procedures/*" element={<CategoriesList />} />
+        <Route path="/products" element={<ProductsList />} />
       </Routes>
     </>
   );

@@ -1,8 +1,12 @@
 import { useEffect, useState } from "react";
+import { Routes, Route, Link } from "react-router-dom";
 import axios from "axios";
-import styles from "./Procedures.module.css";
+import styles from "./CategoriesList.module.css";
 
-const Procedures = () => {
+import Category from "../Category/Category";
+import SelectedCategory from "../Category/SelectedCategory";
+
+const CategoriesList = () => {
   const [categoryValue, setCategoryValue] = useState("");
   const [categories, setCategories] = useState([]);
   const [showInputField, setShowInputField] = useState(false);
@@ -17,9 +21,10 @@ const Procedures = () => {
         console.error('Error:', error);
       }
     };
-    fetchData();
-      
+    fetchData();  
   }, []);
+
+  console.log(categories)
 
   const onChangeHandler = (e) => {
     setCategoryValue(e.target.value);
@@ -53,9 +58,7 @@ const Procedures = () => {
     <>
       <h1>Категории</h1>
       {categories.map((c) => (
-        <button key={c._id} className={styles.button}>
-          {c.name}
-        </button>
+        <Category key={c._id} category={c}/>
       ))}
       <button className={styles.button} onClick={() => setShowInputField(true)}>
         +
@@ -70,8 +73,11 @@ const Procedures = () => {
           <button onClick={addCategory}>Добави</button>
         </div>
       )}
+      <Routes>
+        <Route path="/:id" element={<SelectedCategory />} />
+      </Routes>
     </>
   );
 };
 
-export default Procedures;
+export default CategoriesList;
