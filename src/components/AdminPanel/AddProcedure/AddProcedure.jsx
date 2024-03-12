@@ -15,42 +15,50 @@ const AddProcedure = ({ show, hide, category }) => {
       open={show}
       onClose={hide}
       aria-labelledby="responsive-dialog-title"
+      
     >
       <DialogContent>
-          <label>Име на процедура:</label>
-          <input/>
-          <div>
-          {category}
+        <form className={styles.container}>
+          <div className={styles.fields}>
+            <label>Име на процедура:</label>
+            <input />
           </div>
-          <div>
-            Снимки на процедурата:
-            <div>
-            <Button>+</Button>
-            </div>
+          <div className={styles.category}>{category}</div>
+          <div className={styles.fields}>
+            <label> Снимки на процедурата</label>
+            <input type="file" />
           </div>
-          <label>Цена:</label>
-          <input/>
+          <div >
+            <label>Цена:</label>
+            <input />
+          </div>
+          <div >
           <label>Промоционална цена:</label>
-          <input/>
-          <label>Характеристики:</label>
-          <input/>
+          <input />
+          </div>
+          <div className={styles.fields}>
+          <label >Характеристики:</label>
+          <input />
+          </div>
+          <div className={styles.fields}>
           <label>Описание на продукт:</label>
-          <input/>
-          <div>
+          <textarea />
+          </div>
+          <div className={styles.fields}>
             Сходни продукти:
             <div>
-            <Button>+</Button>
+              <Button>+</Button>
             </div>
           </div>
           <DialogActions>
             <Button autoFocus onClick={hide}>
               Отказ
             </Button>
-            <Button onClick={hide} autoFocus>
+            <Button onClick={hide} autoFocus type="submit">
               Запази процедура
             </Button>
           </DialogActions>
-
+        </form>
       </DialogContent>
     </Dialog>
   );
