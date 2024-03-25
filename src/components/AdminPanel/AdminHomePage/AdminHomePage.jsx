@@ -5,6 +5,7 @@ import ProductsList from "../ProductsList";
 
 import Button from "@mui/material/Button";
 import styles from "./AdminHomePage.module.css";
+import Promotions from "../Promotions/Promotions";
 
 const AdminHomePage = () => {
   return (
@@ -21,13 +22,17 @@ const AdminHomePage = () => {
           ПРОДУКТИ
         </Button>
         </Link>
+        <Link to='/admin/promotions'>
         <Button variant="contained" size="large" className={styles.button}>
           ПРОМОЦИИ
         </Button>
+        </Link>
+        
       </div>
       <Routes>
         <Route path="/procedures/*" element={<CategoriesList />} />
         <Route path="/products" element={<ProductsList />} />
+        <Route path="/promotions" element={<Promotions />} />
       </Routes>
     </>
   );

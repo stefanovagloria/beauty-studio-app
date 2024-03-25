@@ -10,8 +10,8 @@ const AddProcedure = ({ show, hide, category }) => {
   const [procedureValues, setProcedureValues] = useState({
     name: "",
     photos: [],
-    price: '',
-    promoPrice: '',
+    price: "",
+    promoPrice: "",
     characteristics: [{ key: "", value: null }],
     description: "",
     relatedProducts: [],
@@ -23,13 +23,16 @@ const AddProcedure = ({ show, hide, category }) => {
 
   const onChangeHandler = (e) => {
     const inputName = e.target.name;
-    console.log(e.target.value)
+
     if (inputName !== "photos") {
-      console.log('setValues..')
       setProcedureValues((values) => ({
         ...values,
         [inputName]: e.target.value,
       }));
+    } else {
+      console.log(e.target.files[0]);
+      setProcedureValues((values) => ({...values, [inputName]: [...values[inputName], e.target.files[0]]}));
+      console.log(procedureValues.photos)
     }
   };
 
@@ -60,6 +63,9 @@ const AddProcedure = ({ show, hide, category }) => {
               type="file"
               onChange={onChangeHandler}
             />
+            {procedureValues.photos.map((photos, index) => (
+              <span key={index}>{photos.name}</span>
+            ))}
           </div>
           <div>
             <label htmlFor="price">Цена:</label>
@@ -82,7 +88,7 @@ const AddProcedure = ({ show, hide, category }) => {
           <div className={styles.fields}>
             <label>Характеристики:</label>
             <div>
-              {procedureValues.length > 0 &&
+              {procedureValues.characteristics.length > 0 &&
                 procedureValues.characteristics.map((ch, index) => (
                   <div key={index}>
                     <input
