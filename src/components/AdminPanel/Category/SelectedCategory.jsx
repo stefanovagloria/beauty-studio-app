@@ -15,8 +15,7 @@ const SelectedCategory = () => {
   useEffect(() =>{
     const getCategory = async () =>{
         const response = await axios.get(`http://localhost:4000/admin/categories/${id}`);
-        setSelectedCategory(response.data.name)
-        console.log(response.data.name)
+        setSelectedCategory(response.data)
     }
 
     getCategory();
@@ -32,7 +31,7 @@ const SelectedCategory = () => {
 
   return (
     <>
-      <h1>Selected Category</h1>
+      <h1>Selected Category - {selectedCategory.name}</h1>
       <Card className={styles.btnContainer} onClick={handleClickOpen}>
         <span className={styles.btn}>+</span>
       </Card>

@@ -12,14 +12,40 @@ const AddProcedure = ({ show, hide, category }) => {
     photos: [],
     price: "",
     promoPrice: "",
-    characteristics: [{ key: "", value: null }],
+    characteristics: [{ key: "", value: "" }],
     description: "",
     relatedProducts: [],
   });
 
-  const onRemove = (index) => {};
+  const [showInputs, setShowInputs] = useState(false);
 
-  const onCharacteristicsChange = (e) => {};
+  const [currentInputs, setCurrentInputs] = useState({ key: "", value: "" });
+
+  const onRemove = (index) => {
+    const updatedCharacteristics = [...procedureValues.characteristics];
+    updatedCharacteristics.splice(index, 1);
+
+    setProcedureValues((values) => ({
+      ...values,
+      characteristics: updatedCharacteristics,
+    }));
+  };
+
+  const onCharacteristicsChange = (e) => {
+    setCurrentInputs((inputs) => ({
+      ...inputs,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  const onSave = () => {
+    setProcedureValues((values) => ({
+      ...values,
+      characteristics: [...values.characteristics, currentInputs],
+    }));
+    setCurrentInputs((inputs) => ({ key: "", value: "" }));
+    setShowInputs(false);
+  };
 
   const onChangeHandler = (e) => {
     const inputName = e.target.name;
@@ -30,10 +56,19 @@ const AddProcedure = ({ show, hide, category }) => {
         [inputName]: e.target.value,
       }));
     } else {
-      console.log(e.target.files[0]);
-      setProcedureValues((values) => ({...values, [inputName]: [...values[inputName], e.target.files[0]]}));
-      console.log(procedureValues.photos)
+      setProcedureValues((values) => ({
+        ...values,
+        [inputName]: [...values[inputName], e.target.files[0]],
+      }));
     }
+  };
+
+  const onAddClickHandler = () => {
+    setShowInputs(true);
+  };
+
+  const onSubmitHandler = (e) => {
+    e.preventDefault();
   };
 
   return (
@@ -44,7 +79,7 @@ const AddProcedure = ({ show, hide, category }) => {
       aria-labelledby="responsive-dialog-title"
     >
       <DialogContent>
-        <form className={styles.container}>
+        <form className={styles.container} onSubmit={onSubmitHandler}>
           <div className={styles.fields}>
             <label htmlFor="name">Име на процедура:</label>
             <input
@@ -54,7 +89,7 @@ const AddProcedure = ({ show, hide, category }) => {
               onChange={onChangeHandler}
             />
           </div>
-          <div className={styles.category}>{category}</div>
+          <div className={styles.category}>{category.name}</div>
           <div className={styles.fields}>
             <label htmlFor="photos"> Снимки на процедурата</label>
             <input
@@ -89,23 +124,53 @@ const AddProcedure = ({ show, hide, category }) => {
             <label>Характеристики:</label>
             <div>
               {procedureValues.characteristics.length > 0 &&
-                procedureValues.characteristics.map((ch, index) => (
-                  <div key={index}>
-                    <input
-                      value={ch.key}
-                      onChange={(e) =>
-                        onCharacteristicsChange(index, e.target.value, ch.value)
-                      }
-                    />
-                    <input
-                      value={ch.value}
-                      onChange={(e) =>
-                        onCharacteristicsChange(index, ch.key, e.target.value)
-                      }
-                    />
-                    <Button onClick={() => onRemove(index)}>Remove</Button>
-                  </div>
-                ))}
+                procedureValues.characteristics.some((c) => c.value !== "") &&
+                procedureValues.characteristics.map(
+                  (ch, index) =>
+                    ch.key !== "" && (
+                      <div key={index}>
+                        <input
+                          value={ch.key}
+                          onChange={(e) =>
+                            onCharacteristicsChange(
+                              index,
+                              e.target.value,
+                              ch.value
+                            )
+                          }
+                        />
+                        <input
+                          value={ch.value}
+                          onChange={(e) =>
+                            onCharacteristicsChange(
+                              index,
+                              ch.key,
+                              e.target.value
+                            )
+                          }
+                        />
+                        <Button onClick={() => onRemove(index)}>Remove</Button>
+                      </div>
+                    )
+                )}
+
+              <Button onClick={onAddClickHandler}>Add</Button>
+
+              {showInputs && (
+                <div>
+                  <input
+                    value={currentInputs.key}
+                    name="key"
+                    onChange={(e) => onCharacteristicsChange(e)}
+                  />
+                  <input
+                    value={currentInputs.value}
+                    name="value"
+                    onChange={(e) => onCharacteristicsChange(e)}
+                  />
+                  <Button onClick={onSave}>Save</Button>
+                </div>
+              )}
             </div>
           </div>
           <div className={styles.fields}>
