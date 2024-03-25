@@ -4,10 +4,12 @@ import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
+import axios from "axios";
 import { useState } from "react";
 
 const AddProcedure = ({ show, hide, category }) => {
   const [procedureValues, setProcedureValues] = useState({
+    category: category._id,
     name: "",
     photos: [],
     price: "",
@@ -67,8 +69,12 @@ const AddProcedure = ({ show, hide, category }) => {
     setShowInputs(true);
   };
 
-  const onSubmitHandler = (e) => {
+  const onSubmitHandler = async (e) => {
     e.preventDefault();
+     console.log('Submitting');
+
+     const response = await axios.post("http://localhost:4000/admin/procedures", procedureValues);
+     console.log(response)
   };
 
   return (
@@ -192,7 +198,7 @@ const AddProcedure = ({ show, hide, category }) => {
             <Button autoFocus onClick={hide}>
               Отказ
             </Button>
-            <Button onClick={hide} autoFocus type="submit">
+            <Button autoFocus type="submit">
               Запази процедура
             </Button>
           </DialogActions>
