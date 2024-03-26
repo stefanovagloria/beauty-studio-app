@@ -71,10 +71,25 @@ const AddProcedure = ({ show, hide, category }) => {
 
   const onSubmitHandler = async (e) => {
     e.preventDefault();
-     console.log('Submitting');
 
-     const response = await axios.post("http://localhost:4000/admin/procedures", procedureValues);
-     console.log(response)
+    const response = await axios.post(
+      "http://localhost:4000/admin/procedures",
+      procedureValues
+    );
+
+    console.log(procedureValues.category)
+    setProcedureValues({
+      category: category._id,
+      name: "",
+      photos: [],
+      price: "",
+      promoPrice: "",
+      characteristics: [{ key: "", value: "" }],
+      description: "",
+      relatedProducts: [],
+    });
+
+    hide();
   };
 
   return (

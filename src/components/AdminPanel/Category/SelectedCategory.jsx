@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import axios from 'axios';
+import axios from "axios";
 
 import AddProcedure from "../AddProcedure/AddProcedure";
+import ProceduresList from "../ProceduresList/ProceduresList";
 
 import Card from "@mui/material/Card";
 import styles from "./SelectedCategory.module.css";
@@ -12,14 +13,16 @@ const SelectedCategory = () => {
   const [selectedCategory, setSelectedCategory] = useState({});
   const [showModal, setShowModal] = useState(false);
 
-  useEffect(() =>{
-    const getCategory = async () =>{
-        const response = await axios.get(`http://localhost:4000/admin/categories/${id}`);
-        setSelectedCategory(response.data)
-    }
+  useEffect(() => {
+    const getCategory = async () => {
+      const response = await axios.get(
+        `http://localhost:4000/admin/categories/${id}`
+      );
+      setSelectedCategory(response.data);
+    };
 
     getCategory();
-  },[id])
+  }, [id]);
 
   const handleClickOpen = () => {
     setShowModal(true);
@@ -30,13 +33,20 @@ const SelectedCategory = () => {
   };
 
   return (
-    <>
+    <div className={styles.mainContainer}>
       <h1>Selected Category - {selectedCategory.name}</h1>
-      <Card className={styles.btnContainer} onClick={handleClickOpen}>
-        <span className={styles.btn}>+</span>
-      </Card>
-      <AddProcedure show={showModal} hide={handleClose} category={selectedCategory}/>
-    </>
+      <div className={styles.container}>
+        <Card className={styles.btnContainer} onClick={handleClickOpen}>
+          <span className={styles.btn}>+</span>
+        </Card>
+        <AddProcedure
+          show={showModal}
+          hide={handleClose}
+          category={selectedCategory}
+        />
+        <ProceduresList id={id} />
+      </div>
+    </div>
   );
 };
 
