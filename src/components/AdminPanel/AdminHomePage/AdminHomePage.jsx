@@ -1,7 +1,7 @@
 import { Routes, Route, Link } from "react-router-dom";
 
-import CategoriesList from "../CategoriesList/CategoriesList";
-import ProductsList from "../ProductsList";
+import CategoriesList from "../Procedures/CategoriesList/CategoriesList";
+import ProductsList from "../Products/ProductsList";
 
 import Button from "@mui/material/Button";
 import styles from "./AdminHomePage.module.css";

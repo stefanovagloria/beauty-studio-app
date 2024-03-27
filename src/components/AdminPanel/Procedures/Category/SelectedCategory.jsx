@@ -9,6 +9,7 @@ import Card from "@mui/material/Card";
 import styles from "./SelectedCategory.module.css";
 
 const SelectedCategory = () => {
+  
   const { id } = useParams();
   const [selectedCategory, setSelectedCategory] = useState({});
   const [showModal, setShowModal] = useState(false);

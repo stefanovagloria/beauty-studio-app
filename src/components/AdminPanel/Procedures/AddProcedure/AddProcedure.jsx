@@ -8,8 +8,9 @@ import axios from "axios";
 import { useState } from "react";
 
 const AddProcedure = ({ show, hide, category }) => {
+  const categoryId = category._id;
   const [procedureValues, setProcedureValues] = useState({
-    category: category._id,
+    category: categoryId,
     name: "",
     photos: [],
     price: "",
@@ -71,13 +72,14 @@ const AddProcedure = ({ show, hide, category }) => {
 
   const onSubmitHandler = async (e) => {
     e.preventDefault();
+    console.log(procedureValues);
 
     const response = await axios.post(
       "http://localhost:4000/admin/procedures",
       procedureValues
     );
 
-    console.log(procedureValues.category)
+    console.log(procedureValues.category);
     setProcedureValues({
       category: category._id,
       name: "",
