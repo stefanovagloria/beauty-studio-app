@@ -1,7 +1,7 @@
 import { Routes, Route, Link } from "react-router-dom";
 
 import CategoriesList from "../Procedures/CategoriesList/CategoriesList";
-import ProductsList from "../Products/ProductsList";
+import Products from "../Products/Products";
 
 import Button from "@mui/material/Button";
 import styles from "./AdminHomePage.module.css";
@@ -31,7 +31,7 @@ const AdminHomePage = () => {
       </div>
       <Routes>
         <Route path="/procedures/*" element={<CategoriesList />} />
-        <Route path="/products" element={<ProductsList />} />
+        <Route path="/products" element={<Products />} />
         <Route path="/promotions" element={<Promotions />} />
       </Routes>
     </>
