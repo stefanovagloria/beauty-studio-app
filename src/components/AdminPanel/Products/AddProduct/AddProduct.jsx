@@ -9,8 +9,7 @@ import { useState } from "react";
 
 const AddProduct = ({hide}) => {
 
-  const [procedureValues, setProcedureValues] = useState({
-    category: "",
+  const [productsValues, setProductsValues] = useState({
     name: "",
     photos: [],
     price: "",
@@ -24,10 +23,10 @@ const AddProduct = ({hide}) => {
   const [currentInputs, setCurrentInputs] = useState({ key: "", value: "" });
 
   const onRemove = (index) => {
-    const updatedCharacteristics = [...procedureValues.characteristics];
+    const updatedCharacteristics = [...productsValues.characteristics];
     updatedCharacteristics.splice(index, 1);
 
-    setProcedureValues((values) => ({
+    setProductsValues((values) => ({
       ...values,
       characteristics: updatedCharacteristics,
     }));
@@ -41,7 +40,7 @@ const AddProduct = ({hide}) => {
   };
 
   const onSave = () => {
-    setProcedureValues((values) => ({
+    setProductsValues((values) => ({
       ...values,
       characteristics: [...values.characteristics, currentInputs],
     }));
@@ -53,12 +52,12 @@ const AddProduct = ({hide}) => {
     const inputName = e.target.name;
 
     if (inputName !== "photos") {
-      setProcedureValues((values) => ({
+      setProductsValues((values) => ({
         ...values,
         [inputName]: e.target.value,
       }));
     } else {
-      setProcedureValues((values) => ({
+      setProductsValues((values) => ({
         ...values,
         [inputName]: [...values[inputName], e.target.files[0]],
       }));
@@ -71,16 +70,15 @@ const AddProduct = ({hide}) => {
 
   const onSubmitHandler = async (e) => {
     e.preventDefault();
-    console.log(procedureValues);
+    console.log(productsValues);
 
     const response = await axios.post(
-      "http://localhost:4000/admin/procedures",
-      procedureValues
+      "http://localhost:4000/admin/products",
+      productsValues
     );
 
-    console.log(procedureValues.category);
-    setProcedureValues({
-      category: category._id,
+    console.log(productsValues.category);
+    setProductsValues({
       name: "",
       photos: [],
       price: "",
@@ -107,7 +105,7 @@ const AddProduct = ({hide}) => {
             <input
               id="name"
               name="name"
-              value={procedureValues.name}
+              value={productsValues.name}
               onChange={onChangeHandler}
             />
           </div>
@@ -119,7 +117,7 @@ const AddProduct = ({hide}) => {
               type="file"
               onChange={onChangeHandler}
             />
-            {procedureValues.photos.map((photos, index) => (
+            {productsValues.photos.map((photos, index) => (
               <span key={index}>{photos.name}</span>
             ))}
           </div>
@@ -128,7 +126,7 @@ const AddProduct = ({hide}) => {
             <input
               id="price"
               name="price"
-              value={procedureValues.price}
+              value={productsValues.price}
               onChange={onChangeHandler}
             />
           </div>
@@ -137,16 +135,16 @@ const AddProduct = ({hide}) => {
             <input
               id="promoPrice"
               name="promoPrice"
-              value={procedureValues.promoPrice}
+              value={productsValues.promoPrice}
               onChange={onChangeHandler}
             />
           </div>
           <div className={styles.fields}>
             <label>Характеристики:</label>
             <div>
-              {procedureValues.characteristics.length > 0 &&
-                procedureValues.characteristics.some((c) => c.value !== "") &&
-                procedureValues.characteristics.map(
+              {productsValues.characteristics.length > 0 &&
+                productsValues.characteristics.some((c) => c.value !== "") &&
+                productsValues.characteristics.map(
                   (ch, index) =>
                     ch.key !== "" && (
                       <div key={index}>
@@ -199,7 +197,7 @@ const AddProduct = ({hide}) => {
             <textarea
               id="description"
               name="description"
-              value={procedureValues.description}
+              value={productsValues.description}
               onChange={onChangeHandler}
             />
           </div>
