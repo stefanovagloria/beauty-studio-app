@@ -1,0 +1,13 @@
+.container {
+    padding: 5em 4em;
+}
+
+.fields{
+    display: flex;
+    flex-direction: column;
+    padding: 0.5em;
+}
+
+.category{
+    font-weight: bold;
+}
