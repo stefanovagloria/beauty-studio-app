@@ -1,7 +1,10 @@
+import Navigation from "./Navigation/Navigation";
+
+
 const UserApp = () =>{
 
     return(
-        <h1>User Applicaiton</h1>
+       <Navigation/>
     )
 }
 
