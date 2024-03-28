@@ -9,10 +9,8 @@ import Card from "@mui/material/Card";
 import styles from "./SelectedCategory.module.css";
 
 const SelectedCategory = () => {
-  
   const { id } = useParams();
   const [selectedCategory, setSelectedCategory] = useState({});
-  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     const getCategory = async () => {
@@ -25,28 +23,9 @@ const SelectedCategory = () => {
     getCategory();
   }, [id]);
 
-  const handleClickOpen = () => {
-    setShowModal(true);
-  };
-
-  const handleClose = () => {
-    setShowModal(false);
-  };
-
   return (
     <div className={styles.mainContainer}>
       <h1>Selected Category - {selectedCategory.name}</h1>
-      <div className={styles.container}>
-        <Card className={styles.btnContainer} onClick={handleClickOpen}>
-          <span className={styles.btn}>+</span>
-        </Card>
-        <AddProcedure
-          show={showModal}
-          hide={handleClose}
-          category={selectedCategory}
-        />
-        <ProceduresList id={id} />
-      </div>
     </div>
   );
 };

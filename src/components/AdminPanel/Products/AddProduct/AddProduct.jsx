@@ -7,9 +7,10 @@ import DialogContent from "@mui/material/DialogContent";
 import axios from "axios";
 import { useState } from "react";
 
-const AddProduct = ({hide}) => {
+const AddProduct = ({hide, categoryId}) => {
 
   const [productsValues, setProductsValues] = useState({
+    category: categoryId,
     name: "",
     photos: [],
     price: "",

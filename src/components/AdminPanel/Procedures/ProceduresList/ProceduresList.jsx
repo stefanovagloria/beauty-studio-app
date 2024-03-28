@@ -5,6 +5,7 @@ import styles from "./ProceduresList.module.css";
 import Card from "@mui/material/Card";
 
 const ProceduresList = ({ id }) => {
+
   const [procedures, setProcedures] = useState([]);
 
   useEffect(() => {

@@ -1,37 +1,36 @@
 import { Routes, Route, Link } from "react-router-dom";
 
-import CategoriesList from "../Procedures/CategoriesList/CategoriesList";
+import Procedures from "../Procedures/Procedures";
 import Products from "../Products/Products";
-
-import Button from "@mui/material/Button";
-import styles from "./AdminHomePage.module.css";
 import Promotions from "../Promotions/Promotions";
+
+import styles from "./AdminHomePage.module.css";
+import Button from "@mui/material/Button";
 
 const AdminHomePage = () => {
   return (
     <>
       <h1>Администраторски панел</h1>
       <div className={styles.container}>
-        <Link to='/admin/procedures'>
+        <Link to="/admin/procedures">
           <Button variant="contained" size="large" className={styles.button}>
             ПРОЦЕДУРИ
           </Button>
         </Link>
-        <Link to='/admin/products'>
-        <Button variant="contained" size="large" className={styles.button}>
-          ПРОДУКТИ
-        </Button>
+        <Link to="/admin/products">
+          <Button variant="contained" size="large" className={styles.button}>
+            ПРОДУКТИ
+          </Button>
         </Link>
-        <Link to='/admin/promotions'>
-        <Button variant="contained" size="large" className={styles.button}>
-          ПРОМОЦИИ
-        </Button>
+        <Link to="/admin/promotions">
+          <Button variant="contained" size="large" className={styles.button}>
+            ПРОМОЦИИ
+          </Button>
         </Link>
-        
       </div>
       <Routes>
-        <Route path="/procedures/*" element={<CategoriesList />} />
-        <Route path="/products" element={<Products />} />
+        <Route path="/procedures/*" element={<Procedures />} />
+        <Route path="/products/*" element={<Products />} />
         <Route path="/promotions" element={<Promotions />} />
       </Routes>
     </>

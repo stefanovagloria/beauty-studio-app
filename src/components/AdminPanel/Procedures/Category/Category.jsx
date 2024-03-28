@@ -2,11 +2,11 @@ import { Link } from "react-router-dom";
 
 import styles from "./Category.module.css";
 
-const Category = ({ category }) => {
+const Category = ({ category, selectCategory, type}) => {
   return (
     <>
-      <Link to={`/admin/procedures/${category._id}`}>
-        <button className={styles.button}>{category.name}</button>
+      <Link to={`/admin/${type}/${category._id}`}>
+        <button onClick={() => selectCategory(category)} className={styles.button}>{category.name}</button>
       </Link>
     </>
   );
