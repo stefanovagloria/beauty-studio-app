@@ -7,8 +7,9 @@ import Popper from "@mui/material/Popper";
 import MenuItem from "@mui/material/MenuItem";
 import MenuList from "@mui/material/MenuList";
 import Stack from "@mui/material/Stack";
+import ArrowDropDownSharpIcon  from '@mui/icons-material/ArrowDropDownSharp';
 
-import styles from './MenuLink.module.css'
+import styles from "./MenuLink.module.css";
 
 const MenuLink = ({ subLinks, name }) => {
   const [open, setOpen] = useState(false);
@@ -57,9 +58,10 @@ const MenuLink = ({ subLinks, name }) => {
           aria-expanded={open ? "true" : undefined}
           aria-haspopup="true"
           onClick={handleToggle}
-         style={{color: 'blueviolet'}}
+          style={{ color: "blueviolet" }}
         >
           {name}
+          {subLinks &&  <ArrowDropDownSharpIcon  />}
         </Button>
         {subLinks && (
           <Popper
@@ -87,7 +89,9 @@ const MenuLink = ({ subLinks, name }) => {
                       onKeyDown={handleListKeyDown}
                     >
                       {subLinks.map((link) => (
-                        <MenuItem key={link._id} onClick={handleClose}>{link.name}</MenuItem>
+                        <MenuItem key={link._id} onClick={handleClose}>
+                          {link.name}
+                        </MenuItem>
                       ))}
                     </MenuList>
                   </ClickAwayListener>
