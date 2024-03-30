@@ -58,7 +58,7 @@ const MenuLink = ({ subLinks, name }) => {
           aria-expanded={open ? "true" : undefined}
           aria-haspopup="true"
           onClick={handleToggle}
-          style={{ color: "blueviolet" }}
+          style={{ color: "blueviolet" , fontSize: '1em'}}
         >
           {name}
           {subLinks &&  <ArrowDropDownSharpIcon  />}
