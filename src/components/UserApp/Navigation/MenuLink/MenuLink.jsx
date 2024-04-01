@@ -1,4 +1,6 @@
 import { useState, useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
+
 import Button from "@mui/material/Button";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
 import Grow from "@mui/material/Grow";
@@ -7,7 +9,7 @@ import Popper from "@mui/material/Popper";
 import MenuItem from "@mui/material/MenuItem";
 import MenuList from "@mui/material/MenuList";
 import Stack from "@mui/material/Stack";
-import ArrowDropDownSharpIcon  from '@mui/icons-material/ArrowDropDownSharp';
+import ArrowDropDownSharpIcon from "@mui/icons-material/ArrowDropDownSharp";
 
 import styles from "./MenuLink.module.css";
 
@@ -58,11 +60,12 @@ const MenuLink = ({ subLinks, name }) => {
           aria-expanded={open ? "true" : undefined}
           aria-haspopup="true"
           onClick={handleToggle}
-          style={{ color: "blueviolet" , fontSize: '1em'}}
+          style={{ color: "blueviolet", fontSize: "1em" }}
         >
           {name}
-          {subLinks &&  <ArrowDropDownSharpIcon  />}
+          {subLinks && <ArrowDropDownSharpIcon />}
         </Button>
+
         {subLinks && (
           <Popper
             open={open}
@@ -89,9 +92,11 @@ const MenuLink = ({ subLinks, name }) => {
                       onKeyDown={handleListKeyDown}
                     >
                       {subLinks.map((link) => (
-                        <MenuItem key={link._id} onClick={handleClose}>
-                          {link.name}
-                        </MenuItem>
+                        <Link to={link.url}>
+                          <MenuItem key={link._id} onClick={handleClose}>
+                            {link.name}
+                          </MenuItem>
+                        </Link>
                       ))}
                     </MenuList>
                   </ClickAwayListener>

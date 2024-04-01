@@ -5,10 +5,12 @@ const ShopLink = () => {
     {
         _id: 1,
       name: "Процедури",
+      url: "/procedures"
     },
     {
         _id: 2,
       name: "Продукти",
+      url: "/products"
     },
   ];
   return <MenuLink name={"Магазин"} subLinks={subLinks} />;
