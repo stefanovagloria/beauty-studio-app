@@ -13,7 +13,7 @@ import ArrowDropDownSharpIcon from "@mui/icons-material/ArrowDropDownSharp";
 
 import styles from "./MenuLink.module.css";
 
-const MenuLink = ({ subLinks, name }) => {
+const MenuLink = ({ subLinks, name, url }) => {
   const [open, setOpen] = useState(false);
   const anchorRef = useRef(null);
 
@@ -62,8 +62,13 @@ const MenuLink = ({ subLinks, name }) => {
           onClick={handleToggle}
           style={{ color: "blueviolet", fontSize: "1em" }}
         >
-          {name}
-          {subLinks && <ArrowDropDownSharpIcon />}
+          {subLinks && (
+            <>
+              {name}
+              <ArrowDropDownSharpIcon />
+            </>
+          )}
+          {!subLinks && <Link to={url}> {name}</Link>}
         </Button>
 
         {subLinks && (
@@ -92,11 +97,9 @@ const MenuLink = ({ subLinks, name }) => {
                       onKeyDown={handleListKeyDown}
                     >
                       {subLinks.map((link) => (
-                        <Link to={link.url}>
-                          <MenuItem key={link._id} onClick={handleClose}>
-                            {link.name}
-                          </MenuItem>
-                        </Link>
+                        <MenuItem key={link._id} onClick={handleClose}>
+                          <Link to={link.url}>{link.name}</Link>
+                        </MenuItem>
                       ))}
                     </MenuList>
                   </ClickAwayListener>

@@ -14,9 +14,9 @@ const Navigation = () => {
         <ArticlesLink />
         <ProceduresLink />
         <ShopLink />
-        <MenuLink name={'Промоции'}/>
-        <MenuLink name={'Галерия'}/>
-        <MenuLink name={'За нас'}/>
+        <MenuLink name={'Промоции'} url='/promotions'/>
+        <MenuLink name={'Галерия'} url='/gallery'/>
+        <MenuLink name={'За нас'} url='/about-us'/>
       </div>
     </>
   );

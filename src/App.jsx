@@ -8,8 +8,8 @@ import UserApp from "./components/UserApp/UserApp";
 function App() {
   return (
     <Routes>
-      <Route path="/admin/*" element={<AdminPanel/>} />
-      <Route path="/" element={<UserApp/>} />
+      <Route path="/*" element={<UserApp />} />
+      <Route path="/admin/*" element={<AdminPanel />} />
     </Routes>
   );
 }
