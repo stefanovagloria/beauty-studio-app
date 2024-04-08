@@ -15,13 +15,17 @@ import styles from "./MenuLink.module.css";
 
 const MenuLink = ({ subLinks, name, url }) => {
   const [open, setOpen] = useState(false);
+  const [currentlyOpenLinkId, setCurrentlyOpenLinkId] = useState(null);
   const anchorRef = useRef(null);
 
   const handleToggle = () => {
     setOpen(true);
   };
 
-  const handleClose = () => {
+  const handleClose = (event) => {
+    if (anchorRef.current && anchorRef.current.contains(event.target)) {
+      return;
+    }
     setOpen(false);
   };
 
@@ -45,7 +49,7 @@ const MenuLink = ({ subLinks, name, url }) => {
   }, [open]);
 
   return (
-    <Stack direction="row" spacing={2}>
+    <Stack direction="row" spacing={2} onBlur={handleClose}>
       <div>
         <Button
           ref={anchorRef}
@@ -53,9 +57,8 @@ const MenuLink = ({ subLinks, name, url }) => {
           aria-controls={open ? "composition-menu" : undefined}
           aria-expanded={open ? "true" : undefined}
           aria-haspopup="true"
-          onMouseEnter={handleToggle}
-          onMouseLeave={handleClose}
           style={{ color: "blueviolet", fontSize: "1em" }}
+          onClick={handleToggle}
         >
           {subLinks && (
             <>
@@ -74,6 +77,7 @@ const MenuLink = ({ subLinks, name, url }) => {
             placement="bottom-start"
             transition
             disablePortal
+           
           >
             {({ TransitionProps, placement }) => (
               <Grow
@@ -83,7 +87,7 @@ const MenuLink = ({ subLinks, name, url }) => {
                     placement === "bottom-start" ? "left top" : "left bottom",
                 }}
               >
-                <Paper>
+                <Paper style={{ zIndex: 2, }}>
                   <ClickAwayListener onClickAway={handleClose}>
                     <MenuList
                       autoFocusItem={open}
@@ -92,7 +96,11 @@ const MenuLink = ({ subLinks, name, url }) => {
                       onKeyDown={handleListKeyDown}
                     >
                       {subLinks.map((link) => (
-                        <MenuItem key={link._id} onClick={handleClose}>
+                        <MenuItem
+                          key={link._id}
+                          id={link._id}
+                          onClick={handleToggle}
+                        >
                           <Link to={link.url ? link.url : `${url}/${link._id}`}>
                             {link.name}
                           </Link>

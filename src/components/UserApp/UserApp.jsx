@@ -2,7 +2,7 @@ import { Routes, Route } from "react-router-dom";
 
 import Home from "./Home/Home";
 import Navigation from "./Navigation/Navigation";
-import Procedures from "./Procedures/Procedures";
+import ProceduresList from "./ProceduresList/ProceduresList";
 import Products from "./Products/Products";
 import Gallery from "./Gallery/Gallery";
 import NotFound from "./../NotFound/NotFound";
@@ -14,7 +14,7 @@ const UserApp = () => {
       <Navigation />
       <Routes>
       <Route path="/" element={<Home/>}/>
-        <Route path="/procedures/*" element={<Procedures />} />
+        <Route path="/procedures/*" element={<ProceduresList />} />
         <Route path="/products/*" element={<Products />} />
         <Route path="/categories/:id" element={<Categories />} />
         <Route path="/gallery" element={<Gallery />} />

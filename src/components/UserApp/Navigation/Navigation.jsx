@@ -9,14 +9,15 @@ import Header from "./Header/Header";
 const Navigation = () => {
   return (
     <>
-    <Header/>
+      <Header />
       <div className={styles.dropdownLinks}>
+        <MenuLink name={"Начало"} url="/" />
         <ArticlesLink />
         <ProceduresLink />
         <ShopLink />
-        <MenuLink name={'Промоции'} url='/promotions'/>
-        <MenuLink name={'Галерия'} url='/gallery'/>
-        <MenuLink name={'За нас'} url='/about-us'/>
+        <MenuLink name={"Промоции"} url="/promotions" />
+        <MenuLink name={"Галерия"} url="/gallery" />
+        <MenuLink name={"За нас"} url="/about-us" />
       </div>
     </>
   );
