@@ -18,14 +18,10 @@ const MenuLink = ({ subLinks, name, url }) => {
   const anchorRef = useRef(null);
 
   const handleToggle = () => {
-    setOpen((prevOpen) => !prevOpen);
+    setOpen(true);
   };
 
-  const handleClose = (event) => {
-    if (anchorRef.current && anchorRef.current.contains(event.target)) {
-      return;
-    }
-
+  const handleClose = () => {
     setOpen(false);
   };
 
@@ -48,8 +44,6 @@ const MenuLink = ({ subLinks, name, url }) => {
     prevOpen.current = open;
   }, [open]);
 
-  console.log(subLinks);
-
   return (
     <Stack direction="row" spacing={2}>
       <div>
@@ -59,7 +53,8 @@ const MenuLink = ({ subLinks, name, url }) => {
           aria-controls={open ? "composition-menu" : undefined}
           aria-expanded={open ? "true" : undefined}
           aria-haspopup="true"
-          onClick={handleToggle}
+          onMouseEnter={handleToggle}
+          onMouseLeave={handleClose}
           style={{ color: "blueviolet", fontSize: "1em" }}
         >
           {subLinks && (
@@ -98,7 +93,9 @@ const MenuLink = ({ subLinks, name, url }) => {
                     >
                       {subLinks.map((link) => (
                         <MenuItem key={link._id} onClick={handleClose}>
-                          <Link to={link.url}>{link.name}</Link>
+                          <Link to={link.url ? link.url : `${url}/${link._id}`}>
+                            {link.name}
+                          </Link>
                         </MenuItem>
                       ))}
                     </MenuList>

@@ -12,13 +12,18 @@ const ProceduresLink = () => {
         "http://localhost:4000/admin/categories"
       );
       setCategories(response.data);
-      console.log(response.data)
     };
 
     getCategories();
   }, []);
 
-  return <>{categories && <MenuLink subLinks={categories} name={'Процедури'}/>}</>;
+  return (
+    <>
+      {categories && (
+        <MenuLink subLinks={categories} name={"Процедури"} url="/categories" />
+      )}
+    </>
+  );
 };
 
 export default ProceduresLink;

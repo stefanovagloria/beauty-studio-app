@@ -19,7 +19,7 @@ const Procedures = () => {
       <h1>Procedures</h1>
       <div>
         {procedures && procedures.map((p) => (
-            <p>{p.name}</p>
+            <p key={p._id}>{p.name}</p>
         ))}
       </div>
     </>

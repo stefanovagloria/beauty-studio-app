@@ -6,6 +6,7 @@ import Procedures from "./Procedures/Procedures";
 import Products from "./Products/Products";
 import Gallery from "./Gallery/Gallery";
 import NotFound from "./../NotFound/NotFound";
+import Categories from "./Categories/Categories";
 
 const UserApp = () => {
   return (
@@ -15,6 +16,7 @@ const UserApp = () => {
       <Route path="/" element={<Home/>}/>
         <Route path="/procedures/*" element={<Procedures />} />
         <Route path="/products/*" element={<Products />} />
+        <Route path="/categories/:id" element={<Categories />} />
         <Route path="/gallery" element={<Gallery />} />
         <Route path="*" element={<NotFound />} />
         </Routes>
