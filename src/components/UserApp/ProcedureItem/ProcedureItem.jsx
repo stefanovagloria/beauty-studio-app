@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
@@ -5,9 +7,9 @@ import Typography from "@mui/material/Typography";
 import { Button, CardActionArea, CardActions } from "@mui/material";
 
 import styles from "./ProcedureItem.module.css";
-import image from '../../../assets/procedures.png'
+import image from "../../../assets/procedures.png";
 
-const ProcedureItem = ({procedure}) => {
+const ProcedureItem = ({ procedure }) => {
   return (
     <Card sx={{ maxWidth: 400 }}>
       <CardActionArea>
@@ -28,9 +30,11 @@ const ProcedureItem = ({procedure}) => {
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <Button size="small" color="primary">
-          Запази час
-        </Button>
+        <Link to={`/book-appointment/procedures/${procedure._id}`}>
+          <Button size="small" color="primary">
+            Запази час
+          </Button>
+        </Link>
       </CardActions>
     </Card>
   );

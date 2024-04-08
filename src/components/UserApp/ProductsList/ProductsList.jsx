@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import axios from "axios";
 
-import styles from './Products.module.css';
+import styles from './ProductsList.module.css';
 
-const Products = () => {
+const ProductsList = () => {
     const [products, setProducts] = useState([]);
 
     useEffect(() => {
@@ -26,4 +26,4 @@ const Products = () => {
     )
 }
 
-export default Products;
+export default ProductsList;

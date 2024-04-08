@@ -21,7 +21,7 @@ const ProceduresList = () => {
   }, []);
 
   return (
-    <Box paddingLeft={7} sx={{ flexGrow: 1 }}>
+    <Box paddingLeft={7} marginTop={7} sx={{ flexGrow: 1 }} >
       <Grid container spacing={3}>
         {procedures &&
           procedures.map((p) => (
