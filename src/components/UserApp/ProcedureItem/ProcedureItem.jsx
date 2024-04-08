@@ -18,7 +18,6 @@ const ProcedureItem = ({ procedure }) => {
           height="300"
           width="auto"
           image={image}
-          alt="green iguana"
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">

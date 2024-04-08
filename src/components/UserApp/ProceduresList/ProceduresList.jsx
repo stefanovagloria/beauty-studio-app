@@ -14,7 +14,6 @@ const ProceduresList = () => {
     const getProcedures = async () => {
       const response = await axios.get("http://localhost:4000/procedures");
       setProcedures(response.data);
-      console.log(procedures)
     };
 
     getProcedures();
