@@ -1,0 +1,41 @@
+.items {
+    width: 65em;
+}
+
+.listItem{
+    border-bottom: 0.5px solid black;
+    margin-bottom: 2em;
+}
+
+.checkout{
+    text-align: center;
+    width: 35em;
+    height: 9.5em;
+    margin-left: 2em;
+    border-bottom: 1px solid black;
+    border-right: 1px solid black;
+}
+
+.container{
+    display: flex;
+    flex-direction: row;
+}
+
+.btn{
+    background-color: black;
+    color: white;
+    padding: 1em;
+    border-radius: 0.7em;
+}
+
+.btn:hover{
+    background: rgb(68, 62, 62);
+}
+
+
+.inputField {
+    width: 5em;
+    height: auto;
+    margin-right: 2em;
+
+}

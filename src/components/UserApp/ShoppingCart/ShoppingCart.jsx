@@ -1,70 +1,76 @@
 import { useEffect, useState } from "react";
+
 import {
-  AppBar,
-  Badge,
-  Box,
   Button,
   Container,
-  IconButton,
   List,
   ListItem,
-  ListItemAvatar,
   ListItemSecondaryAction,
   ListItemText,
-  Toolbar,
   Typography,
+  TextField,
 } from "@mui/material";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 
-const products = [
-    { id: 1, name: 'Product 1', price: 10 },
-    { id: 2, name: 'Product 2', price: 20 },
-    { id: 3, name: 'Product 3', price: 30 },
-  ];
+import styles from "./ShoppingCart.module.css";
 
 const ShoppingCart = () => {
-    const [cartItems, setCartItems] = useState([]);
   const [orderedProducts, setOrderedProducts] = useState([]);
 
   useEffect(() => {
-    const orderedProductsArr = localStorage.getItem('orderedProducts');
-    setOrderedProducts(orderedProducts);
-  },[])
-
-  const addToCart = (product) => {
-    setCartItems([...cartItems, product]);
-  };
+    const orderedProductsArr = localStorage.getItem("orderedItems");
+    let orderedItems = orderedProductsArr ? JSON.parse(orderedProductsArr) : [];
+    setOrderedProducts(orderedItems);
+  }, []);
 
   const removeFromCart = (productId) => {
-    setCartItems(cartItems.filter((item) => item.id !== productId));
+    setOrderedProducts(
+      orderedProducts.filter((item) => item._id !== productId)
+    );
   };
 
-  const total = cartItems.reduce((acc, item) => acc + item.price, 0);
+  const total = orderedProducts.reduce((acc, item) => acc + item.price, 0);
 
   return (
-    <>
-      <Container sx={{ marginTop: 4 }}>
+    <Container className={styles.container}>
+      <Container sx={{ marginTop: 4 }} className={styles.items}>
         <Typography variant="h5" gutterBottom>
           Количка
         </Typography>
         <List>
-          {products.map((item) => (
-            <ListItem key={item.id}>
+          {orderedProducts.map((item) => (
+            <ListItem key={item._id} className={styles.listItem}>
               <ListItemText primary={item.name} secondary={`$${item.price}`} />
               <ListItemSecondaryAction>
+                <TextField
+                  className={styles.inputField}
+                  id="outlined-number"
+                  type="number"
+                  size="small"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  value={1}
+                />
                 <Button
                   color="secondary"
-                  onClick={() => removeFromCart(item.id)}
+                  onClick={() => removeFromCart(item._id)}
+                  className={styles.btn}
                 >
-                  Remove
+                  X
                 </Button>
               </ListItemSecondaryAction>
             </ListItem>
           ))}
         </List>
-        <Typography variant="h6">Total: ${total}</Typography>
       </Container>
-    </>
+      <Container className={styles.checkout}>
+        <Typography variant="h5" gutterBottom>
+          Обща сума
+        </Typography>
+        <Typography variant="h6">{total} лв</Typography>
+        <Button className={styles.btn}>Приключване на поръчката</Button>
+      </Container>
+    </Container>
   );
 };
 
