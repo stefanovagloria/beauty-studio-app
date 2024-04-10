@@ -8,9 +8,11 @@ import TableRow from "@mui/material/TableRow";
 import TableFooter from "@mui/material/TableFooter";
 import Paper from "@mui/material/Paper";
 
-const OrderTable = ({products}) => {
+const OrderTable = ({ products }) => {
+  const totalPrice = products.reduce((acc, product) => {
+    return acc + product.price;
+  }, 0);
 
-    console.log(products)
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -31,15 +33,19 @@ const OrderTable = ({products}) => {
                 {product.name}
               </TableCell>
               <TableCell align="right">x {product.quantity}</TableCell>
-              <TableCell align="right">{product.price}</TableCell>
+              <TableCell align="right">{product.price} лв.</TableCell>
             </TableRow>
           ))}
         </TableBody>
         <TableFooter>
           <TableRow>
-            <TableCell style={{fontWeight: "bold", fontSize: "1em"}}>Обща сума:</TableCell>
+            <TableCell style={{ fontWeight: "bold", fontSize: "1em" }}>
+              Обща сума:
+            </TableCell>
             <TableCell></TableCell>
-            <TableCell style={{fontWeight: "bold"}} align="right">200лв</TableCell>
+            <TableCell style={{ fontWeight: "bold" }} align="right">
+              {totalPrice} лв
+            </TableCell>
           </TableRow>
         </TableFooter>
       </Table>
