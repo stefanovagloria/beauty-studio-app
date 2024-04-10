@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import styles from "./ShoppingCart.module.css";
 
 import {
   Button,
@@ -11,10 +13,16 @@ import {
   TextField,
 } from "@mui/material";
 
-import styles from "./ShoppingCart.module.css";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 
 const ShoppingCart = () => {
   const [orderedProducts, setOrderedProducts] = useState([]);
+  const [openModal, setOpenModal] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const orderedProductsArr = localStorage.getItem("orderedItems");
@@ -28,10 +36,39 @@ const ShoppingCart = () => {
     );
   };
 
+  const handleOpen = () => {
+    setOpenModal(true);
+  };
+
+  const handleClose = () => {
+    setOpenModal(false);
+  };
+
+  const handleNavigate = () => {
+    navigate("/checkout");
+  };
+
+  const handleChange = (e, itemId) => {
+    const productIndex = orderedProducts.findIndex((p) => p._id === itemId);
+
+    const updatedProducts = [...orderedProducts];
+    updatedProducts[productIndex] = {
+      ...updatedProducts[productIndex],
+      quantity: e.target.value,
+    };
+
+    setOrderedProducts(updatedProducts);
+  };
+
   const total = orderedProducts.reduce((acc, item) => acc + item.price, 0);
 
   return (
-    <Container className={styles.container}>
+    <Container
+      style={{
+        display: "flex",
+        flexDirection: "row",
+      }}
+    >
       <Container sx={{ marginTop: 4 }} className={styles.items}>
         <Typography variant="h5" gutterBottom>
           Количка
@@ -46,13 +83,20 @@ const ShoppingCart = () => {
                   id="outlined-number"
                   type="number"
                   size="small"
+                  name="quantity"
                   InputLabelProps={{
                     shrink: true,
                   }}
-                  value={1}
+                  value={item.quantity}
+                  onChange={(e) => handleChange(e, item._id)}
                 />
                 <Button
-                  color="secondary"
+                  style={{
+                    backgroundColor: "black",
+                    color: "white",
+                    padding: "1em",
+                    borderRadius: "0.7em",
+                  }}
                   onClick={() => removeFromCart(item._id)}
                   className={styles.btn}
                 >
@@ -68,8 +112,57 @@ const ShoppingCart = () => {
           Обща сума
         </Typography>
         <Typography variant="h6">{total} лв</Typography>
-        <Button className={styles.btn}>Приключване на поръчката</Button>
+        <Button
+          className={styles.btn}
+          onClick={handleOpen}
+          style={{
+            backgroundColor: "black",
+            color: "white",
+            padding: "1em",
+            borderRadius: "0.7em",
+          }}
+        >
+          Приключване на поръчката
+        </Button>
       </Container>
+      <Dialog
+        open={openModal}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"Сигурни ли сте, че искате да поръчате?"}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description"></DialogContentText>
+        </DialogContent>
+        <DialogActions className={styles.btnContainer}>
+          <Button
+            onClick={handleClose}
+            style={{
+              backgroundColor: "black",
+              color: "white",
+              padding: "1em",
+              borderRadius: "0.7em",
+            }}
+          >
+            Откажи
+          </Button>
+          <Button
+            onClick={handleNavigate}
+            style={{
+              backgroundColor: "black",
+              color: "white",
+              padding: "1em",
+              borderRadius: "0.7em",
+            }}
+            autoFocus
+          >
+            Да
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Container>
   );
 };

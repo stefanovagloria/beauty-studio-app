@@ -9,6 +9,7 @@ import NotFound from "./../NotFound/NotFound";
 import Categories from "./Categories/Categories";
 import BookAppointment from "./BookAppointment/BookAppointment";
 import ShoppingCart from "./ShoppingCart/ShoppingCart";
+import Checkout from "./Checkout/Checkout";
 
 const UserApp = () => {
   return (
@@ -23,6 +24,7 @@ const UserApp = () => {
           element={<BookAppointment />}
         />
         <Route path="/shopping-cart" element={<ShoppingCart />} />
+        <Route path="/checkout" element={<Checkout />} />
         <Route path="/categories/:id" element={<Categories />} />
         <Route path="/gallery" element={<Gallery />} />
         <Route path="*" element={<NotFound />} />

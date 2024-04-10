@@ -20,11 +20,11 @@ const ProductsList = () => {
   }, []);
 
   const addToShoppingCard = (product, quantity) => {
-    console.log(product,quantity)
+    console.log(product, quantity);
     let orderedItemsArr = localStorage.getItem("orderedItems");
     let orderedItems = orderedItemsArr ? JSON.parse(orderedItemsArr) : [];
 
-    orderedItems.push(product);
+    orderedItems.push({ ...product, quantity: quantity });
 
     localStorage.setItem("orderedItems", JSON.stringify(orderedItems));
   };
