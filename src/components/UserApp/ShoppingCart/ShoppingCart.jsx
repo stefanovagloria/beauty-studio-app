@@ -21,13 +21,17 @@ import DialogTitle from "@mui/material/DialogTitle";
 
 const ShoppingCart = () => {
   const [orderedProducts, setOrderedProducts] = useState([]);
+  const [totalPrice, setTotalPrice] = useState(null);
   const [openModal, setOpenModal] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
     const orderedProductsArr = localStorage.getItem("orderedItems");
-    let orderedItems = orderedProductsArr.length > 0 ? JSON.parse(orderedProductsArr) : [];
+    let orderedItems =
+      orderedProductsArr.length > 0 ? JSON.parse(orderedProductsArr) : [];
     setOrderedProducts(orderedItems);
+    const total = calculateTotal(orderedProducts);
+    setTotalPrice(total)
   }, []);
 
   const removeFromCart = (productId) => {
@@ -59,9 +63,13 @@ const ShoppingCart = () => {
 
     setOrderedProducts(updatedProducts);
     localStorage.setItem("orderedItems", JSON.stringify(updatedProducts));
+    const total = calculateTotal(updatedProducts);
+    setTotalPrice(total);
   };
 
-  const total = orderedProducts.reduce((acc, item) => acc + item.price, 0);
+  const calculateTotal = (products) => {
+    return products.reduce((acc, item) => acc + item.price * item.quantity, 0);
+  };
 
   return (
     <Container
@@ -77,7 +85,10 @@ const ShoppingCart = () => {
         <List>
           {orderedProducts.map((item) => (
             <ListItem key={item._id} className={styles.listItem}>
-              <ListItemText primary={item.name} secondary={`$${item.price}`} />
+              <ListItemText
+                primary={item.name}
+                secondary={`${item.price} лв`}
+              />
               <ListItemSecondaryAction>
                 <TextField
                   className={styles.inputField}
@@ -112,7 +123,7 @@ const ShoppingCart = () => {
         <Typography variant="h5" gutterBottom>
           Обща сума
         </Typography>
-        <Typography variant="h6">{total} лв</Typography>
+        <Typography variant="h6">{totalPrice} лв</Typography>
         <Button
           className={styles.btn}
           onClick={handleOpen}
