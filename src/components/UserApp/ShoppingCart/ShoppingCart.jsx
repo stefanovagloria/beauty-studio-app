@@ -26,7 +26,7 @@ const ShoppingCart = () => {
 
   useEffect(() => {
     const orderedProductsArr = localStorage.getItem("orderedItems");
-    let orderedItems = orderedProductsArr ? JSON.parse(orderedProductsArr) : [];
+    let orderedItems = orderedProductsArr.length > 0 ? JSON.parse(orderedProductsArr) : [];
     setOrderedProducts(orderedItems);
   }, []);
 
@@ -58,6 +58,7 @@ const ShoppingCart = () => {
     };
 
     setOrderedProducts(updatedProducts);
+    localStorage.setItem("orderedItems", JSON.stringify(updatedProducts));
   };
 
   const total = orderedProducts.reduce((acc, item) => acc + item.price, 0);

@@ -33,11 +33,12 @@ const Checkout = () => {
     e.preventDefault();
 
     console.log(formData);
+    console.log(orderedProducts);
   };
 
   return (
-    <Container style={{ display: "flex", flexDirection: "row" }}>
-      <Container>
+    <Container style={{ display: "flex", flexDirection: "row", }}>
+      <Container sx={{ minWidth: 650 }} >
         <Typography variant="h4" gutterBottom>
           Фактуриране и доставка
         </Typography>

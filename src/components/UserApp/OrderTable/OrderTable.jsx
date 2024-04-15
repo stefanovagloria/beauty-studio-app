@@ -1,4 +1,3 @@
-import * as React from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -9,13 +8,14 @@ import TableFooter from "@mui/material/TableFooter";
 import Paper from "@mui/material/Paper";
 
 const OrderTable = ({ products }) => {
+
   const totalPrice = products.reduce((acc, product) => {
     return acc + product.price;
   }, 0);
 
   return (
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
+    <TableContainer component={Paper} >
+      <Table sx={{ minWidth: 500 }} aria-label="simple table">
         <TableHead>
           <TableRow>
             <TableCell>Продукт</TableCell>
