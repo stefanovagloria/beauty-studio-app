@@ -1,4 +1,5 @@
 .button{
     padding: 1em 6em;
     margin: 1em;
+    cursor: pointer;
 }

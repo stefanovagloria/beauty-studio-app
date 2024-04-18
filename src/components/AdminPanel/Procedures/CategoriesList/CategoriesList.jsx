@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
-import { Routes, Route, Link } from "react-router-dom";
 import axios from "axios";
 import styles from "./CategoriesList.module.css";
+import { styled } from "@mui/material/styles";
 
 import Category from "../Category/Category";
-import SelectedCategory from "../Category/SelectedCategory";
 
-const CategoriesList = ({type,selectCategory}) => {
+const CategoriesList = ({ type, selectCategory }) => {
   const [categoryValue, setCategoryValue] = useState("");
   const [categories, setCategories] = useState([]);
   const [showInputField, setShowInputField] = useState(false);
@@ -14,13 +13,15 @@ const CategoriesList = ({type,selectCategory}) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:4000/admin/categories");
+        const response = await axios.get(
+          "http://localhost:4000/admin/categories"
+        );
         setCategories(response.data);
       } catch (error) {
-        console.error('Error:', error);
+        console.error("Error:", error);
       }
     };
-    fetchData();  
+    fetchData();
   }, []);
 
   const onChangeHandler = (e) => {
@@ -28,7 +29,6 @@ const CategoriesList = ({type,selectCategory}) => {
   };
 
   const addCategory = async () => {
-    
     const categoryData = { name: categoryValue };
     try {
       const response = await axios.post(
@@ -41,8 +41,8 @@ const CategoriesList = ({type,selectCategory}) => {
           },
         }
       );
-      setCategories(categories => [...categories, response.data]);
-      setCategoryValue('');
+      setCategories((categories) => [...categories, response.data]);
+      setCategoryValue("");
     } catch (error) {
       console.error("Error sending data");
     }
@@ -50,9 +50,13 @@ const CategoriesList = ({type,selectCategory}) => {
 
   return (
     <>
-      <h1>Категории</h1>
       {categories.map((c) => (
-        <Category key={c._id} category={c}  selectCategory={selectCategory} type={type}/>
+        <Category
+          key={c._id}
+          category={c}
+          selectCategory={selectCategory}
+          type={type}
+        />
       ))}
       <button className={styles.button} onClick={() => setShowInputField(true)}>
         +
@@ -63,11 +67,14 @@ const CategoriesList = ({type,selectCategory}) => {
             name="category"
             value={categoryValue}
             onChange={onChangeHandler}
+            className={styles.addInput}
           />
-          <button onClick={addCategory}>Добави</button>
+          <button onClick={addCategory} className={styles.addBtn}>
+            Добави
+          </button>
+          <button className={styles.addBtn} onClick={() => setShowInputField(false)}>x</button>
         </div>
       )}
-    
     </>
   );
 };

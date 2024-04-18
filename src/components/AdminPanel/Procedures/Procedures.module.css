@@ -4,13 +4,13 @@
 }
 
 .btnContainer {
-   padding: 3em 2em;
-   max-width: 5em;
-   margin: 0em 1em;
-   text-align: center;
-   cursor: pointer;
-}
-
+    padding: 3em 2em;
+    width: 4em;
+    margin: 0em 1em;
+    text-align: center;
+    cursor: pointer;
+ }
+ 
 .btnContainer:hover{
     background-color: rgb(245, 240, 240);
 }

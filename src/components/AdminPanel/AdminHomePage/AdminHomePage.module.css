@@ -1,15 +1,5 @@
-.container{
+.container {
     display: flex;
     justify-content: center;
-}
-
-.button{
-    width: 12em;
-    margin: 1em 3em;
-    padding: 1.5em;
-    background-color: rgb(148, 72, 220);
-}
-
-.button:hover{
-    background-color: rgb(129, 41, 212);
+    margin: 4em;
 }

@@ -3,35 +3,47 @@ import { Routes, Route, Link } from "react-router-dom";
 import Procedures from "../Procedures/Procedures";
 import Products from "../Products/Products";
 import Promotions from "../Promotions/Promotions";
-
-import styles from "./AdminHomePage.module.css";
-import Button from "@mui/material/Button";
 import Articles from "../Articles/Articles";
+
+import Button from "@mui/material/Button";
+import { styled } from "@mui/material/styles";
+import styles from "./AdminHomePage.module.css";
+
+const CustomButton = styled(Button)(({ theme }) => ({
+  backgroundColor: "rgb(148, 72, 220)",
+  width: "12em",
+  color: "white",
+  padding: "1em 1.5em",
+  margin: "0em 0.7em",
+  cursor: "pointer",
+  "&:hover": {
+    backgroundColor: "rgb(190, 90, 220)",
+  },
+}));
 
 const AdminHomePage = () => {
   return (
     <>
-      <h1>Администраторски панел</h1>
       <div className={styles.container}>
         <Link to="/admin/procedures">
-          <Button variant="contained" size="large" className={styles.button}>
+          <CustomButton variant="contained" size="large">
             ПРОЦЕДУРИ
-          </Button>
+          </CustomButton>
         </Link>
         <Link to="/admin/products">
-          <Button variant="contained" size="large" className={styles.button}>
+          <CustomButton variant="contained" size="large">
             ПРОДУКТИ
-          </Button>
+          </CustomButton>
         </Link>
         <Link to="/admin/promotions">
-          <Button variant="contained" size="large" className={styles.button}>
+          <CustomButton variant="contained" size="large">
             ПРОМОЦИИ
-          </Button>
+          </CustomButton>
         </Link>
         <Link to="/admin/articles">
-          <Button variant="contained" size="large" className={styles.button}>
+          <CustomButton variant="contained" size="large">
             СТАТИИ
-          </Button>
+          </CustomButton>
         </Link>
       </div>
       <Routes>

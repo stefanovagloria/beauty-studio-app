@@ -25,7 +25,7 @@ const ProceduresList = ({ id }) => {
     <div className={styles.container}>
       {procedures.map((procedure) => (
         <Card key={procedure._id} className={styles.btnContainer}>
-          <span className={styles.btn}>Procedure</span>
+          <span className={styles.btn}>{procedure.name}</span>
         </Card>
       ))}
     </div>

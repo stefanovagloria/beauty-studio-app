@@ -29,7 +29,7 @@ const Procedures = () => {
       <CategoriesList type="procedures" selectCategory={handleSelectCategory} />
       {selectedCategory && (
         <>
-          <h1>Selected Category - {selectedCategory.name}</h1>
+          <h1>Категория - {selectedCategory.name}</h1>
           <div className={styles.container}>
             <Card className={styles.btnContainer} onClick={handleClickOpen}>
               <span className={styles.btn}>+</span>
