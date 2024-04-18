@@ -6,6 +6,7 @@ import Promotions from "../Promotions/Promotions";
 
 import styles from "./AdminHomePage.module.css";
 import Button from "@mui/material/Button";
+import Articles from "../Articles/Articles";
 
 const AdminHomePage = () => {
   return (
@@ -27,10 +28,16 @@ const AdminHomePage = () => {
             ПРОМОЦИИ
           </Button>
         </Link>
+        <Link to="/admin/articles">
+          <Button variant="contained" size="large" className={styles.button}>
+            СТАТИИ
+          </Button>
+        </Link>
       </div>
       <Routes>
         <Route path="/procedures/*" element={<Procedures />} />
         <Route path="/products/*" element={<Products />} />
+        <Route path="/articles/*" element={<Articles />} />
         <Route path="/promotions" element={<Promotions />} />
       </Routes>
     </>

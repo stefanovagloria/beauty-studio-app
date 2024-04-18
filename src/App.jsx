@@ -1,8 +1,9 @@
 import { Routes, Route } from "react-router-dom";
-import "./App.css";
-
 import AdminPanel from "./components/AdminPanel/AdminPanel";
 import UserApp from "./components/UserApp/UserApp";
+
+import "./App.css";
+
 
 function App() {
   return (

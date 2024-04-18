@@ -1,11 +1,12 @@
-import styles from "./AddProcedure.module.css";
-
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import axios from "axios";
 import { useState } from "react";
+
+import styles from "./AddProcedure.module.css";
+
 
 const AddProcedure = ({ show, hide, category }) => {
   const categoryId = category._id;
@@ -79,7 +80,6 @@ const AddProcedure = ({ show, hide, category }) => {
       procedureValues
     );
 
-    console.log(procedureValues.category);
     setProcedureValues({
       category: category._id,
       name: "",

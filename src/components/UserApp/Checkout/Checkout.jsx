@@ -1,11 +1,16 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import { TextField, Button, Container, Typography } from "@mui/material";
 import OrderTable from "../OrderTable/OrderTable";
 
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
+
 const Checkout = () => {
   const [orderedProducts, setOrderedProducts] = useState([]);
-
-  const [formData, setFormData] = useState({
+  const [totalPrice, setTotalPrice] = useState(null);
+  const [userData, setUserData] = useState({
     name: "",
     surname: "",
     email: "",
@@ -14,31 +19,66 @@ const Checkout = () => {
     phoneNumber: "",
     email: "",
   });
+  const [open, setOpen] = useState(false);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const orderedProductsArr = localStorage.getItem("orderedItems");
     let orderedItems = orderedProductsArr ? JSON.parse(orderedProductsArr) : [];
     setOrderedProducts(orderedItems);
+
+    const total = orderedItems.reduce((acc, product) => {
+      return acc + product.price * product.quantity;
+    }, 0);
+    setTotalPrice(total);
   }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prevState) => ({
+    setUserData((prevState) => ({
       ...prevState,
       [name]: value,
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    const productsIds = orderedProducts.map((p) => p._id);
 
-    console.log(formData);
-    console.log(orderedProducts);
+    const orderData = {
+      user: userData,
+      products: productsIds,
+      totalPrice: totalPrice,
+    };
+
+    const response = await axios.post(
+      "http://localhost:4000/checkout",
+      orderData
+    );
+
+    localStorage.clear();
+
+    handleClick();
+
+    setTimeout(() => navigate("/"), 6000);
+  };
+
+  const handleClick = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
   };
 
   return (
-    <Container style={{ display: "flex", flexDirection: "row", }}>
-      <Container sx={{ minWidth: 650 }} >
+    <Container style={{ display: "flex", flexDirection: "row" }}>
+      <Container sx={{ minWidth: 650 }}>
         <Typography variant="h4" gutterBottom>
           Фактуриране и доставка
         </Typography>
@@ -50,7 +90,7 @@ const Checkout = () => {
               color="secondary"
               size="small"
               name="name"
-              value={formData.name}
+              value={userData.name}
               onChange={handleChange}
               fullWidth={false}
               margin="normal"
@@ -64,7 +104,7 @@ const Checkout = () => {
               size="small"
               fullWidth={false}
               name="surname"
-              value={formData.surname}
+              value={userData.surname}
               onChange={handleChange}
               margin="normal"
               required
@@ -76,7 +116,7 @@ const Checkout = () => {
             color="secondary"
             name="city"
             size="small"
-            value={formData.city}
+            value={userData.city}
             onChange={handleChange}
             fullWidth={false}
             margin="normal"
@@ -90,7 +130,7 @@ const Checkout = () => {
               color="secondary"
               name="street"
               size="small"
-              value={formData.street}
+              value={userData.street}
               onChange={handleChange}
               fullWidth={false}
               margin="normal"
@@ -105,7 +145,7 @@ const Checkout = () => {
               color="secondary"
               name="phoneNumber"
               size="small"
-              value={formData.phoneNumber}
+              value={userData.phoneNumber}
               onChange={handleChange}
               fullWidth={false}
               margin="normal"
@@ -119,7 +159,7 @@ const Checkout = () => {
               variant="outlined"
               name="email"
               size="small"
-              value={formData.email}
+              value={userData.email}
               onChange={handleChange}
               fullWidth={false}
               margin="normal"
@@ -138,7 +178,25 @@ const Checkout = () => {
         <Typography variant="h4" gutterBottom>
           Вашата поръчка
         </Typography>
-        <OrderTable products={orderedProducts}/>
+        <OrderTable products={orderedProducts} totalPrice={totalPrice} />
+      </Container>
+      <Container>
+        <Snackbar
+          open={open}
+          autoHideDuration={6000}
+          onClose={handleClose}
+          anchorOrigin={{ vertical: "top", horizontal: "right" }}
+          style={{ marginTop: "70px" }}
+        >
+          <Alert
+            onClose={handleClose}
+            severity="success"
+            variant="filled"
+            sx={{ width: "100%" }}
+          >
+            Вашата поръчка беше изпратена успешно!
+          </Alert>
+        </Snackbar>
       </Container>
     </Container>
   );

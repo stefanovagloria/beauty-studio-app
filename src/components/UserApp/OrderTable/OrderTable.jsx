@@ -7,14 +7,9 @@ import TableRow from "@mui/material/TableRow";
 import TableFooter from "@mui/material/TableFooter";
 import Paper from "@mui/material/Paper";
 
-const OrderTable = ({ products }) => {
-
-  const totalPrice = products.reduce((acc, product) => {
-    return acc + product.price;
-  }, 0);
-
+const OrderTable = ({ products, totalPrice }) => {
   return (
-    <TableContainer component={Paper} >
+    <TableContainer component={Paper}>
       <Table sx={{ minWidth: 500 }} aria-label="simple table">
         <TableHead>
           <TableRow>
