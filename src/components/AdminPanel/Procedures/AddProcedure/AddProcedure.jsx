@@ -34,11 +34,22 @@ const AddProcedure = ({ show, hide, category, selectedProcedure }) => {
     relatedProducts: [],
   });
 
-  useEffect(() =>{
-    if(selectedProcedure){
-      setProcedureValues(selectedProcedure)
+  useEffect(() => {
+    if (Object.keys(selectedProcedure).length !== 0) {
+      setProcedureValues(selectedProcedure);
+    } else {
+      setProcedureValues({
+        category: categoryId,
+        name: "",
+        photos: [],
+        price: "",
+        promoPrice: "",
+        characteristics: [{ key: "", value: "" }],
+        description: "",
+        relatedProducts: [],
+      });
     }
-  }, [])
+  }, [selectedProcedure]);
 
   const [showInputs, setShowInputs] = useState(false);
 
@@ -61,6 +72,7 @@ const AddProcedure = ({ show, hide, category, selectedProcedure }) => {
   };
 
   const onCharacteristicsChange = (e) => {
+    console.log(e.target)
     setCurrentInputs((inputs) => ({
       ...inputs,
       [e.target.name]: e.target.value,
@@ -86,7 +98,7 @@ const AddProcedure = ({ show, hide, category, selectedProcedure }) => {
     setShowInputs(false);
   };
 
-  const onSubmitHandler = async (e) => {
+  const onAddSubmitHandler = async (e) => {
     e.preventDefault();
     console.log(procedureValues);
 
@@ -109,6 +121,11 @@ const AddProcedure = ({ show, hide, category, selectedProcedure }) => {
     hide();
   };
 
+  const onEditSubmitHandler = (e) =>{
+    e.preventDefault();
+    console.log('edit..')
+  }
+
   return (
     <Dialog
       fullScreen={fullScreen}
@@ -117,10 +134,13 @@ const AddProcedure = ({ show, hide, category, selectedProcedure }) => {
       aria-labelledby="responsive-dialog-title"
     >
       <DialogContent className={styles.dialog}>
-        <form className={styles.container} onSubmit={onSubmitHandler}>
-        <div className={styles.category}>{category.name}</div>
+        <form className={styles.container} onSubmit={selectedProcedure ? onAddSubmitHandler : onEditSubmitHandler}>
+          <div className={styles.category}>{category.name}</div>
           <div className={`${styles.fields}`}>
-            <label htmlFor="name" className={styles.name}> {`Име на процедура`}</label>
+            <label htmlFor="name" className={styles.name}>
+              {" "}
+              {`Име на процедура`}
+            </label>
             <input
               id="name"
               name="name"
@@ -172,6 +192,7 @@ const AddProcedure = ({ show, hide, category, selectedProcedure }) => {
                           value={ch.key}
                           onChange={(e) =>
                             onCharacteristicsChange(
+                              e,
                               index,
                               e.target.value,
                               ch.value
@@ -182,13 +203,16 @@ const AddProcedure = ({ show, hide, category, selectedProcedure }) => {
                           value={ch.value}
                           onChange={(e) =>
                             onCharacteristicsChange(
+                              e,
                               index,
                               ch.key,
                               e.target.value
                             )
                           }
                         />
-                        <Button onClick={() => onCharacteristicsRemove(index)}>Remove</Button>
+                        <Button onClick={() => onCharacteristicsRemove(index)}>
+                          Remove
+                        </Button>
                       </div>
                     )
                 )}

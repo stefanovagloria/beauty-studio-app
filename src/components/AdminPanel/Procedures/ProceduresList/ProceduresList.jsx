@@ -15,7 +15,6 @@ const ProceduresList = ({ id, setProcedure }) => {
       );
 
       setProcedures(response.data);
-      console.log(response.data);
     };
 
     getProcedure();

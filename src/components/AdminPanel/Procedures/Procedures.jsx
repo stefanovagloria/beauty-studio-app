@@ -18,6 +18,7 @@ const Procedures = () => {
 
   const handleClose = () => {
     setShowModal(false);
+    setSelectedProcedure({})
   };
 
   const handleSelectCategory = (category) => {
@@ -26,6 +27,7 @@ const Procedures = () => {
   };
 
   const setProcedure = (procedure) =>{
+    console.log(procedure)
     setSelectedProcedure(procedure);
     setShowModal(true);
   }
