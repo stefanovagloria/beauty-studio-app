@@ -1,5 +1,8 @@
 .container {
-    padding: 4em 5em;
+    width: 35em; /* Adjust the width as needed */
+    height: 35em;
+    max-width: none;
+    margin: auto;
 }
 
 

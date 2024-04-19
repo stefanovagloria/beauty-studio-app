@@ -7,6 +7,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import styles from "./AddProcedure.module.css";
 import { styled } from "@mui/material/styles";
+import ImageUpload from "./ImageUpload";
 
 const CustomButton = styled(Button)(({ theme }) => ({
   backgroundColor: "rgb(148, 72, 220)",
@@ -20,7 +21,7 @@ const CustomButton = styled(Button)(({ theme }) => ({
   },
 }));
 
-const AddProcedure = ({ show, hide, category, selectedProcedure }) => {
+const AddProcedure = ({ show, hide, category, selectedProcedure, updateProcedures }) => {
   const categoryId = category._id;
 
   const [procedureValues, setProcedureValues] = useState({
@@ -100,7 +101,6 @@ const AddProcedure = ({ show, hide, category, selectedProcedure }) => {
 
   const onAddSubmitHandler = async (e) => {
     e.preventDefault();
-    console.log(procedureValues);
 
     const response = await axios.post(
       "http://localhost:4000/admin/procedures",
@@ -119,11 +119,26 @@ const AddProcedure = ({ show, hide, category, selectedProcedure }) => {
     });
 
     hide();
+    updateProcedures({type: "add", procedure: response.data})
   };
 
-  const onEditSubmitHandler = (e) =>{
+  const onEditSubmitHandler = async (e) =>{
     e.preventDefault();
-    console.log('edit..')
+    const response = await axios.put(`http://localhost:4000/admin/procedures/${selectedProcedure._id}`, procedureValues);
+
+    setProcedureValues({
+      category: category._id,
+      name: "",
+      photos: [],
+      price: "",
+      promoPrice: "",
+      characteristics: [{ key: "", value: "" }],
+      description: "",
+      relatedProducts: [],
+    });
+
+    hide();
+    updateProcedures({type: "edit", procedure: response.data})
   }
 
   return (
@@ -134,7 +149,7 @@ const AddProcedure = ({ show, hide, category, selectedProcedure }) => {
       aria-labelledby="responsive-dialog-title"
     >
       <DialogContent className={styles.dialog}>
-        <form className={styles.container} onSubmit={selectedProcedure ? onAddSubmitHandler : onEditSubmitHandler}>
+        <form className={styles.container} onSubmit={selectedProcedure && selectedProcedure._id ? onEditSubmitHandler : onAddSubmitHandler}>
           <div className={styles.category}>{category.name}</div>
           <div className={`${styles.fields}`}>
             <label htmlFor="name" className={styles.name}>
@@ -147,16 +162,11 @@ const AddProcedure = ({ show, hide, category, selectedProcedure }) => {
               value={procedureValues.name}
               onChange={onChangeHandler}
               className={styles.input}
+              required
             />
           </div>
           <div className={styles.fields}>
-            <label htmlFor="photos"> Снимки на процедурата</label>
-            <input
-              id="photos"
-              name="photos"
-              type="file"
-              onChange={onChangeHandler}
-            />
+            <ImageUpload/>
             {procedureValues.photos.map((photos, index) => (
               <span key={index}>{photos.name}</span>
             ))}
@@ -166,8 +176,9 @@ const AddProcedure = ({ show, hide, category, selectedProcedure }) => {
             <input
               id="price"
               name="price"
-              value={procedureValues.price}
+              value={procedureValues.price || ""}
               onChange={onChangeHandler}
+              required
             />
           </div>
           <div>
@@ -175,8 +186,9 @@ const AddProcedure = ({ show, hide, category, selectedProcedure }) => {
             <input
               id="promoPrice"
               name="promoPrice"
-              value={procedureValues.promoPrice}
+              value={procedureValues.promoPrice || ""}
               onChange={onChangeHandler}
+
             />
           </div>
           <div className={styles.fields}>
@@ -243,6 +255,7 @@ const AddProcedure = ({ show, hide, category, selectedProcedure }) => {
               name="description"
               value={procedureValues.description}
               onChange={onChangeHandler}
+              required
             />
           </div>
           <div className={styles.fields}>
