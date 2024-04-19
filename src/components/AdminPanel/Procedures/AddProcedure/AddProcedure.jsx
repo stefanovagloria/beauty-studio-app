@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 
 import Button from "@mui/material/Button";
@@ -20,7 +20,7 @@ const CustomButton = styled(Button)(({ theme }) => ({
   },
 }));
 
-const AddProcedure = ({ show, hide, category }) => {
+const AddProcedure = ({ show, hide, category, selectedProcedure }) => {
   const categoryId = category._id;
 
   const [procedureValues, setProcedureValues] = useState({
@@ -33,6 +33,12 @@ const AddProcedure = ({ show, hide, category }) => {
     description: "",
     relatedProducts: [],
   });
+
+  useEffect(() =>{
+    if(selectedProcedure){
+      setProcedureValues(selectedProcedure)
+    }
+  }, [])
 
   const [showInputs, setShowInputs] = useState(false);
 

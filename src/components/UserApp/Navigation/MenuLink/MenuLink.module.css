@@ -1,3 +1,8 @@
 a {
-    text-decoration: none;
-}
+    text-decoration: none; /* Remove default text decoration for links */
+  }
+  
+  a:active
+  a:visited {
+    text-decoration: underline; /* Apply underline style when link is active (clicked) */
+  }

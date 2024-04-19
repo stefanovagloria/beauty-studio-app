@@ -4,7 +4,7 @@ import axios from "axios";
 import styles from "./ProceduresList.module.css";
 import Card from "@mui/material/Card";
 
-const ProceduresList = ({ id }) => {
+const ProceduresList = ({ id, setProcedure }) => {
 
   const [procedures, setProcedures] = useState([]);
 
@@ -24,7 +24,7 @@ const ProceduresList = ({ id }) => {
   return (
     <div className={styles.container}>
       {procedures.map((procedure) => (
-        <Card key={procedure._id} className={styles.btnContainer}>
+        <Card key={procedure._id} className={styles.btnContainer} onClick={() => setProcedure(procedure)}>
           <span className={styles.btn}>{procedure.name}</span>
         </Card>
       ))}

@@ -11,7 +11,7 @@ const Header = () => {
       <div> 0894 791 917</div>
       <div>
         <Link to='/shopping-cart'>
-          <ShoppingCartIcon />
+          <ShoppingCartIcon className={styles.icon}/>
         </Link>
       </div>
     </div>

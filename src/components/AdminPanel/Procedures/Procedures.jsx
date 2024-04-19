@@ -10,6 +10,7 @@ import { Card } from "@mui/material";
 const Procedures = () => {
   const [showModal, setShowModal] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedProcedure, setSelectedProcedure] = useState({})
 
   const handleClickOpen = () => {
     setShowModal(true);
@@ -23,6 +24,11 @@ const Procedures = () => {
     console.log(category);
     setSelectedCategory(category);
   };
+
+  const setProcedure = (procedure) =>{
+    setSelectedProcedure(procedure);
+    setShowModal(true);
+  }
 
   return (
     <>
@@ -38,8 +44,9 @@ const Procedures = () => {
               show={showModal}
               hide={handleClose}
               category={selectedCategory}
+              selectedProcedure={selectedProcedure}
             />
-            <ProceduresList id={selectedCategory._id} />
+            <ProceduresList id={selectedCategory._id} setProcedure={setProcedure}/>
           </div>
         </>
       )}
