@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
+import ImageUpload from "./ImageUpload";
+
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import styles from "./AddProcedure.module.css";
 import { styled } from "@mui/material/styles";
-import ImageUpload from "./ImageUpload";
 
 const CustomButton = styled(Button)(({ theme }) => ({
   backgroundColor: "rgb(148, 72, 220)",
@@ -21,7 +22,13 @@ const CustomButton = styled(Button)(({ theme }) => ({
   },
 }));
 
-const AddProcedure = ({ show, hide, category, selectedProcedure, updateProcedures }) => {
+const AddProcedure = ({
+  show,
+  hide,
+  category,
+  selectedProcedure,
+  updateProcedures,
+}) => {
   const categoryId = category._id;
 
   const [procedureValues, setProcedureValues] = useState({
@@ -58,22 +65,14 @@ const AddProcedure = ({ show, hide, category, selectedProcedure, updateProcedure
 
   const onChangeHandler = (e) => {
     const inputName = e.target.name;
-
-    if (inputName !== "photos") {
-      setProcedureValues((values) => ({
-        ...values,
-        [inputName]: e.target.value,
-      }));
-    } else {
-      setProcedureValues((values) => ({
-        ...values,
-        [inputName]: [...values[inputName], e.target.files[0]],
-      }));
-    }
+    setProcedureValues((values) => ({
+      ...values,
+      [inputName]: e.target.value,
+    }));
   };
 
   const onCharacteristicsChange = (e) => {
-    console.log(e.target)
+    console.log(e.target);
     setCurrentInputs((inputs) => ({
       ...inputs,
       [e.target.name]: e.target.value,
@@ -99,11 +98,44 @@ const AddProcedure = ({ show, hide, category, selectedProcedure, updateProcedure
     setShowInputs(false);
   };
 
+  const onImageAdd = (image) => {
+    const updatedPhotosValues = procedureValues.photos;
+    updatedPhotosValues.push(image);
+    setProcedureValues((values) => ({
+      ...values,
+      photos: updatedPhotosValues,
+    }));
+  };
+
   const onAddSubmitHandler = async (e) => {
     e.preventDefault();
 
     const response = await axios.post(
       "http://localhost:4000/admin/procedures",
+      procedureValues
+    );
+
+    await handleImageUpload();
+
+    setProcedureValues({
+      category: category._id,
+      name: "",
+      photos: [],
+      price: "",
+      promoPrice: "",
+      characteristics: [{ key: "", value: "" }],
+      description: "",
+      relatedProducts: [],
+    });
+
+    hide();
+    updateProcedures({ type: "add", procedure: response.data });
+  };
+
+  const onEditSubmitHandler = async (e) => {
+    e.preventDefault();
+    const response = await axios.put(
+      `http://localhost:4000/admin/procedures/${selectedProcedure._id}`,
       procedureValues
     );
 
@@ -119,27 +151,31 @@ const AddProcedure = ({ show, hide, category, selectedProcedure, updateProcedure
     });
 
     hide();
-    updateProcedures({type: "add", procedure: response.data})
+    updateProcedures({ type: "edit", procedure: response.data });
   };
 
-  const onEditSubmitHandler = async (e) =>{
-    e.preventDefault();
-    const response = await axios.put(`http://localhost:4000/admin/procedures/${selectedProcedure._id}`, procedureValues);
+  const handleImageUpload = async () => {
+    try {
+      const formData = new FormData();
+      procedureValues.photos.forEach((image, index) => {
+        formData.append(`images`, image);
+      });
 
-    setProcedureValues({
-      category: category._id,
-      name: "",
-      photos: [],
-      price: "",
-      promoPrice: "",
-      characteristics: [{ key: "", value: "" }],
-      description: "",
-      relatedProducts: [],
-    });
+      const response = await axios.post(
+        "http://localhost:4000/admin/upload",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
 
-    hide();
-    updateProcedures({type: "edit", procedure: response.data})
-  }
+      console.log("Images uploaded:", response.data);
+    } catch (error) {
+      console.error("Error uploading images:", error.message);
+    }
+  };
 
   return (
     <Dialog
@@ -149,7 +185,14 @@ const AddProcedure = ({ show, hide, category, selectedProcedure, updateProcedure
       aria-labelledby="responsive-dialog-title"
     >
       <DialogContent className={styles.dialog}>
-        <form className={styles.container} onSubmit={selectedProcedure && selectedProcedure._id ? onEditSubmitHandler : onAddSubmitHandler}>
+        <form
+          className={styles.container}
+          onSubmit={
+            selectedProcedure && selectedProcedure._id
+              ? onEditSubmitHandler
+              : onAddSubmitHandler
+          }
+        >
           <div className={styles.category}>{category.name}</div>
           <div className={`${styles.fields}`}>
             <label htmlFor="name" className={styles.name}>
@@ -165,12 +208,10 @@ const AddProcedure = ({ show, hide, category, selectedProcedure, updateProcedure
               required
             />
           </div>
-          <div className={styles.fields}>
-            <ImageUpload/>
-            {procedureValues.photos.map((photos, index) => (
-              <span key={index}>{photos.name}</span>
-            ))}
-          </div>
+          <ImageUpload addImage={onImageAdd} />
+          {procedureValues.photos.map((photos, index) => (
+            <span key={index}>{photos.name}</span>
+          ))}
           <div>
             <label htmlFor="price">Цена:</label>
             <input
@@ -188,7 +229,6 @@ const AddProcedure = ({ show, hide, category, selectedProcedure, updateProcedure
               name="promoPrice"
               value={procedureValues.promoPrice || ""}
               onChange={onChangeHandler}
-
             />
           </div>
           <div className={styles.fields}>
