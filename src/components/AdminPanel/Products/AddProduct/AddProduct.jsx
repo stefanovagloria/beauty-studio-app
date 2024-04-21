@@ -7,7 +7,13 @@ import DialogContent from "@mui/material/DialogContent";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-const AddProduct = ({ show, hide, categoryId, selectedProduct }) => {
+const AddProduct = ({
+  show,
+  hide,
+  categoryId,
+  selectedProduct,
+  updateProducts,
+}) => {
   const [productsValues, setProductsValues] = useState({
     category: categoryId,
     name: "",
@@ -68,7 +74,6 @@ const AddProduct = ({ show, hide, categoryId, selectedProduct }) => {
 
   const onChangeHandler = (e) => {
     const inputName = e.target.name;
-    console.log(inputName);
 
     if (inputName !== "photos") {
       setProductsValues((values) => ({
@@ -89,14 +94,12 @@ const AddProduct = ({ show, hide, categoryId, selectedProduct }) => {
 
   const onSubmitHandler = async (e) => {
     e.preventDefault();
-    console.log(productsValues);
 
     const response = await axios.post(
       "http://localhost:4000/admin/products",
       productsValues
     );
 
-    console.log(productsValues.category);
     setProductsValues({
       name: "",
       photos: [],
@@ -108,11 +111,29 @@ const AddProduct = ({ show, hide, categoryId, selectedProduct }) => {
     });
 
     hide();
+    updateProducts({ type: "add", product: response.data });
   };
 
   const onEditHandler = async (e) => {
     e.preventDefault();
-    console.log("edit");
+
+    const response = await axios.put(
+      `http://localhost:4000/admin/products/${selectedProduct._id}`,
+      productsValues
+    );
+
+    setProductsValues({
+      name: "",
+      photos: [],
+      price: "",
+      promoPrice: "",
+      characteristics: [{ key: "", value: "" }],
+      description: "",
+      relatedProducts: [],
+    });
+
+    hide();
+    updateProducts({ type: "edit", product: response.data });
   };
 
   return (
@@ -134,6 +155,7 @@ const AddProduct = ({ show, hide, categoryId, selectedProduct }) => {
               name="name"
               value={productsValues.name}
               onChange={onChangeHandler}
+              required
             />
           </div>
           <div className={styles.fields}>
@@ -155,6 +177,7 @@ const AddProduct = ({ show, hide, categoryId, selectedProduct }) => {
               name="price"
               value={productsValues.price}
               onChange={onChangeHandler}
+              required
             />
           </div>
           <div>
@@ -164,6 +187,7 @@ const AddProduct = ({ show, hide, categoryId, selectedProduct }) => {
               name="promoPrice"
               value={productsValues.promoPrice || ""}
               onChange={onChangeHandler}
+              required
             />
           </div>
           <div className={styles.fields}>
