@@ -42,6 +42,8 @@ const AddProcedure = ({
     relatedProducts: [],
   });
 
+  const [currentPhotos, setCurrentPhotos] = useState([]);
+
   useEffect(() => {
     if (Object.keys(selectedProcedure).length !== 0) {
       setProcedureValues(selectedProcedure);
@@ -58,6 +60,7 @@ const AddProcedure = ({
       });
     }
   }, [selectedProcedure]);
+
 
   const [showInputs, setShowInputs] = useState(false);
 
@@ -98,24 +101,21 @@ const AddProcedure = ({
     setShowInputs(false);
   };
 
-  const onImageAdd = (image) => {
-    const updatedPhotosValues = procedureValues.photos;
-    updatedPhotosValues.push(image);
-    setProcedureValues((values) => ({
-      ...values,
-      photos: updatedPhotosValues,
-    }));
-  };
+
 
   const onAddSubmitHandler = async (e) => {
+   
     e.preventDefault();
+    console.log(procedureValues)
+    await handleImageUpload();
+
 
     const response = await axios.post(
       "http://localhost:4000/admin/procedures",
       procedureValues
     );
-
-    await handleImageUpload();
+    console.log(procedureValues)
+  
 
     setProcedureValues({
       category: category._id,
@@ -155,12 +155,15 @@ const AddProcedure = ({
   };
 
   const handleImageUpload = async () => {
+
+    setCurrentInputs([]);
+    setProcedureValues((values) => ({...values, photos: []}));
     try {
       const formData = new FormData();
-      procedureValues.photos.forEach((image, index) => {
+      currentPhotos.forEach((image, index) => {
         formData.append(`images`, image);
       });
-
+  
       const response = await axios.post(
         "http://localhost:4000/admin/upload",
         formData,
@@ -170,12 +173,38 @@ const AddProcedure = ({
           },
         }
       );
-
+  
       console.log("Images uploaded:", response.data);
+      
+      // Check if response.data.fileData exists and contains the expected data
+      if (response.data.fileData && Array.isArray(response.data.fileData)) {
+        const urlAndPaths = response.data.fileData.map((f) => ({
+          downloadUrl: f.downloadUrl,
+          filePath: f.filePath,
+        }));
+        console.log("URLs and Paths:", urlAndPaths);
+  
+        const photos = "photos";
+        // Update procedureValues.photos with the new image data
+        setProcedureValues((values) => ({
+          ...values,
+          photos: urlAndPaths,
+        }));
+      } else {
+        console.error("Invalid response data:", response.data);
+      }
     } catch (error) {
       console.error("Error uploading images:", error.message);
     }
   };
+  
+
+  const onImageAdd = (image) =>{
+    const updatedPhotos = currentPhotos;
+    updatedPhotos.push(image);
+
+    setCurrentPhotos(updatedPhotos);
+  }
 
   return (
     <Dialog
@@ -208,7 +237,7 @@ const AddProcedure = ({
               required
             />
           </div>
-          <ImageUpload addImage={onImageAdd} />
+          <ImageUpload  onImageAdd={onImageAdd}/>
           {procedureValues.photos.map((photos, index) => (
             <span key={index}>{photos.name}</span>
           ))}

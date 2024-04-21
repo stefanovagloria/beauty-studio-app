@@ -5,10 +5,9 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-const AddProduct = ({hide, categoryId}) => {
-
+const AddProduct = ({ show, hide, categoryId, selectedProduct }) => {
   const [productsValues, setProductsValues] = useState({
     category: categoryId,
     name: "",
@@ -22,6 +21,24 @@ const AddProduct = ({hide, categoryId}) => {
 
   const [showInputs, setShowInputs] = useState(false);
   const [currentInputs, setCurrentInputs] = useState({ key: "", value: "" });
+
+  useEffect(() => {
+    if (Object.keys(selectedProduct).length !== 0) {
+      setProductsValues(selectedProduct);
+      setCurrentInputs(selectedProduct.characteristics);
+    } else {
+      setProductsValues({
+        category: categoryId,
+        name: "",
+        photos: [],
+        price: "",
+        promoPrice: "",
+        characteristics: [{ key: "", value: "" }],
+        description: "",
+        relatedProducts: [],
+      });
+    }
+  }, [selectedProduct]);
 
   const onRemove = (index) => {
     const updatedCharacteristics = [...productsValues.characteristics];
@@ -51,6 +68,7 @@ const AddProduct = ({hide, categoryId}) => {
 
   const onChangeHandler = (e) => {
     const inputName = e.target.name;
+    console.log(inputName);
 
     if (inputName !== "photos") {
       setProductsValues((values) => ({
@@ -92,15 +110,23 @@ const AddProduct = ({hide, categoryId}) => {
     hide();
   };
 
+  const onEditHandler = async (e) => {
+    e.preventDefault();
+    console.log("edit");
+  };
+
   return (
     <Dialog
       fullScreen={fullScreen}
-      open={true}
+      open={show}
       onClose={hide}
       aria-labelledby="responsive-dialog-title"
     >
       <DialogContent>
-        <form className={styles.container} onSubmit={onSubmitHandler}>
+        <form
+          className={styles.container}
+          onSubmit={selectedProduct._id ? onEditHandler : onSubmitHandler}
+        >
           <div className={styles.fields}>
             <label htmlFor="name">Име на процедура:</label>
             <input
@@ -136,7 +162,7 @@ const AddProduct = ({hide, categoryId}) => {
             <input
               id="promoPrice"
               name="promoPrice"
-              value={productsValues.promoPrice}
+              value={productsValues.promoPrice || ""}
               onChange={onChangeHandler}
             />
           </div>
@@ -153,6 +179,7 @@ const AddProduct = ({hide, categoryId}) => {
                           value={ch.key}
                           onChange={(e) =>
                             onCharacteristicsChange(
+                              e,
                               index,
                               e.target.value,
                               ch.value
@@ -163,6 +190,7 @@ const AddProduct = ({hide, categoryId}) => {
                           value={ch.value}
                           onChange={(e) =>
                             onCharacteristicsChange(
+                              e,
                               index,
                               ch.key,
                               e.target.value

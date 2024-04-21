@@ -1,8 +1,8 @@
-const ImageUpload = ({addImage}) => {
+const ImageUpload = ({onImageAdd}) => {
 
   const onChangeHandler = (e) => {
     const selectedImage = e.target.files[0];
-    addImage(selectedImage);
+    onImageAdd(selectedImage);
   };
 
   return (

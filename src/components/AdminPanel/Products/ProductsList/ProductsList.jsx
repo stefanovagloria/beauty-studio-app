@@ -4,7 +4,7 @@ import axios from 'axios';
 import styles from './ProductsList.module.css';
 import Card from "@mui/material/Card";
 
-const ProductsList = ({id}) => {
+const ProductsList = ({id, selectProduct}) => {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
@@ -14,7 +14,6 @@ const ProductsList = ({id}) => {
       );
 
       setProducts(response.data);
-      console.log(response.data);
     };
 
     getProducts();
@@ -23,8 +22,8 @@ const ProductsList = ({id}) => {
     return (
         <div className={styles.container}>
           {products.map((product) => (
-            <Card key={product._id} className={styles.btnContainer}>
-              <span className={styles.btn}>Product</span>
+            <Card key={product._id} className={styles.btnContainer} onClick={() => selectProduct(product)}>
+              <span className={styles.btn}>{product.name}</span>
             </Card>
           ))}
         </div>

@@ -9,37 +9,44 @@ import styles from "./Products.module.css";
 
 const Products = () => {
   const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedProduct, setSelectedProduct] = useState({});
   const [showModal, setShowModal] = useState(false);
-
-  const onAddClickHandler = () => {
-    setShowModal(true);
-  };
 
   const onCloseClickHandler = () => {
     setShowModal(false);
+    setSelectedProduct({})
   };
 
   const handleSelectCategory = (category) => {
     setSelectedCategory(category);
   };
 
+  const handleSelectProdukt = (product) => {
+    console.log(product)
+    setSelectedProduct(product);
+    setShowModal(true);
+  }
+
   return (
     <>
       <CategoriesList type="products" selectCategory={handleSelectCategory} />
       {selectedCategory && (
         <>
-          <h1>Selected Category - {selectedCategory.name}</h1>
+          <h1>Категория - {selectedCategory.name}</h1>
           <div className={styles.container}>
-            <Card className={styles.btnContainer} onClick={onAddClickHandler}>
+            <Card
+              className={styles.btnContainer}
+              onClick={() => setShowModal(true)}
+            >
               <span className={styles.btn}>+</span>
             </Card>
-            {showModal && (
-              <AddProduct
-                hide={onCloseClickHandler}
-                categoryId={selectedCategory._id}
-              />
-            )}
-            <ProductsList id={selectedCategory._id} />
+            <AddProduct
+              show={showModal}
+              hide={onCloseClickHandler}
+              categoryId={selectedCategory._id}
+              selectedProduct={selectedProduct}
+            />
+            <ProductsList id={selectedCategory._id} selectProduct={handleSelectProdukt}/>
           </div>
         </>
       )}

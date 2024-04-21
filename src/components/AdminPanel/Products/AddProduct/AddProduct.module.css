@@ -1,6 +1,10 @@
 .container {
-    padding: 5em 4em;
+    width: 35em; /* Adjust the width as needed */
+    height: 35em;
+    max-width: none;
+    margin: auto;
 }
+
 
 .fields{
     display: flex;
@@ -8,6 +12,23 @@
     padding: 0.5em;
 }
 
-.category{
+.name{
     font-weight: bold;
+    text-align: center;
+    margin-bottom: 0.5em;
+}
+
+.category{
+    font-size:x-large;
+    font-weight: bold;
+    text-align: center;
+    padding-bottom: 0.5em;
+}
+
+.input{
+    margin: 0 auto;
+  /* Optional: adjust width */
+  width: 80%;
+  height: 1.5em;
+
 }
