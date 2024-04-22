@@ -11,9 +11,14 @@
     margin: 1em 1em;
     text-align: center;
     cursor: pointer;
+    overflow: hidden;
+   
  }
  
  .btnContainer:hover{
      background-color: rgb(245, 240, 240);
  }
  
+ .btn{
+    word-wrap: break-word;
+}

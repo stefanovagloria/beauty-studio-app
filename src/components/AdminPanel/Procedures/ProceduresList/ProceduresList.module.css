@@ -1,6 +1,8 @@
 .container{
     display: flex;
     flex-direction: row;
+    margin: 0 auto;
+    flex-wrap: wrap;
 }
 
 .btn{
@@ -9,8 +11,9 @@
 
 .btnContainer {
     padding: 3em 2em;
-    width: 4em;
-    margin: 0em 1em;
+    width: 5em;
+    height: 2.7em;
+    margin: 1em 1em;
     text-align: center;
     cursor: pointer;
  }
@@ -18,4 +21,6 @@
  .btnContainer:hover{
      background-color: rgb(245, 240, 240);
  }
+ 
+  
  

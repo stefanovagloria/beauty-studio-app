@@ -44,17 +44,19 @@ const Products = () => {
     setShowModal(true);
   };
 
-  const updateProducts = (type, product) =>{
-    if(type === "add"){
-      setProducts((products) => ([...products, product]));
-    } else if(type === "edit"){
-      const productIndex = products.findIndex((p) => p._id === product._id);
+  const updateProducts = ({ type, product }) => {
+    if (type === "add") {
+      setProducts((values) => [...values, product]);
+    } else if (type === "edit") {
+      const productIndex = products.findIndex(
+        (p) => p._id === product._id
+      );
+
       const updatedProducts = products;
       updatedProducts[productIndex] = product;
-
-      setProducts(() => updatedProducts);
+      setProducts(updatedProducts);
     }
-  }
+  };
 
   return (
     <>
