@@ -8,8 +8,6 @@ const AdminPanel = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const loginHandler = (username, password) => {
-    console.log('Succesfully logged in!');
-    // TODO: Real login functionallity
     setIsLoggedIn(true);
   }
 

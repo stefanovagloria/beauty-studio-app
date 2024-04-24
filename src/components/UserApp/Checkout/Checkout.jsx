@@ -45,11 +45,15 @@ const Checkout = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const productsIds = orderedProducts.map((p) => p._id);
+    const date = Date.now();
+    
 
     const orderData = {
       user: userData,
       products: productsIds,
       totalPrice: totalPrice,
+      date: date,
+      status: "нова"
     };
 
     const response = await axios.post(

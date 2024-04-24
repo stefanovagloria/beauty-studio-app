@@ -4,6 +4,7 @@ import Procedures from "../Procedures/Procedures";
 import Products from "../Products/Products";
 import Promotions from "../Promotions/Promotions";
 import Articles from "../Articles/Articles";
+import Orders from "../Orders/Orders";
 
 import Button from "@mui/material/Button";
 import { styled } from "@mui/material/styles";
@@ -45,12 +46,18 @@ const AdminHomePage = () => {
             СТАТИИ
           </CustomButton>
         </Link>
+        <Link to="/admin/orders">
+        <CustomButton variant="contained" size="large">
+          ПОРЪЧКИ
+        </CustomButton>
+        </Link>
       </div>
       <Routes>
         <Route path="/procedures/*" element={<Procedures />} />
         <Route path="/products/*" element={<Products />} />
         <Route path="/articles/*" element={<Articles />} />
         <Route path="/promotions" element={<Promotions />} />
+        <Route path="/orders" element={<Orders />} />
       </Routes>
     </>
   );
