@@ -6,7 +6,6 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { useEffect, useState } from "react";
-import axios from "axios";
 
 import Button from "@mui/material/Button/Button";
 
@@ -31,13 +30,13 @@ const OrderedproductsTable = ({ orderedProducts }) => {
   useEffect(() => {
     if (orderedProducts && orderedProducts.length > 0) {
       setProducts(orderedProducts);
-      console.log(orderedProducts);
+      console.log(orderedProducts)
     }
   }, [orderedProducts]);
 
   return (
-    <TableContainer component={Paper} sx={{ width: 750 }}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
+    <TableContainer component={Paper}  style={{width: '550px'}}>
+      <Table sx={{ width: 550 }} aria-label="simple table">
         <TableHead>
           <TableRow>
             <TableCell align="center">Име</TableCell>
@@ -57,8 +56,8 @@ const OrderedproductsTable = ({ orderedProducts }) => {
                 {product.name}
               </TableCell>
               <TableCell align="center">{product.price}</TableCell>
-              <TableCell align="center">Брой??</TableCell>
-              <TableCell align="center">Обща сума??</TableCell>
+              <TableCell align="center">{product.quantity}</TableCell>
+              <TableCell align="center">Обща сума</TableCell>
 
               <TableCell align="center" sx={{ color: "white" }}>
                 <CustomButton onClick={() => setOpenDetails(true)}>

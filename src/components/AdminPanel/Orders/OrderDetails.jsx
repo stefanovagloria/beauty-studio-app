@@ -10,6 +10,7 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 
 import { styled } from "@mui/material/styles";
+import styles from "./OrderDetails.module.css";
 
 const CustomButton = styled(Button)(({ theme }) => ({
   backgroundColor: "rgb(148, 72, 220)",
@@ -34,8 +35,10 @@ const OrderDetails = ({ open, closeDetails, order }) => {
     const getProducts = async () => {
       console.log(order);
       const response = await axios.get(`http://localhost:4000/admin/products`);
+      console.log(response.data)
 
       const data = response.data.filter((p) => order.products.includes(p._id));
+      
 
       setOrderedProducts(data);
     };
@@ -60,6 +63,7 @@ const OrderDetails = ({ open, closeDetails, order }) => {
         scroll={"paper"}
         aria-labelledby="scroll-dialog-title"
         aria-describedby="scroll-dialog-description"
+      
       >
         <DialogTitle id="scroll-dialog-title" align="center">
           Поръчка Номер 3
@@ -76,7 +80,7 @@ const OrderDetails = ({ open, closeDetails, order }) => {
 
             <div>
               Продукти:
-              <OrderedProductsTable orderedProducts={orderedProducts} />
+              <OrderedProductsTable orderedProducts={order.products} />
             </div>
             <div>Доставка: 5лв</div>
             <div>
@@ -95,8 +99,8 @@ const OrderDetails = ({ open, closeDetails, order }) => {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={closeDetails}>Cancel</Button>
-          <Button onClick={closeDetails}>Subscribe</Button>
+          <Button onClick={closeDetails}>Затвори</Button>
+          <Button onClick={closeDetails}>Изпрати имейл потвърждение</Button>
         </DialogActions>
       </Dialog>
     </>

@@ -27,6 +27,7 @@ const Checkout = () => {
     const orderedProductsArr = localStorage.getItem("orderedItems");
     let orderedItems = orderedProductsArr ? JSON.parse(orderedProductsArr) : [];
     setOrderedProducts(orderedItems);
+    console.log(orderedItems)
 
     const total = orderedItems.reduce((acc, product) => {
       return acc + product.price * product.quantity;
@@ -44,13 +45,13 @@ const Checkout = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const productsIds = orderedProducts.map((p) => p._id);
+    console.log(orderedProducts)
+    const products = orderedProducts.map((p) => ({name: p.name, price: p.price, product: p._id, quantity: p.quantity}));
+    console.log(products)
     const date = Date.now();
-    
-
     const orderData = {
       user: userData,
-      products: productsIds,
+      products: products,
       totalPrice: totalPrice,
       date: date,
       status: "нова"
