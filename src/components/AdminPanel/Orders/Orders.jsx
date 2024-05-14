@@ -11,39 +11,49 @@ import Paper from "@mui/material/Paper";
 import OrderItem from "./OrderItem";
 
 const Orders = () => {
+  const [orders, setOrders] = useState([]);
 
-    const [orders, setOrders] = useState([]);
+  useEffect(() => {
+    const getOrders = async () => {
+      const response = await axios.get("http://localhost:4000/admin/orders");
+      setOrders(response.data);
+    };
 
-    useEffect(() =>{
-        const getOrders = async() =>{
-            const response = await axios.get("http://localhost:4000/admin/orders");
-            setOrders(response.data);
-            console.log(response.data)
-        }
+    getOrders();
+  }, []);
 
-        getOrders();
-    },[])
+  const updateOrder = (orderId) => {
+    const orderIndex = orders.findIndex((o) => o._id === orderId);
+    const updatedOrders = orders;
+    updatedOrders[orderIndex]["status"] = "изпратена";
+
+    setOrders(updatedOrders);
+  };
 
   return (
     <div style={{ display: "flex", justifyContent: "center" }}>
-    <TableContainer component={Paper} sx={{ width: 750}}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            <TableCell>Статус</TableCell>
-            <TableCell align="center">Дата</TableCell>
-            <TableCell align="center">Стойност</TableCell>
-            <TableCell align="center">Номер</TableCell>
-            <TableCell align="center"></TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {orders.map((order) => (
-            <OrderItem key={order._id} order={order}/>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+      <TableContainer component={Paper} sx={{ width: 750 }}>
+        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell>Статус</TableCell>
+              <TableCell align="center">Дата</TableCell>
+              <TableCell align="center">Стойност</TableCell>
+              <TableCell align="center">Номер</TableCell>
+              <TableCell align="center"></TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {orders.map((order) => (
+              <OrderItem
+                key={order._id}
+                order={order}
+                updateOrder={updateOrder}
+              />
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </div>
   );
 };

@@ -30,7 +30,6 @@ const OrderedproductsTable = ({ orderedProducts }) => {
   useEffect(() => {
     if (orderedProducts && orderedProducts.length > 0) {
       setProducts(orderedProducts);
-      console.log(orderedProducts)
     }
   }, [orderedProducts]);
 

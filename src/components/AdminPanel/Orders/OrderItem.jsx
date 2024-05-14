@@ -18,7 +18,7 @@ const CustomButton = styled(Button)(({ theme }) => ({
   },
 }));
 
-const OrderItem = ({ order }) => {
+const OrderItem = ({ order, updateOrder }) => {
   const [openDetails, setOpenDetails] = useState(false);
 
   const closeDetails = () => {
@@ -51,6 +51,7 @@ const OrderItem = ({ order }) => {
           open={openDetails}
           closeDetails={closeDetails}
           order={order}
+          updateOrder={updateOrder}
         />
       )}
     </>

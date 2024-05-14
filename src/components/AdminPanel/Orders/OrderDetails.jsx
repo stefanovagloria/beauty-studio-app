@@ -10,7 +10,7 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 
 import { styled } from "@mui/material/styles";
-import styles from "./OrderDetails.module.css";
+import OrderConfirmation from "./OrderConfirmation";
 
 const CustomButton = styled(Button)(({ theme }) => ({
   backgroundColor: "rgb(148, 72, 220)",
@@ -27,19 +27,16 @@ const CustomButton = styled(Button)(({ theme }) => ({
   },
 }));
 
-const OrderDetails = ({ open, closeDetails, order }) => {
+const OrderDetails = ({ open, closeDetails, order, updateOrder }) => {
   const descriptionElementRef = useRef(null);
+  const [openModal, setOpenModal] = useState(false);
   const [orderedProducts, setOrderedProducts] = useState([]);
+  console.log(order);
 
   useEffect(() => {
     const getProducts = async () => {
-      console.log(order);
       const response = await axios.get(`http://localhost:4000/admin/products`);
-      console.log(response.data)
-
       const data = response.data.filter((p) => order.products.includes(p._id));
-      
-
       setOrderedProducts(data);
     };
 
@@ -55,6 +52,23 @@ const OrderDetails = ({ open, closeDetails, order }) => {
     }
   }, [open]);
 
+  const openModalHandler = () => {
+    setOpenModal(true);
+  };
+
+  const closeModalHandler = () => {
+    setOpenModal(false);
+  };
+
+  const updateOrderStatus = async () => {
+    const response = await axios.put(
+      `http://localhost:4000/admin/orders/${order._id}`,
+      { ...order, status: "изпратена" }
+    );
+    closeModalHandler();
+    updateOrder(order._id);
+  };
+
   return (
     <>
       <Dialog
@@ -63,7 +77,6 @@ const OrderDetails = ({ open, closeDetails, order }) => {
         scroll={"paper"}
         aria-labelledby="scroll-dialog-title"
         aria-describedby="scroll-dialog-description"
-      
       >
         <DialogTitle id="scroll-dialog-title" align="center">
           Поръчка Номер 3
@@ -75,9 +88,11 @@ const OrderDetails = ({ open, closeDetails, order }) => {
             tabIndex={-1}
           >
             <div>
-              Статус: <CustomButton>{order.status}</CustomButton>
+              Статус:{" "}
+              <CustomButton onClick={openModalHandler} disabled={order.status === 'изпратена'}>
+                {order.status}
+              </CustomButton>
             </div>
-
             <div>
               Продукти:
               <OrderedProductsTable orderedProducts={order.products} />
@@ -102,6 +117,13 @@ const OrderDetails = ({ open, closeDetails, order }) => {
           <Button onClick={closeDetails}>Затвори</Button>
           <Button onClick={closeDetails}>Изпрати имейл потвърждение</Button>
         </DialogActions>
+        {openModal && (
+          <OrderConfirmation
+            openModal={openModal}
+            closeModalHandler={closeModalHandler}
+            updateOrderStatus={updateOrderStatus}
+          />
+        )}
       </Dialog>
     </>
   );

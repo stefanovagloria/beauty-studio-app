@@ -61,7 +61,6 @@ const AddProcedure = ({
     }
   }, [selectedProcedure]);
 
-
   const [showInputs, setShowInputs] = useState(false);
 
   const [currentInputs, setCurrentInputs] = useState({ key: "", value: "" });
@@ -101,21 +100,13 @@ const AddProcedure = ({
     setShowInputs(false);
   };
 
-
-
   const onAddSubmitHandler = async (e) => {
-   
+    console.log(procedureValues);
+
     e.preventDefault();
-    console.log(procedureValues)
     await handleImageUpload();
 
-
-    const response = await axios.post(
-      "http://localhost:4000/admin/procedures",
-      procedureValues
-    );
-    console.log(procedureValues)
-  
+   
 
     setProcedureValues({
       category: category._id,
@@ -155,15 +146,14 @@ const AddProcedure = ({
   };
 
   const handleImageUpload = async () => {
-
     setCurrentInputs([]);
-    setProcedureValues((values) => ({...values, photos: []}));
+    //setProcedureValues((values) => ({...values, photos: []}));
     try {
       const formData = new FormData();
       currentPhotos.forEach((image, index) => {
         formData.append(`images`, image);
       });
-  
+
       const response = await axios.post(
         "http://localhost:4000/admin/upload",
         formData,
@@ -173,22 +163,13 @@ const AddProcedure = ({
           },
         }
       );
-  
-      console.log("Images uploaded:", response.data);
-      
+
       // Check if response.data.fileData exists and contains the expected data
       if (response.data.fileData && Array.isArray(response.data.fileData)) {
-        const urlAndPaths = response.data.fileData.map((f) => ({
-          downloadUrl: f.downloadUrl,
-          filePath: f.filePath,
-        }));
-        console.log("URLs and Paths:", urlAndPaths);
-  
-        const photos = "photos";
-        // Update procedureValues.photos with the new image data
+        const imageURLs = response.data.fileData.map((f) => f.downloadUrl);
         setProcedureValues((values) => ({
           ...values,
-          photos: urlAndPaths,
+          photos: imageURLs, // Update photos with URLs
         }));
       } else {
         console.error("Invalid response data:", response.data);
@@ -196,15 +177,22 @@ const AddProcedure = ({
     } catch (error) {
       console.error("Error uploading images:", error.message);
     }
-  };
-  
 
-  const onImageAdd = (image) =>{
+    console.log(procedureValues)
+
+    const response = await axios.post(
+      "http://localhost:4000/admin/procedures",
+      procedureValues
+    );
+    console.log(response.data);
+  };
+
+  const onImageAdd = (image) => {
     const updatedPhotos = currentPhotos;
     updatedPhotos.push(image);
 
     setCurrentPhotos(updatedPhotos);
-  }
+  };
 
   return (
     <Dialog
@@ -237,7 +225,7 @@ const AddProcedure = ({
               required
             />
           </div>
-          <ImageUpload  onImageAdd={onImageAdd}/>
+          <ImageUpload onImageAdd={onImageAdd} />
           {procedureValues.photos.map((photos, index) => (
             <span key={index}>{photos.name}</span>
           ))}
