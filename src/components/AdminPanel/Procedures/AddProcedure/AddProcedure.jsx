@@ -101,12 +101,10 @@ const AddProcedure = ({
   };
 
   const onAddSubmitHandler = async (e) => {
-    console.log(procedureValues);
+    console.log("onAddSubmitHandler..");
 
     e.preventDefault();
     await handleImageUpload();
-
-   
 
     setProcedureValues({
       category: category._id,
@@ -147,45 +145,46 @@ const AddProcedure = ({
 
   const handleImageUpload = async () => {
     setCurrentInputs([]);
-    //setProcedureValues((values) => ({...values, photos: []}));
     try {
-      const formData = new FormData();
-      currentPhotos.forEach((image, index) => {
-        formData.append(`images`, image);
-      });
+        const formData = new FormData();
+        currentPhotos.forEach((image, index) => {
+            formData.append(`images`, image);
+        });
 
-      const response = await axios.post(
-        "http://localhost:4000/admin/upload",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
+        const response = await axios.post(
+            "http://localhost:4000/admin/upload",
+            formData,
+            {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            }
+        );
+
+        if (response.data.fileData && Array.isArray(response.data.fileData)) {
+            const imageURLs = response.data.fileData.map((f) => f.downloadUrl);
+            setProcedureValues((prevValues) => ({
+                ...prevValues,
+                photos: [...prevValues.photos, ...imageURLs],
+            }));
+
+            console.log("Updated procedureValues:", procedureValues);
+
+            // Now that images are uploaded, proceed with sending POST request to procedures
+            const postResponse = await axios.post(
+                "http://localhost:4000/admin/procedures",
+                procedureValues // Send updated procedureValues with image URLs
+            );
+
+            console.log(`Response from POST - ${postResponse.data}`);
+        } else {
+            console.error("Invalid response data:", response.data);
         }
-      );
-
-      // Check if response.data.fileData exists and contains the expected data
-      if (response.data.fileData && Array.isArray(response.data.fileData)) {
-        const imageURLs = response.data.fileData.map((f) => f.downloadUrl);
-        setProcedureValues((values) => ({
-          ...values,
-          photos: imageURLs, // Update photos with URLs
-        }));
-      } else {
-        console.error("Invalid response data:", response.data);
-      }
     } catch (error) {
-      console.error("Error uploading images:", error.message);
+        console.error("Error uploading images:", error.message);
     }
+};
 
-    console.log(procedureValues)
-
-    const response = await axios.post(
-      "http://localhost:4000/admin/procedures",
-      procedureValues
-    );
-    console.log(response.data);
-  };
 
   const onImageAdd = (image) => {
     const updatedPhotos = currentPhotos;

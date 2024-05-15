@@ -21,9 +21,7 @@ const Procedures = () => {
         const response = await axios.get(
           `http://localhost:4000/admin/procedures/${selectedCategory._id}`
         );
-
         setProcedures(response.data);
-        console.log(response.data);
       };
 
       getProceduresByCategory();
