@@ -167,7 +167,7 @@ const AddProcedure = ({
                 ...prevValues,
                 photos: [...prevValues.photos, ...imageURLs],
             }));
-
+            console.log(imageURLs)
             console.log("Updated procedureValues:", procedureValues);
 
             // Now that images are uploaded, proceed with sending POST request to procedures

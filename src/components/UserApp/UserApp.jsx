@@ -10,6 +10,7 @@ import Categories from "./Categories/Categories";
 import BookAppointment from "./BookAppointment/BookAppointment";
 import ShoppingCart from "./ShoppingCart/ShoppingCart";
 import Checkout from "./Checkout/Checkout";
+import ProductItemDetails from "./ProductItem/ProductItemDetails";
 
 const UserApp = () => {
   return (
@@ -19,6 +20,7 @@ const UserApp = () => {
         <Route path="/" element={<Home />} />
         <Route path="/procedures/*" element={<ProceduresList />} />
         <Route path="/products/*" element={<ProductsList />} />
+        <Route path="/products/:id" element={<ProductItemDetails />} />
         <Route
           path="/book-appointment/procedures/:id"
           element={<BookAppointment />}

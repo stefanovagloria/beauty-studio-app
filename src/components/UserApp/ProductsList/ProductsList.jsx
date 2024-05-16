@@ -5,7 +5,6 @@ import ProductItem from "../ProductItem/ProductItem";
 
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
-import styles from "./ProductsList.module.css";
 
 const ProductsList = () => {
   const [products, setProducts] = useState([]);
