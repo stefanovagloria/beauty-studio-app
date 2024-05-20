@@ -10,21 +10,12 @@ import { Button, CardActionArea, CardActions, TextField } from "@mui/material";
 import styles from "./ProductItem.module.css";
 import image from "../../../assets/procedures.png";
 
-const ProductItem = ({ product, addProduct }) => {
-  const [quantity, setQuantity] = useState(1);
+const ProductItem = ({ product }) => {
   const navigate = useNavigate();
 
-  const handleQuantityChange = (e) => {
-    setQuantity(e.target.value);
-  };
-
-  const handleAddProduct = () => {
-    addProduct(product, quantity);
-  };
-
-  const navigateToDetailsPage = () =>{
+  const navigateToDetailsPage = () => {
     navigate(`/products/${product._id}`);
-  }
+  };
 
   return (
     <Card sx={{ maxWidth: 400 }}>
@@ -38,28 +29,7 @@ const ProductItem = ({ product, addProduct }) => {
         </CardContent>
       </CardActionArea>
 
-      <CardActions className={styles.container}>
-        <TextField
-          className={styles.inputField}
-          id="outlined-number"
-          type="number"
-          size="small"
-          InputLabelProps={{
-            shrink: true,
-          }}
-          value={quantity}
-          onChange={handleQuantityChange}
-        />
-        <Button
-          size="small"
-          color="primary"
-          variant="contained"
-          className={styles.btn}
-          onClick={handleAddProduct}
-        >
-          Купи
-        </Button>
-      </CardActions>
+      <CardActions className={styles.container}></CardActions>
     </Card>
   );
 };
