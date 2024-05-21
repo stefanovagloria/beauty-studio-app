@@ -1,0 +1,19 @@
+.img{
+    width: 100%;
+    height: auto;
+    padding: 0;
+}
+
+
+
+.inputContainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 4em;
+}
+
+.input {
+    width: 20em;
+    height: 2em;
+}

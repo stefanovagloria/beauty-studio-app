@@ -6,6 +6,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import SelectProduct from "../SelectProduct/SelectProduct";
 
 const AddProduct = ({
   show,
@@ -27,6 +28,7 @@ const AddProduct = ({
 
   const [showInputs, setShowInputs] = useState(false);
   const [currentInputs, setCurrentInputs] = useState({ key: "", value: "" });
+  const [showProducts, setShowProducts] = useState(false);
 
   useEffect(() => {
     if (Object.keys(selectedProduct).length !== 0) {
@@ -135,6 +137,14 @@ const AddProduct = ({
     hide();
     updateProducts({ type: "edit", product: response.data });
   };
+
+  const showAllProducts = () =>{
+    setShowProducts(true);
+  }
+
+  const hideAllProducts = () =>{
+    setShowProducts(false);
+  }
 
   return (
     <Dialog
@@ -257,7 +267,7 @@ const AddProduct = ({
           <div className={styles.fields}>
             Сходни продукти:
             <div>
-              <Button>+</Button>
+              <Button  onClick={showAllProducts}>+</Button>
             </div>
           </div>
           <DialogActions>
@@ -265,11 +275,12 @@ const AddProduct = ({
               Отказ
             </Button>
             <Button autoFocus type="submit">
-              Запази процедура
+              Запази продукт
             </Button>
           </DialogActions>
         </form>
       </DialogContent>
+      {showAllProducts && <SelectProduct show={showProducts} hide={hideAllProducts}/>}
     </Dialog>
   );
 };

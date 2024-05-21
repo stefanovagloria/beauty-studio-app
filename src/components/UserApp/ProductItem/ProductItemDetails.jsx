@@ -42,19 +42,18 @@ const ProductItemDetails = () => {
   const addProductToLocalStorage = () => {
     let orderedItemsArr = localStorage.getItem("orderedItems");
     let orderedItems = orderedItemsArr ? JSON.parse(orderedItemsArr) : [];
-    console.log(orderedItems);
 
     const productIndex = orderedItems.findIndex((i) => i._id === product._id);
 
     if (productIndex !== -1) {
-      const currentProduct = orderedItems.filter((i) => i._id === product._id);
-      console.log(currentProduct.quantity)
+      const currentProduct = orderedItems.find((i) => i._id === product._id);
+      console.log(currentProduct);
       orderedItems.splice(productIndex, 1, {
         ...product,
-        quantity: currentProduct.quantity + quantity,
+        quantity: Number(currentProduct.quantity) + Number(quantity),
       });
     } else {
-      orderedItems.push({ ...product, quantity: quantity });
+      orderedItems.push({ ...product, quantity: Number(quantity) });
     }
 
     localStorage.setItem("orderedItems", JSON.stringify(orderedItems));
