@@ -17,3 +17,12 @@
     width: 20em;
     height: 2em;
 }
+
+.item p{
+    font-weight: 600;
+}
+
+.item:hover{
+    color: white;
+    background-color: rgb(230, 163, 124);
+}

@@ -29,6 +29,7 @@ const AddProduct = ({
   const [showInputs, setShowInputs] = useState(false);
   const [currentInputs, setCurrentInputs] = useState({ key: "", value: "" });
   const [showProducts, setShowProducts] = useState(false);
+  const [selectedRelatedProductsIds, setSelectedRelatedProductsIds] = useState([]);
 
   useEffect(() => {
     if (Object.keys(selectedProduct).length !== 0) {
@@ -138,13 +139,20 @@ const AddProduct = ({
     updateProducts({ type: "edit", product: response.data });
   };
 
-  const showAllProducts = () =>{
+  const showAllProducts = () => {
     setShowProducts(true);
-  }
+  };
 
-  const hideAllProducts = () =>{
+  const hideAllProducts = () => {
     setShowProducts(false);
-  }
+  };
+
+  const addToRelatedProducts = (product) => {
+    console.log(product);
+    const relatedProductsArr = productsValues.relatedProducts;
+    
+   
+  };
 
   return (
     <Dialog
@@ -267,7 +275,7 @@ const AddProduct = ({
           <div className={styles.fields}>
             Сходни продукти:
             <div>
-              <Button  onClick={showAllProducts}>+</Button>
+              <Button onClick={showAllProducts}>+</Button>
             </div>
           </div>
           <DialogActions>
@@ -280,7 +288,14 @@ const AddProduct = ({
           </DialogActions>
         </form>
       </DialogContent>
-      {showAllProducts && <SelectProduct show={showProducts} hide={hideAllProducts}/>}
+      {showAllProducts && (
+        <SelectProduct
+          show={showProducts}
+          hide={hideAllProducts}
+          addToRelatedProducts={addToRelatedProducts}
+          selecteProductsIds={productsValues.relatedProducts.map((p) => p._id)}
+        />
+      )}
     </Dialog>
   );
 };
