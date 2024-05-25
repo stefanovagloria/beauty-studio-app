@@ -20,7 +20,7 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
-const SelectProduct = ({ show, hide, addToRelatedProducts }) => {
+const SelectProduct = ({ show, hide, addToRelatedProducts, selectedRelatedProductsIds }) => {
   const [products, setProducts] = useState([]);
   const [input, setInput] = useState("");
   const [filteredProducts, setFilteredProducts] = useState([]);
@@ -31,6 +31,7 @@ const SelectProduct = ({ show, hide, addToRelatedProducts }) => {
 
       setProducts(() => response.data);
       setFilteredProducts(() => response.data);
+
     };
 
     getProducts();
@@ -84,8 +85,8 @@ const SelectProduct = ({ show, hide, addToRelatedProducts }) => {
             columnSpacing={{ xs: 2, sm: 3, md: 4 }}
           >
             {filteredProducts.map((p) => (
-              <Grid item xs={12} sm={6} key={p.id} className={styles.container}>
-                <Item onClick={() => onItemSelect(p)} className={styles.item}>
+              <Grid item xs={12} sm={6} key={p.id} >
+                <Item onClick={() => onItemSelect(p)}   className={`${styles.item}  ${selectedRelatedProductsIds !== undefined && selectedRelatedProductsIds.includes(p._id) ? styles.selectedItem : ''}`} >
                   <img className={styles.img} src={image} alt={p.name} />
                   <p>{p.name}</p>
                 </Item>

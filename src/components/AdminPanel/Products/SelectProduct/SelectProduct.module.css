@@ -18,6 +18,7 @@
     height: 2em;
 }
 
+
 .item p{
     font-weight: 600;
 }
@@ -25,4 +26,9 @@
 .item:hover{
     color: white;
     background-color: rgb(230, 163, 124);
+}
+
+.selectedItem {
+    background-color: rgb(230, 163, 124) !important;
+    color: white !important;
 }

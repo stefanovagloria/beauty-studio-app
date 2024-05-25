@@ -29,7 +29,9 @@ const AddProduct = ({
   const [showInputs, setShowInputs] = useState(false);
   const [currentInputs, setCurrentInputs] = useState({ key: "", value: "" });
   const [showProducts, setShowProducts] = useState(false);
-  const [selectedRelatedProductsIds, setSelectedRelatedProductsIds] = useState([]);
+  const [selectedRelatedProductsIds, setSelectedRelatedProductsIds] = useState(
+    []
+  );
 
   useEffect(() => {
     if (Object.keys(selectedProduct).length !== 0) {
@@ -148,10 +150,24 @@ const AddProduct = ({
   };
 
   const addToRelatedProducts = (product) => {
-    console.log(product);
-    const relatedProductsArr = productsValues.relatedProducts;
-    
-   
+    if (!selectedRelatedProductsIds.includes(product._id)) {
+      const relatedProductsArr = productsValues.relatedProducts;
+      const updatedRelatedProducts = [...relatedProductsArr, product];
+      setProductsValues((values) => ({
+        ...values,
+        relatedProducts: updatedRelatedProducts,
+      }));
+      setSelectedRelatedProductsIds((ids) => [...ids, product._id]);
+    } else {
+      const relatedProductsArr = productsValues.relatedProducts;
+      const updatedRelatedProducts = relatedProductsArr.filter((p) => p._id !== product._id);
+      setProductsValues((values) => ({
+        ...values,
+        relatedProducts: updatedRelatedProducts,
+      }));
+     const updatedIds = selectedRelatedProductsIds.filter((id) => id !== product._id);
+     setSelectedRelatedProductsIds(updatedIds);
+    }
   };
 
   return (
@@ -293,7 +309,7 @@ const AddProduct = ({
           show={showProducts}
           hide={hideAllProducts}
           addToRelatedProducts={addToRelatedProducts}
-          selecteProductsIds={productsValues.relatedProducts.map((p) => p._id)}
+          selectedRelatedProductsIds={selectedRelatedProductsIds}
         />
       )}
     </Dialog>
