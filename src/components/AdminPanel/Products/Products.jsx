@@ -74,7 +74,7 @@ const Products = () => {
             <AddProduct
               show={showModal}
               hide={onCloseClickHandler}
-              categoryId={selectedCategory && selectedCategory._id ? selectedCategory._id : ""}
+              category={selectedCategory}
               selectedProduct={selectedProduct}
               updateProducts={updateProducts}
             />

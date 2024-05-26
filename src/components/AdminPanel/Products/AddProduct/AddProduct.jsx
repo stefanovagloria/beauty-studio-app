@@ -8,15 +8,29 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import SelectProduct from "../SelectProduct/SelectProduct";
 
+import { styled } from "@mui/material/styles";
+
+const CustomButton = styled(Button)(({ theme }) => ({
+  backgroundColor: "rgb(148, 72, 220)",
+  maxWidth: "15em",
+  color: "white",
+  padding: "1em 1.5em",
+  margin: "0em 0.7em",
+  cursor: "pointer",
+  "&:hover": {
+    backgroundColor: "rgb(190, 90, 220)",
+  },
+}));
+
 const AddProduct = ({
   show,
   hide,
-  categoryId,
+  category,
   selectedProduct,
   updateProducts,
 }) => {
   const [productsValues, setProductsValues] = useState({
-    category: categoryId,
+    category: category._id,
     name: "",
     photos: [],
     price: "",
@@ -39,7 +53,7 @@ const AddProduct = ({
       setCurrentInputs(selectedProduct.characteristics);
     } else {
       setProductsValues({
-        category: categoryId,
+        category: category._id,
         name: "",
         photos: [],
         price: "",
@@ -182,8 +196,8 @@ const AddProduct = ({
           className={styles.container}
           onSubmit={selectedProduct._id ? onEditHandler : onSubmitHandler}
         >
-          <div className={styles.fields}>
-            <label htmlFor="name">Име на процедура:</label>
+          <div className={styles.fields} style={{textAlign: 'center'}}>
+            <label htmlFor="name">Име на продукт:</label>
             <input
               id="name"
               name="name"
@@ -204,7 +218,7 @@ const AddProduct = ({
               <span key={index}>{photos.name}</span>
             ))}
           </div>
-          <div>
+          <div className={styles.fields}>
             <label htmlFor="price">Цена:</label>
             <input
               id="price"
@@ -214,7 +228,7 @@ const AddProduct = ({
               required
             />
           </div>
-          <div>
+          <div className={styles.fields}>
             <label htmlFor="promoPrice">Промоционална цена:</label>
             <input
               id="promoPrice"
@@ -260,7 +274,7 @@ const AddProduct = ({
                     )
                 )}
 
-              <Button onClick={onAddClickHandler}>Add</Button>
+              <CustomButton onClick={onAddClickHandler}>Add</CustomButton>
 
               {showInputs && (
                 <div>
@@ -291,16 +305,21 @@ const AddProduct = ({
           <div className={styles.fields}>
             Сходни продукти:
             <div>
-              <Button onClick={showAllProducts}>+</Button>
+              <CustomButton onClick={showAllProducts}>+</CustomButton>
+            </div>
+            <div>
+              {productsValues.relatedProducts && productsValues.relatedProducts.map((p) => (
+                 <CustomButton style={{border: '1px solid blue', margin: '0.2em'}} key={p._id}>{p.name}</CustomButton>
+              ))}
             </div>
           </div>
           <DialogActions>
-            <Button autoFocus onClick={hide}>
+            <CustomButton autoFocus onClick={hide}>
               Отказ
-            </Button>
-            <Button autoFocus type="submit">
+            </CustomButton>
+            <CustomButton autoFocus type="submit">
               Запази продукт
-            </Button>
+            </CustomButton>
           </DialogActions>
         </form>
       </DialogContent>

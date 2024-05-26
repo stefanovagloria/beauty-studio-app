@@ -101,7 +101,6 @@ const AddProcedure = ({
   };
 
   const onAddSubmitHandler = async (e) => {
-    console.log("onAddSubmitHandler..");
 
     e.preventDefault();
     await handleImageUpload();
@@ -285,7 +284,7 @@ const AddProcedure = ({
                     )
                 )}
 
-              <Button onClick={() => setShowInputs(true)}>Add</Button>
+              <CustomButton onClick={() => setShowInputs(true)}>Add</CustomButton>
 
               {showInputs && (
                 <div>
