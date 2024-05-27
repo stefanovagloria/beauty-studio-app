@@ -5,6 +5,11 @@
     flex-wrap: wrap; /* Allow flex items to wrap onto multiple lines */
 }
 
+.card:hover{
+   background-color: rgb(234, 226, 226);
+   cursor: pointer;
+}
+
 .btnContainer {
     padding: 3em 2em;
     max-width: 5em;

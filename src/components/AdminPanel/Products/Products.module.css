@@ -1,22 +1,21 @@
 .container{
     display: flex;
     flex-direction: row;
+    height: 250px;
+    align-items: center;
 }
 
 .btnContainer {
-   padding: 3em 2em;
-   width: 5em;
-   height: 2.7em;
-   margin: 1em 1em;
-   text-align: center;
-   cursor: pointer;
-}
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 25px;
+    cursor: pointer; /* Change cursor to pointer on hover */
+  }
+
+
 
 .btnContainer:hover{
     background-color: rgb(245, 240, 240);
-}
-
-.btn{
-    font-size: 3em;
-    font-weight: bolder;
 }

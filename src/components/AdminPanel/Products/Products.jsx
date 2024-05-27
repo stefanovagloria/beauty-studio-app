@@ -69,7 +69,7 @@ const Products = () => {
               className={styles.btnContainer}
               onClick={() => setShowModal(true)}
             >
-              <span className={styles.btn}>+</span>
+             +
             </Card>
             <AddProduct
               show={showModal}

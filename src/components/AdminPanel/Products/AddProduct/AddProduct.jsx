@@ -5,6 +5,7 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import Input from "@mui/material/Input";
+import { TextField } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState, useRef } from "react";
 import SelectProduct from "../SelectProduct/SelectProduct";
@@ -22,6 +23,17 @@ const CustomButton = styled(Button)(({ theme }) => ({
   "&:hover": {
     backgroundColor: "rgb(190, 90, 220)",
   },
+}));
+
+const AddButton = styled(Button)(({ theme }) => ({
+  backgroundColor: "white",
+  color: "black",
+  border: "1px solid black",
+  borderRadius: "0.5em",
+  padding: "3.3em",
+  maxWidth: "7em",
+  height: "auto",
+  fontWeight: "bold",
 }));
 
 const AddProduct = ({
@@ -108,8 +120,6 @@ const AddProduct = ({
         ...values,
         [inputName]: [...values[inputName], e.target.files[0]],
       }));
-
-      console.log(productsValues.photos);
     }
   };
 
@@ -204,13 +214,11 @@ const AddProduct = ({
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        height: "700px",
       }}
     >
-      <DialogContent>
-        <form
-          className={styles.container}
-          onSubmit={selectedProduct._id ? onEditHandler : onSubmitHandler}
-        >
+      <DialogContent className={styles.container}>
+        <form onSubmit={selectedProduct._id ? onEditHandler : onSubmitHandler}>
           <div>
             <h3 className={styles.categoryName}>{category.name}</h3>
           </div>
@@ -224,15 +232,16 @@ const AddProduct = ({
             <Input
               placeholder="Име на продукт"
               color="secondary"
-              style={{ textAlign: "center" }}
+              style={{ textAlign: "center", width: "200px" }}
               id="name"
               name="name"
               value={productsValues.name}
               onChange={onChangeHandler}
+              className={styles.productName}
               required
             />
           </div>
-          <div className={styles.fields}>
+          <div>
             <label htmlFor="photos"> Снимки на продукта</label>
             <input
               ref={inputRef}
@@ -243,34 +252,21 @@ const AddProduct = ({
               onChange={onChangeHandler}
             />
             <div className={styles.photosContainer}>
-                {productsValues.photos.map((p) => (
-                  <img src={productsImage} className={styles.photoCard} />
-                ))}
+              {productsValues.photos.map((p) => (
+                <img src={productsImage} className={styles.photoCard} />
+              ))}
               <div>
-                <Button
-                  onClick={() => inputRef.current.click()}
-                  style={{
-                    backgroundColor: "white",
-                    color: "black",
-                    border: "1px solid black",
-                    padding: "3.3em",
-                    maxWidth: "7em",
-                    height: "auto",
-                    fontWeight: "bold",
-                  }}
-                >
+                <AddButton onClick={() => inputRef.current.click()}>
                   +
-                </Button>
+                </AddButton>
               </div>
             </div>
-
-            {productsValues.photos.map((photos, index) => (
-              <span key={index}>{photos.name}</span>
-            ))}
           </div>
-          <div className={styles.fields}>
+          <div style={{ paddingTop: "1em" }}>
             <label htmlFor="price">Цена:</label>
-            <input
+            <Input
+              color="secondary"
+              style={{ textAlign: "center", width: "70px" }}
               id="price"
               name="price"
               value={productsValues.price}
@@ -278,9 +274,11 @@ const AddProduct = ({
               required
             />
           </div>
-          <div className={styles.fields}>
+          <div style={{ paddingTop: "1em" }}>
             <label htmlFor="promoPrice">Промоционална цена:</label>
-            <input
+            <Input
+              color="secondary"
+              style={{ textAlign: "center", width: "70px" }}
               id="promoPrice"
               name="promoPrice"
               value={productsValues.promoPrice || ""}
@@ -297,76 +295,98 @@ const AddProduct = ({
                   (ch, index) =>
                     ch.key !== "" && (
                       <div key={index}>
-                        <input
-                          value={ch.key}
-                          onChange={(e) =>
-                            onCharacteristicsChange(
-                              e,
-                              index,
-                              e.target.value,
-                              ch.value
-                            )
-                          }
-                        />
-                        <input
-                          value={ch.value}
-                          onChange={(e) =>
-                            onCharacteristicsChange(
-                              e,
-                              index,
-                              ch.key,
-                              e.target.value
-                            )
-                          }
-                        />
-                        <Button onClick={() => onRemove(index)}>Remove</Button>
+                        <span>{ch.key}</span>
+                        <span>:</span>
+                        <span>{ch.value}</span>
+                        <Button
+                          onClick={() => onRemove(index)}
+                          style={{
+                            backgroundColor: "white",
+                            color: "black",
+                            border: "1px solid black",
+                            borderRadius: "0.5em",
+                          }}
+                        >
+                          X
+                        </Button>
                       </div>
                     )
                 )}
-
-              <CustomButton onClick={onAddClickHandler}>Add</CustomButton>
+              <Button
+                onClick={onAddClickHandler}
+                style={{
+                  backgroundColor: "white",
+                  color: "black",
+                  border: "1px solid black",
+                  borderRadius: "0.5em",
+                  fontWeight: "bold",
+                }}
+              >
+                +
+              </Button>
 
               {showInputs && (
                 <div>
-                  <input
+                  <Input
                     value={currentInputs.key}
+                    color="secondary"
                     name="key"
                     onChange={(e) => onCharacteristicsChange(e)}
+                    style={{ marginRight: "1em", width: "12em" }}
                   />
-                  <input
+                  <Input
                     value={currentInputs.value}
+                    color="secondary"
                     name="value"
                     onChange={(e) => onCharacteristicsChange(e)}
+                    style={{ marginRight: "1em", width: "7em" }}
                   />
-                  <Button onClick={onSave}>Save</Button>
+                  <Button
+                    onClick={onSave}
+                    style={{
+                      backgroundColor: "white",
+                      color: "black",
+                      border: "1px solid black",
+                      borderRadius: "0.5em",
+                    }}
+                  >
+                    Запази
+                  </Button>
                 </div>
               )}
             </div>
           </div>
           <div className={styles.fields}>
-            <label htmlFor="description">Описание на продукт:</label>
-            <textarea
+            <TextField
               id="description"
+              color="secondary"
               name="description"
+              label="Въведи описание на продукта.."
+              multiline
+              maxRows={5}
               value={productsValues.description}
               onChange={onChangeHandler}
             />
           </div>
           <div className={styles.fields}>
             Сходни продукти:
-            <div>
-              <CustomButton onClick={showAllProducts}>+</CustomButton>
-            </div>
-            <div>
-              {productsValues.relatedProducts &&
-                productsValues.relatedProducts.map((p) => (
-                  <CustomButton
-                    style={{ border: "1px solid blue", margin: "0.2em" }}
-                    key={p._id}
-                  >
-                    {p.name}
-                  </CustomButton>
-                ))}
+            <div className={styles.relatedProductsContainer}>
+              {productsValues.relatedProducts.map((p) => (
+                <img src={productsImage} className={styles.relatedProductImg} />
+              ))}
+              <Button
+                style={{
+                  height: "100%",
+                  backgroundColor: "white",
+                  color: "black",
+                  border: "1px solid black",
+                  borderRadius: "0.5em",
+                  fontWeight: "bold",
+                }}
+                onClick={showAllProducts}
+              >
+                +
+              </Button>
             </div>
           </div>
           <DialogActions>
