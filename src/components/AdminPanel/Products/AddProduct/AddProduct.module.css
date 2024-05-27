@@ -1,9 +1,27 @@
+label{
+    font-weight: bold;
+}
 
 .container {
     width: 35em; /* Adjust the width as needed */
     height: 35em;
     max-width: none;
     margin: auto;
+}
+
+.photosContainer{
+    display: flex;
+    align-items: center;
+    height: 120px;
+}
+
+.photoCard{
+    width: 113px;
+    object-fit: cover;
+    height: 100%;
+    display: block;
+    border-radius: 3px;
+    margin-right: 1em;
 }
 
 .fields{
@@ -16,6 +34,10 @@
     font-weight: bold;
     text-align: center;
     margin-bottom: 0.5em;
+}
+
+.categoryName{
+    text-align: center;
 }
 
 .category{

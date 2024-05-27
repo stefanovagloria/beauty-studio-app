@@ -4,11 +4,13 @@ import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
+import Input from "@mui/material/Input";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import SelectProduct from "../SelectProduct/SelectProduct";
 
 import { styled } from "@mui/material/styles";
+import productsImage from "../../../../assets/productsImage.png";
 
 const CustomButton = styled(Button)(({ theme }) => ({
   backgroundColor: "rgb(148, 72, 220)",
@@ -39,6 +41,8 @@ const AddProduct = ({
     description: "",
     relatedProducts: [],
   });
+
+  const inputRef = useRef(null);
 
   const [showInputs, setShowInputs] = useState(false);
   const [currentInputs, setCurrentInputs] = useState({ key: "", value: "" });
@@ -104,6 +108,8 @@ const AddProduct = ({
         ...values,
         [inputName]: [...values[inputName], e.target.files[0]],
       }));
+
+      console.log(productsValues.photos);
     }
   };
 
@@ -174,13 +180,17 @@ const AddProduct = ({
       setSelectedRelatedProductsIds((ids) => [...ids, product._id]);
     } else {
       const relatedProductsArr = productsValues.relatedProducts;
-      const updatedRelatedProducts = relatedProductsArr.filter((p) => p._id !== product._id);
+      const updatedRelatedProducts = relatedProductsArr.filter(
+        (p) => p._id !== product._id
+      );
       setProductsValues((values) => ({
         ...values,
         relatedProducts: updatedRelatedProducts,
       }));
-     const updatedIds = selectedRelatedProductsIds.filter((id) => id !== product._id);
-     setSelectedRelatedProductsIds(updatedIds);
+      const updatedIds = selectedRelatedProductsIds.filter(
+        (id) => id !== product._id
+      );
+      setSelectedRelatedProductsIds(updatedIds);
     }
   };
 
@@ -190,15 +200,31 @@ const AddProduct = ({
       open={show}
       onClose={hide}
       aria-labelledby="responsive-dialog-title"
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
     >
       <DialogContent>
         <form
           className={styles.container}
           onSubmit={selectedProduct._id ? onEditHandler : onSubmitHandler}
         >
-          <div className={styles.fields} style={{textAlign: 'center'}}>
-            <label htmlFor="name">Име на продукт:</label>
-            <input
+          <div>
+            <h3 className={styles.categoryName}>{category.name}</h3>
+          </div>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Input
+              placeholder="Име на продукт"
+              color="secondary"
+              style={{ textAlign: "center" }}
               id="name"
               name="name"
               value={productsValues.name}
@@ -207,13 +233,37 @@ const AddProduct = ({
             />
           </div>
           <div className={styles.fields}>
-            <label htmlFor="photos"> Снимки на процедурата</label>
+            <label htmlFor="photos"> Снимки на продукта</label>
             <input
+              ref={inputRef}
               id="photos"
               name="photos"
               type="file"
+              hidden
               onChange={onChangeHandler}
             />
+            <div className={styles.photosContainer}>
+                {productsValues.photos.map((p) => (
+                  <img src={productsImage} className={styles.photoCard} />
+                ))}
+              <div>
+                <Button
+                  onClick={() => inputRef.current.click()}
+                  style={{
+                    backgroundColor: "white",
+                    color: "black",
+                    border: "1px solid black",
+                    padding: "3.3em",
+                    maxWidth: "7em",
+                    height: "auto",
+                    fontWeight: "bold",
+                  }}
+                >
+                  +
+                </Button>
+              </div>
+            </div>
+
             {productsValues.photos.map((photos, index) => (
               <span key={index}>{photos.name}</span>
             ))}
@@ -308,9 +358,15 @@ const AddProduct = ({
               <CustomButton onClick={showAllProducts}>+</CustomButton>
             </div>
             <div>
-              {productsValues.relatedProducts && productsValues.relatedProducts.map((p) => (
-                 <CustomButton style={{border: '1px solid blue', margin: '0.2em'}} key={p._id}>{p.name}</CustomButton>
-              ))}
+              {productsValues.relatedProducts &&
+                productsValues.relatedProducts.map((p) => (
+                  <CustomButton
+                    style={{ border: "1px solid blue", margin: "0.2em" }}
+                    key={p._id}
+                  >
+                    {p.name}
+                  </CustomButton>
+                ))}
             </div>
           </div>
           <DialogActions>
