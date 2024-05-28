@@ -13,18 +13,10 @@ const ProcedureItem = ({ procedure }) => {
   return (
     <Card sx={{ maxWidth: 400 }}>
       <CardActionArea>
-        <CardMedia
-          component="img"
-          height="300"
-          width="auto"
-          image={image}
-        />
+        <CardMedia component="img" height="300" width="auto" image={image} />
         <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
+          <Typography gutterBottom variant="h5" component="div" style={{textAlign: 'center'}}>
             {procedure.name}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            {procedure.description}
           </Typography>
         </CardContent>
       </CardActionArea>

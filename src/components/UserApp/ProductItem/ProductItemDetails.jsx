@@ -30,6 +30,7 @@ const ProductItemDetails = () => {
     const getProduct = async () => {
       const response = await axios.get(`http://localhost:4000/products/${id}`);
       setProduct(() => response.data);
+      console.log(response.data)
     };
 
     getProduct();
@@ -73,6 +74,9 @@ const ProductItemDetails = () => {
         <div>
           <p className={styles.name}>{product.name}</p>
           <p>Характеристики</p>
+          {product.characteristics.map((ch) => (
+            <p>{ch.key} : {ch.value}</p>
+          ))}
           <p className={styles.price}>{product.price} лв</p>
           <TextField
             className={styles.inputField}
