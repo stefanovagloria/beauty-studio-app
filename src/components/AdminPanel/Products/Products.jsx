@@ -4,8 +4,8 @@ import AddProduct from "./AddProduct/AddProduct";
 import ProductsList from "./ProductsList/ProductsList";
 import CategoriesList from "../Procedures/CategoriesList/CategoriesList";
 
-import Card from "@mui/material/Card";
 import styles from "./Products.module.css";
+import Card from "@mui/material/Card";
 import axios from "axios";
 
 const Products = () => {

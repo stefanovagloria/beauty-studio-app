@@ -1,0 +1,12 @@
+.title{
+    text-align: center;
+}
+
+.card{
+    cursor: pointer;
+    text-align: center;
+}
+
+.card:hover{
+    opacity: 0.6;
+}

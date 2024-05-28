@@ -1,29 +1,69 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import axios from "axios";
+
+import { Grid, Container, CssBaseline } from "@mui/material";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import CardMedia from "@mui/material/CardMedia";
+import Typography from "@mui/material/Typography";
+
+import styles from './Categories.module.css';
+import image from "../../../assets/productsImage.png";
+
 
 const Categories = () => {
   const { id } = useParams();
+  const [category, setCategory] = useState("");
   const [procedures, setProcedures] = useState([]);
 
   useEffect(() => {
     const getProcedures = async () => {
-      const response = await axios.get(
-        `http://localhost:4000/procedures/${id}`
-      );
-      setProcedures(response.data);
+      const [proceduresResponse, categoryResponse] = await Promise.all([
+        axios.get(`http://localhost:4000/procedures/${id}`),
+        axios.get(`http://localhost:4000/admin/categories/${id}`),
+      ]);
+      setProcedures(proceduresResponse.data);
+      setCategory(categoryResponse.data.name);
     };
 
     getProcedures();
   }, [id]);
 
-
-  return <>
-  <h1>Categories</h1>
-  {procedures && procedures.map((p) => (
-    <p key={p._id}>{p.name}</p>
-  ))}
-  </>;
+  return (
+    <>
+      <h2 className={styles.title}>Категория - {category}</h2>
+      <Container>
+        <CssBaseline />
+        <Grid container rowSpacing={1} columnSpacing={5} style={{ height: "400px" }}>
+          {procedures &&
+            procedures.map((p) => (
+              <Grid
+                key={p._id}
+                item
+                xs={12}
+                sm={6}
+                md={4}
+                style={{ height: "100%" }}
+              >
+                <Card sx={{ maxWidth: 345 }} className={styles.card}>
+                  <CardMedia
+                    sx={{ height: 140 }}
+                    image={image}
+                    title={p.name}
+                  />
+                  <CardContent>
+                    <Typography gutterBottom variant="h6" component="div">
+                      {p.name}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+            ))}
+        </Grid>
+      </Container>
+    </>
+  );
 };
 
 export default Categories;
