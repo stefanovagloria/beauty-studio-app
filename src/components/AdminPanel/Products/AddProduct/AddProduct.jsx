@@ -130,6 +130,11 @@ const AddProduct = ({
   const onSubmitHandler = async (e) => {
     e.preventDefault();
 
+    const characteristics = productsValues.characteristics;
+    const updatedCharacteristics = characteristics.filter((ch) => ch.key !== '');
+
+    setProductsValues((values) => ({...values, characteristics: updatedCharacteristics}))
+
     const response = await axios.post(
       "http://localhost:4000/admin/products",
       productsValues

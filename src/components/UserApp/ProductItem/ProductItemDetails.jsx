@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 
 import styles from "./ProductItemDetails.module.css";
 import image from "../../../assets/productsImage.png";
 import { styled } from "@mui/system";
 import { Button, TextField } from "@mui/material";
-import { or } from "firebase/firestore/lite";
 
 const CustomButton = styled(Button)({
   margin: "2em",
@@ -30,7 +29,7 @@ const ProductItemDetails = () => {
     const getProduct = async () => {
       const response = await axios.get(`http://localhost:4000/products/${id}`);
       setProduct(() => response.data);
-      console.log(response.data)
+      console.log(response.data);
     };
 
     getProduct();
@@ -74,9 +73,13 @@ const ProductItemDetails = () => {
         <div>
           <p className={styles.name}>{product.name}</p>
           <p>Характеристики</p>
-          {product.characteristics.map((ch) => (
-            <p>{ch.key} : {ch.value}</p>
-          ))}
+          {product.characteristics &&
+            product.characteristics.length > 0 &&
+            product.characteristics.map((ch) => (
+              <p>
+                {ch.key} : {ch.value}
+              </p>
+            ))}
           <p className={styles.price}>{product.price} лв</p>
           <TextField
             className={styles.inputField}
@@ -102,6 +105,19 @@ const ProductItemDetails = () => {
       </div>
       <div>
         <p>Сходни продукти:</p>
+        <div style={{ height: "100px", marginBottom: '2em' }}>
+          {product.relatedProducts &&
+            product.relatedProducts.length > 0 &&
+            product.relatedProducts.map((p) => (
+              <Link to={`/products/${p._id}`}>
+                <img
+                  src={image}
+                  className={styles.relatedImg}
+                 
+                />
+              </Link>
+            ))}
+        </div>
       </div>
     </div>
   );
