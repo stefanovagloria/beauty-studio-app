@@ -1,23 +1,34 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+
+import styles from "./LoginForm.module.css";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 
-import styles from "./LoginForm.module.css";
-import { useState } from "react";
-
-const LoginForm = ({loginHandler}) => {
+const LoginForm = () => {
   const [values, setValues] = useState({
-    usernameValue: "",
+    emailValue: "",
     passwordValue: "",
   });
 
-  const onSubmitHandler = (e) => {
-    e.preventDefault();
-
-    loginHandler(values.usernameValue, values.passwordValue)
-  };
+  const navigate = useNavigate();
 
   const onChangeHandler = (e) => {
     setValues((values) => ({ ...values, [e.target.name]: e.target.value }));
+  };
+
+  const onSubmitHandler = async (e) => {
+    e.preventDefault();
+
+    const response = await axios.post("http://localhost:4000/admin/login", {
+      email: values.emailValue,
+      password: values.passwordValue,
+    });
+
+    if (response.status === 201) {
+      navigate("/admin");
+    }
   };
 
   return (
@@ -25,11 +36,11 @@ const LoginForm = ({loginHandler}) => {
       <form onSubmit={onSubmitHandler} className={styles.form}>
         <TextField
           id="outlined-basic"
-          label="Username"
+          label="Email"
           variant="outlined"
           size="small"
-          name="usernameValue"
-          value={values.usernameValue}
+          name="emailValue"
+          value={values.emailValue}
           onChange={onChangeHandler}
           className={styles.input}
         />
