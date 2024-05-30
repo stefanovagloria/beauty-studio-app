@@ -7,25 +7,9 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { useEffect, useState } from "react";
 
-import Button from "@mui/material/Button/Button";
-
-import { styled } from "@mui/material/styles";
-
-const CustomButton = styled(Button)(({ theme }) => ({
-  backgroundColor: "rgb(148, 72, 220)",
-  width: "5em",
-  height: "3.5em",
-  color: "white",
-  margin: "0.2em 0.7em",
-  padding: "2em 3em",
-  cursor: "pointer",
-  "&:hover": {
-    backgroundColor: "rgb(190, 90, 220)",
-  },
-}));
-
 const OrderedproductsTable = ({ orderedProducts }) => {
   const [products, setProducts] = useState([]);
+  const [totalSum, setTotalSum] = useState(0);
 
   useEffect(() => {
     if (orderedProducts && orderedProducts.length > 0) {
@@ -33,15 +17,22 @@ const OrderedproductsTable = ({ orderedProducts }) => {
     }
   }, [orderedProducts]);
 
+  useEffect(() => {
+    const sum = products.reduce((total, product) => {
+      return total + product.price * product.quantity;
+    }, 0);
+
+    setTotalSum(sum);
+  }, [products]);
+
   return (
-    <TableContainer component={Paper}  style={{width: '550px'}}>
+    <TableContainer component={Paper} style={{ width: "550px" }}>
       <Table sx={{ width: 550 }} aria-label="simple table">
         <TableHead>
           <TableRow>
             <TableCell align="center">Име</TableCell>
             <TableCell align="center">Цена</TableCell>
             <TableCell align="center">Брой</TableCell>
-            <TableCell align="center">Обща сума</TableCell>
             <TableCell align="center"></TableCell>
           </TableRow>
         </TableHead>
@@ -56,15 +47,17 @@ const OrderedproductsTable = ({ orderedProducts }) => {
               </TableCell>
               <TableCell align="center">{product.price}</TableCell>
               <TableCell align="center">{product.quantity}</TableCell>
-              <TableCell align="center">Обща сума</TableCell>
-
-              <TableCell align="center" sx={{ color: "white" }}>
-                <CustomButton onClick={() => setOpenDetails(true)}>
-                  Преглед{" "}
-                </CustomButton>
+              <TableCell align="center">
+                {product.price * product.quantity}лв
               </TableCell>
             </TableRow>
           ))}
+          <TableRow>
+            <TableCell align="left">Обща сума:</TableCell>
+            <TableCell align="center"></TableCell>
+            <TableCell align="center"></TableCell>
+            <TableCell align="center">{totalSum}лв</TableCell>
+          </TableRow>
         </TableBody>
       </Table>
     </TableContainer>

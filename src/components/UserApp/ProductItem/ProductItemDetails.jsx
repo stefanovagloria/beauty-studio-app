@@ -5,7 +5,7 @@ import axios from "axios";
 import styles from "./ProductItemDetails.module.css";
 import image from "../../../assets/productsImage.png";
 import { styled } from "@mui/system";
-import { Button, TextField } from "@mui/material";
+import { Button, Input } from "@mui/material";
 
 const CustomButton = styled(Button)({
   margin: "2em",
@@ -28,7 +28,10 @@ const ProductItemDetails = () => {
   useEffect(() => {
     const getProduct = async () => {
       const response = await axios.get(`http://localhost:4000/products/${id}`);
-      setProduct(() => response.data);
+      const characteristics = response.data.characteristics;
+      const updatedCharacteristics = characteristics.slice(1);
+      console.log(updatedCharacteristics);
+      setProduct({ ...response.data, characteristics: updatedCharacteristics });
       console.log(response.data);
     };
 
@@ -71,21 +74,20 @@ const ProductItemDetails = () => {
           <img src={image} />
         </div>
         <div>
-          <p className={styles.name}>{product.name}</p>
-          <p>Характеристики</p>
+          <h1 className={styles.name}>{product.name}</h1>
           {product.characteristics &&
             product.characteristics.length > 0 &&
-            product.characteristics.map((ch) => (
-              <p>
+            product.characteristics.map((ch, i) => (
+              <p key={i}>
                 {ch.key} : {ch.value}
               </p>
             ))}
           <p className={styles.price}>{product.price} лв</p>
-          <TextField
+          <Input 
             className={styles.inputField}
             id="outlined-number"
             type="number"
-            size="small"
+            size="smaller"
             InputLabelProps={{
               shrink: true,
             }}
@@ -104,17 +106,13 @@ const ProductItemDetails = () => {
         <p>{product.description}</p>
       </div>
       <div>
-        <p>Сходни продукти:</p>
-        <div style={{ height: "100px", marginBottom: '2em' }}>
+        <p>Сходни продукти</p>
+        <div style={{ height: "100px", marginBottom: "2em" }}>
           {product.relatedProducts &&
             product.relatedProducts.length > 0 &&
             product.relatedProducts.map((p) => (
-              <Link to={`/products/${p._id}`}>
-                <img
-                  src={image}
-                  className={styles.relatedImg}
-                 
-                />
+              <Link to={`/products/${p._id}`} key={p._id}>
+                <img src={image} className={styles.relatedImg} />
               </Link>
             ))}
         </div>

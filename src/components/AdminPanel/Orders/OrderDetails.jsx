@@ -10,6 +10,7 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 
 import { styled } from "@mui/material/styles";
+import styles from "./OrderDetails.module.css";
 import OrderConfirmation from "./OrderConfirmation";
 
 const CustomButton = styled(Button)(({ theme }) => ({
@@ -21,6 +22,18 @@ const CustomButton = styled(Button)(({ theme }) => ({
   padding: "1em 3em",
   border: "0.1em solid black",
   borderRadius: "2em",
+  cursor: "pointer",
+  "&:hover": {
+    backgroundColor: "rgb(190, 90, 220)",
+  },
+}));
+
+const ActionButton = styled(Button)(({ theme }) => ({
+  backgroundColor: "rgb(148, 72, 220)",
+  maxWidth: "15em",
+  color: "white",
+  padding: "1em 1.5em",
+  margin: "0em 0.7em",
   cursor: "pointer",
   "&:hover": {
     backgroundColor: "rgb(190, 90, 220)",
@@ -77,6 +90,7 @@ const OrderDetails = ({ open, closeDetails, order, updateOrder }) => {
         scroll={"paper"}
         aria-labelledby="scroll-dialog-title"
         aria-describedby="scroll-dialog-description"
+        className={styles.container}
       >
         <DialogTitle id="scroll-dialog-title" align="center">
           Поръчка Номер 3
@@ -87,17 +101,20 @@ const OrderDetails = ({ open, closeDetails, order, updateOrder }) => {
             ref={descriptionElementRef}
             tabIndex={-1}
           >
-            <div>
+            <div className={styles.status}>
               Статус:{" "}
-              <CustomButton onClick={openModalHandler} disabled={order.status === 'изпратена'}>
+              <CustomButton
+                onClick={openModalHandler}
+                disabled={order.status === "изпратена"}
+              >
                 {order.status}
               </CustomButton>
             </div>
             <div>
-              Продукти:
+              <div className={styles.products}>Продукти</div>
               <OrderedProductsTable orderedProducts={order.products} />
             </div>
-            <div>Доставка: 5лв</div>
+            <div className={styles.delivery}>Доставка: 5лв</div>
             <div>
               Данни за доставка:
               <div>
@@ -114,8 +131,13 @@ const OrderDetails = ({ open, closeDetails, order, updateOrder }) => {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={closeDetails}>Затвори</Button>
-          <Button onClick={closeDetails}>Изпрати имейл потвърждение</Button>
+          <ActionButton onClick={closeDetails}>Затвори</ActionButton>
+          <ActionButton
+            onClick={closeDetails}
+            style={{ width: "40em", height: "3.8em" }}
+          >
+            Изпрати имейл потвърждение
+          </ActionButton>
         </DialogActions>
         {openModal && (
           <OrderConfirmation

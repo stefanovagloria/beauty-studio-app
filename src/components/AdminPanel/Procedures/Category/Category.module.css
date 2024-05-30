@@ -2,4 +2,9 @@
     padding: 1em 6em;
     margin: 1em;
     cursor: pointer;
+    background:none;
+}
+
+.button:hover{
+    box-shadow: 0px 0px 10px rgba(91, 20, 91, 0.5); 
 }

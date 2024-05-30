@@ -132,6 +132,7 @@ const AddProduct = ({
 
     const characteristics = productsValues.characteristics;
     const updatedCharacteristics = characteristics.filter((ch) => ch.key !== '');
+    console.log(updatedCharacteristics)
 
     setProductsValues((values) => ({...values, characteristics: updatedCharacteristics}))
 
@@ -338,6 +339,7 @@ const AddProduct = ({
                     name="key"
                     onChange={(e) => onCharacteristicsChange(e)}
                     style={{ marginRight: "1em", width: "12em" }}
+                    
                   />
                   <Input
                     value={currentInputs.value}
@@ -345,6 +347,7 @@ const AddProduct = ({
                     name="value"
                     onChange={(e) => onCharacteristicsChange(e)}
                     style={{ marginRight: "1em", width: "7em" }}
+                    
                   />
                   <Button
                     onClick={onSave}
@@ -354,6 +357,7 @@ const AddProduct = ({
                       border: "1px solid black",
                       borderRadius: "0.5em",
                     }}
+                    disabled={currentInputs.key === '' || currentInputs.value === ''}
                   >
                     Запази
                   </Button>
@@ -377,7 +381,7 @@ const AddProduct = ({
             Сходни продукти:
             <div className={styles.relatedProductsContainer}>
               {productsValues.relatedProducts.map((p) => (
-                <img src={productsImage} className={styles.relatedProductImg} />
+                <img key={p._id} src={productsImage} className={styles.relatedProductImg} />
               ))}
               <Button
                 style={{

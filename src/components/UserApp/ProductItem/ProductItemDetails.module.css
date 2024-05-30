@@ -13,7 +13,8 @@
      align-items: center;
      gap: 100px;
      margin-top: 1em;
-     width: 100%;
+     margin-left: 20em;
+     width: 80%;
  }
  img{
      width: 450px;
@@ -25,6 +26,8 @@
     height: 100%;
     width: 100px;
     object-fit: cover;
+    margin-right: 1em;
+    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.5);
  }
 
  .relatedImg:hover{
@@ -36,13 +39,12 @@
  }
  
  
- 
  .price{
      text-align: center;
      font-weight: bold;
  }
  
- .name{
-     font-weight: bold;
-     font-size: 1.5em;
+
+ .inputField{
+    width: 100px;
  }

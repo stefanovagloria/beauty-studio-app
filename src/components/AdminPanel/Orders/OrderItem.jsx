@@ -5,6 +5,8 @@ import { styled } from "@mui/material/styles";
 import { useState } from "react";
 import OrderDetails from "./OrderDetails";
 
+import styles from './OrderItem.module.css';
+
 const CustomButton = styled(Button)(({ theme }) => ({
   backgroundColor: "rgb(148, 72, 220)",
   width: "5em",
@@ -32,6 +34,7 @@ const OrderItem = ({ order, updateOrder }) => {
       <TableRow
         key={order._id}
         sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+        className={styles.row}
       >
         <TableCell component="th" scope="row">
           {order.status}

@@ -1,0 +1,4 @@
+.row:hover{
+    box-shadow: 0px 0px 15px rgba(133, 59, 133, 0.5); 
+    font-size: bold;
+}
