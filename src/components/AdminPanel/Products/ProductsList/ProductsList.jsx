@@ -9,7 +9,7 @@ const ProductsList = ({ products, selectProduct }) => {
   return (
     <>
       {products.map((p) => (
-        <Card sx={{ maxWidth: 345 }} className={styles.card}>
+        <Card sx={{ maxWidth: 345 }} className={styles.card} key={p._id}>
           <CardMedia sx={{ height: 140 }} image={image}/>
           <CardContent>
             <Typography gutterBottom variant="h5" component="div">

@@ -92,8 +92,9 @@ const OrderDetails = ({ open, closeDetails, order, updateOrder }) => {
         aria-describedby="scroll-dialog-description"
         className={styles.container}
       >
-        <DialogTitle id="scroll-dialog-title" align="center">
-          Поръчка Номер 3
+        <DialogTitle id="scroll-dialog-title" align="center" className={styles.title}>
+          <p className={styles.orderNumber}> Поръчка Номер 3 </p>
+          <button className={styles.closeBtn} onClick={closeDetails}>X</button>
         </DialogTitle>
         <DialogContent dividers={scroll === "paper"}>
           <DialogContentText
