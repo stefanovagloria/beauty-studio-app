@@ -7,6 +7,7 @@ import Articles from "../Articles/Articles";
 import Orders from "../Orders/Orders";
 
 import Button from "@mui/material/Button";
+import LogoutIcon from "@mui/icons-material/Logout";
 import { styled } from "@mui/material/styles";
 import styles from "./AdminHomePage.module.css";
 
@@ -23,8 +24,21 @@ const CustomButton = styled(Button)(({ theme }) => ({
 }));
 
 const AdminHomePage = () => {
+  const logout = () => {};
   return (
     <>
+      <div className={styles.logoutContainer}>
+        <Button
+          onClick={logout}
+          variant="contained"
+          color="secondary"
+          startIcon={<LogoutIcon />}
+          className={styles.logoutBtn}
+        >
+          Logout
+        </Button>
+      </div>
+
       <div className={styles.container}>
         <Link to="/admin/procedures">
           <CustomButton variant="contained" size="large">
@@ -47,11 +61,12 @@ const AdminHomePage = () => {
           </CustomButton>
         </Link>
         <Link to="/admin/orders">
-        <CustomButton variant="contained" size="large">
-          ПОРЪЧКИ
-        </CustomButton>
+          <CustomButton variant="contained" size="large">
+            ПОРЪЧКИ
+          </CustomButton>
         </Link>
       </div>
+
       <Routes>
         <Route path="/procedures/*" element={<Procedures />} />
         <Route path="/products/*" element={<Products />} />
