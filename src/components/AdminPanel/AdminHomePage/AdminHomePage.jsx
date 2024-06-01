@@ -10,6 +10,10 @@ import Button from "@mui/material/Button";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { styled } from "@mui/material/styles";
 import styles from "./AdminHomePage.module.css";
+import axios from "axios";
+
+import { AuthContext } from "../../../context/AuthContext.jsX";
+import { useContext } from "react";
 
 const CustomButton = styled(Button)(({ theme }) => ({
   backgroundColor: "rgb(148, 72, 220)",
@@ -24,7 +28,7 @@ const CustomButton = styled(Button)(({ theme }) => ({
 }));
 
 const AdminHomePage = () => {
-  const logout = () => {};
+  const { logout } = useContext(AuthContext);
   return (
     <>
       <div className={styles.logoutContainer}>

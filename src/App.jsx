@@ -2,17 +2,18 @@ import { Routes, Route } from "react-router-dom";
 import UserApp from "./components/UserApp/UserApp";
 
 import "./App.css";
-import LoginForm from "./components/AdminPanel/LoginForm/LoginForm";
-import AdminHomePage from "./components/AdminPanel/AdminHomePage/AdminHomePage";
 
+import AuthProvider from "./context/AuthContext.jsX";
+import AdminLogin from "./components/AdminPanel/LoginForm/AdminLogin";
 
 function App() {
   return (
-    <Routes>
-      <Route path="/*" element={<UserApp />} />
-      <Route path="/admin/login" element={<LoginForm />} />
-      <Route path="/admin/*" element={<AdminHomePage />} />
-    </Routes>
+    <AuthProvider>
+      <Routes>
+        <Route path="/admin/*" element={<AdminLogin />} />
+        <Route path="/*" element={<UserApp />} />
+      </Routes>
+    </AuthProvider>
   );
 }
 
