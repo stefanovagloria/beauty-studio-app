@@ -32,7 +32,7 @@ const AdminLogin = () => {
     console.log("response", response);
 
     if (response.success) {
-      navigate("/admin/home");
+      navigate("/admin");
     }
   };
 
@@ -66,9 +66,7 @@ const AdminLogin = () => {
           </Button>
         </form>
       </div>
-      <Routes>
-        <Route path="/admin/home" element={<AdminHomePage />} />
-      </Routes>
+
     </>
   );
 };

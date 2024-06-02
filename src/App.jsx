@@ -3,14 +3,16 @@ import UserApp from "./components/UserApp/UserApp";
 
 import "./App.css";
 
-import AuthProvider from "./context/AuthContext.jsX";
-import AdminLogin from "./components/AdminPanel/LoginForm/AdminLogin";
+import AdminLogin from "./components/AdminPanel/AdminLogin/AdminLogin";
+import AuthProvider from "./context/AuthContext";
+import AdminApp from "./components/AdminPanel/AdminApp";
 
 function App() {
   return (
     <AuthProvider>
       <Routes>
-        <Route path="/admin/*" element={<AdminLogin />} />
+        <Route path="/admin/*" element={<AdminApp />} />
+        <Route path="/login" element={<AdminLogin />} />
         <Route path="/*" element={<UserApp />} />
       </Routes>
     </AuthProvider>

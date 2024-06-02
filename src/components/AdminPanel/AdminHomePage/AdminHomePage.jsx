@@ -71,13 +71,7 @@ const AdminHomePage = () => {
         </Link>
       </div>
 
-      <Routes>
-        <Route path="/procedures/*" element={<Procedures />} />
-        <Route path="/products/*" element={<Products />} />
-        <Route path="/articles/*" element={<Articles />} />
-        <Route path="/promotions" element={<Promotions />} />
-        <Route path="/orders" element={<Orders />} />
-      </Routes>
+      
     </>
   );
 };

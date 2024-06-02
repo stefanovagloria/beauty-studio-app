@@ -11,8 +11,10 @@ const AuthProvider = ({ children }) => {
     useEffect(() => {
         const checkAuth = async () => {
             try {
-                const { data } = await axios.get('http://localhost:4000/admin/me');
-                setAuthData(data);
+                const token = localStorage.getItem('authToken');
+                const { data } = await axios.post('http://localhost:4000/admin/check-access', {token});
+                console.log(data);
+                
             } catch (error) {
                 setAuthData(null);
             }
@@ -24,8 +26,9 @@ const AuthProvider = ({ children }) => {
     const login = async (email, password) => {
         try {
             const { data } = await axios.post('http://localhost:4000/admin/login', { email, password });
-            console.log('data', data)
-            setAuthData(data);
+            console.log(data)
+           localStorage.setItem('authToken', data.token);
+            setAuthData(data.token);
 
             return data;
         } catch (error) {
