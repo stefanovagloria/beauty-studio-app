@@ -20,7 +20,7 @@ const ProductsList = () => {
 
   return (
     <Box >
-      <Grid container spacing={3}>
+      <Grid container>
         {products &&
           products.map((p) => (
             <Grid item  key={p._id}>

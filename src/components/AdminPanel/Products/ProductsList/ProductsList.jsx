@@ -8,15 +8,19 @@ import image from "../../../../assets/productsImage.png";
 const ProductsList = ({ products, selectProduct }) => {
   return (
     <>
-      {products.map((p) => (
-        <Card sx={{ maxWidth: 345 }} className={styles.card} key={p._id}>
-          <CardMedia sx={{ height: 140 }} image={image}/>
+      {products.map((product) => (
+        <Card
+          className={styles.card}
+          key={product._id}
+          onClick={() => selectProduct(product)}
+        >
+          <CardMedia sx={{ height: 140 }} image={image} />
           <CardContent>
             <Typography gutterBottom variant="h5" component="div">
-              {p.name}
+              {product.name}
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              {p.description}
+              {product.description}
             </Typography>
           </CardContent>
         </Card>

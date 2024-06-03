@@ -1,22 +1,30 @@
-.container{
+.mainContainer{
     display: flex;
     flex-direction: row;
+    align-items: center;
+
 }
 
 .btnContainer {
-    padding: 3em 2em;
-    width: 5em;
-    height: 2.7em;
-    margin: 1em 1em;
-    text-align: center;
-    cursor: pointer;
- }
- 
-.btnContainer:hover{
-    background-color: rgb(245, 240, 240);
-}
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 150px;
+    height: 150px;
+    font-weight: bold;
+    font-size: 30px;
+    margin: 0px 20px 0px 20px;
+    cursor: pointer; /* Change cursor to pointer on hover */
+  }
 
-.btn{
-    font-size: 3em;
-    font-weight: bolder;
-}
+  
+  .btnContainer:hover{
+    background-color: whitesmoke;
+  }
+
+
+  .proceduresContainer{
+    display: flex;
+    flex-direction: row;
+    max-height: 300px;
+  }

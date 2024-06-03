@@ -1,22 +1,27 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
-
 import styles from "./ProceduresList.module.css";
 import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import CardMedia from "@mui/material/CardMedia";
+import Typography from "@mui/material/Typography";
+import image from "../../../../assets/productsImage.png";
 
 const ProceduresList = ({ procedures, setProcedure }) => {
   return (
-    <div className={styles.container}>
+    <>
       {procedures.map((procedure) => (
-        <Card
-          key={procedure._id}
-          className={styles.btnContainer}
-          onClick={() => setProcedure(procedure)}
-        >
-          <span className={styles.btn}>{procedure.name}</span>
+        <Card className={styles.card} key={procedure._id} onClick={() => setProcedure(procedure)}>
+          <CardMedia sx={{ height: 140 }} image={image} />
+          <CardContent>
+            <Typography gutterBottom variant="h5" component="div">
+              {procedure.name}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              {procedure.description}
+            </Typography>
+          </CardContent>
         </Card>
       ))}
-    </div>
+    </>
   );
 };
 

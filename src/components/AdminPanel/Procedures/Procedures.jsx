@@ -42,7 +42,7 @@ const Procedures = () => {
   };
 
   const setProcedure = (procedure) => {
-    console.log(procedure);
+    console.log(procedure)
     setSelectedProcedure(procedure);
     setShowModal(true);
   };
@@ -67,22 +67,26 @@ const Procedures = () => {
       {selectedCategory && (
         <>
           <h1>Категория - {selectedCategory.name}</h1>
-          <div className={styles.container}>
-            <Card className={styles.btnContainer} onClick={handleClickOpen}>
-              <span className={styles.btn}>+</span>
-            </Card>
-            <AddProcedure
-              show={showModal}
-              hide={handleClose}
-              category={selectedCategory}
-              selectedProcedure={selectedProcedure}
-              updateProcedures={updateProcedures}
-            />
-            <ProceduresList
-              procedures={procedures}
-              setProcedure={setProcedure}
-            />
+          <div className={styles.mainContainer}>
+            <div className={styles.addContainer}>
+              <Card className={styles.btnContainer} onClick={handleClickOpen}>
+                +
+              </Card>
+            </div>
+            <div className={styles.proceduresContainer}>
+              <ProceduresList
+                procedures={procedures}
+                setProcedure={setProcedure}
+              />
+            </div>
           </div>
+          <AddProcedure
+            show={showModal}
+            hide={handleClose}
+            category={selectedCategory}
+            selectedProcedure={selectedProcedure}
+            updateProcedures={updateProcedures}
+          />
         </>
       )}
     </>

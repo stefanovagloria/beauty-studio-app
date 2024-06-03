@@ -1,7 +1,7 @@
-.container{
+.mainContainer{
     display: flex;
     flex-direction: row;
-    height: 250px;
+    height: auto;
     align-items: center;
 }
 
@@ -9,13 +9,20 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 150px;
+    height: 150px;
     font-weight: bold;
-    font-size: 25px;
+    font-size: 30px;
+    margin: 0px 20px 0px 20px;
     cursor: pointer; /* Change cursor to pointer on hover */
   }
 
+  .btnContainer:hover{
+    background-color: whitesmoke;
+  }
 
-
-.btnContainer:hover{
-    background-color: rgb(245, 240, 240);
-}
+  .productsContainer{
+    display: flex;
+    flex-direction: row;
+    max-height: 300px;
+  }

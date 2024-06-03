@@ -1,26 +1,27 @@
-.container{
-    display: flex;
-    flex-direction: row;
-    margin: 0 auto;
-    flex-wrap: wrap;
+
+.card{
+    width: 300px;
+    margin: 1em;
 }
 
-.btn{
-    word-wrap: break-word;
+.card:hover{
+   cursor: pointer;
+   opacity: 0.5;
 }
 
 .btnContainer {
     padding: 3em 2em;
-    width: 5em;
-    height: 2.7em;
+    max-width: 5em;
     margin: 1em 1em;
     text-align: center;
     cursor: pointer;
- }
+    overflow: hidden;
+}
  
- .btnContainer:hover{
+.btnContainer:hover{
      background-color: rgb(245, 240, 240);
  }
  
-  
- 
+.btn{
+    word-wrap: break-word;
+}

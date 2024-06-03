@@ -224,7 +224,7 @@ const AddProcedure = ({
             />
           </div>
           <ImageUpload onImageAdd={onImageAdd} />
-          {procedureValues.photos.map((photos, index) => (
+          {procedureValues.photos.length > 0 && procedureValues.photos.map((photos, index) => (
             <span key={index}>{photos.name}</span>
           ))}
           <div>

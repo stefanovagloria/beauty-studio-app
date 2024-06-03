@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import styles from "./CategoriesList.module.css";
-import { styled } from "@mui/material/styles";
 
 import Category from "../Category/Category";
 

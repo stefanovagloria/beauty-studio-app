@@ -15,18 +15,17 @@ const Products = () => {
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
-    if(selectedCategory && selectedCategory._id){
+    if (selectedCategory && selectedCategory._id) {
       const getProducts = async () => {
         const response = await axios.get(
           `http://localhost:4000/admin/products/${selectedCategory._id}`
         );
-  
+
         setProducts(response.data);
       };
-  
+
       getProducts();
     }
-    
   }, [selectedCategory]);
 
   const onCloseClickHandler = () => {
@@ -48,9 +47,7 @@ const Products = () => {
     if (type === "add") {
       setProducts((values) => [...values, product]);
     } else if (type === "edit") {
-      const productIndex = products.findIndex(
-        (p) => p._id === product._id
-      );
+      const productIndex = products.findIndex((p) => p._id === product._id);
 
       const updatedProducts = products;
       updatedProducts[productIndex] = product;
@@ -64,25 +61,29 @@ const Products = () => {
       {selectedCategory && (
         <>
           <h1>Категория - {selectedCategory.name}</h1>
-          <div className={styles.container}>
-            <Card
-              className={styles.btnContainer}
-              onClick={() => setShowModal(true)}
-            >
-             +
-            </Card>
-            <AddProduct
-              show={showModal}
-              hide={onCloseClickHandler}
-              category={selectedCategory}
-              selectedProduct={selectedProduct}
-              updateProducts={updateProducts}
-            />
-            <ProductsList
-              id={selectedCategory._id}
-              products={products}
-              selectProduct={handleSelectProduct}
-            />
+          <div className={styles.mainContainer}>
+            <div className={styles.addContainer}>
+              <Card
+                className={styles.btnContainer}
+                onClick={() => setShowModal(true)}
+              >
+                +
+              </Card>
+            </div>
+            <div className={styles.productsContainer}>
+              <AddProduct
+                show={showModal}
+                hide={onCloseClickHandler}
+                category={selectedCategory}
+                selectedProduct={selectedProduct}
+                updateProducts={updateProducts}
+              />
+              <ProductsList
+                id={selectedCategory._id}
+                products={products}
+                selectProduct={handleSelectProduct}
+              />
+            </div>
           </div>
         </>
       )}
