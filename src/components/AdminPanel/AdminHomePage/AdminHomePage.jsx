@@ -1,18 +1,11 @@
 import { Routes, Route, Link } from "react-router-dom";
 
-import Procedures from "../Procedures/Procedures";
-import Products from "../Products/Products";
-import Promotions from "../Promotions/Promotions";
-import Articles from "../Articles/Articles";
-import Orders from "../Orders/Orders";
-
 import Button from "@mui/material/Button";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { styled } from "@mui/material/styles";
 import styles from "./AdminHomePage.module.css";
-import axios from "axios";
 
-import { AuthContext } from "../../../context/AuthContext.jsX";
+import { AuthContext } from "../../../context/AuthContext";
 import { useContext } from "react";
 
 const CustomButton = styled(Button)(({ theme }) => ({

@@ -9,14 +9,16 @@ import AdminHomePage from "./AdminHomePage/AdminHomePage";
 
 const AdminApp = () => {
   return (
-    <Routes>
-      <Route path="/procedures/*" element={<Procedures />} />
-      <Route path="/products/*" element={<Products />} />
-      <Route path="/articles/*" element={<Articles />} />
-      <Route path="/promotions" element={<Promotions />} />
-      <Route path="/orders" element={<Orders />} />
-      <Route path="/" element={<AdminHomePage/>}/>
-    </Routes>
+    <>
+      <AdminHomePage />
+      <Routes>
+        <Route path="/procedures/*" element={<Procedures />} />
+        <Route path="/products/*" element={<Products />} />
+        <Route path="/articles/*" element={<Articles />} />
+        <Route path="/promotions" element={<Promotions />} />
+        <Route path="/orders" element={<Orders />} />
+      </Routes>
+    </>
   );
 };
 

@@ -19,11 +19,11 @@ const ProductsList = () => {
   }, []);
 
   return (
-    <Box paddingLeft={7} marginTop={7} sx={{ flexGrow: 1 }}>
+    <Box >
       <Grid container spacing={3}>
         {products &&
           products.map((p) => (
-            <Grid item xs={4} key={p._id}>
+            <Grid item  key={p._id}>
               <ProductItem product={p} />
             </Grid>
           ))}
