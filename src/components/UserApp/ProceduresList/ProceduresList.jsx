@@ -12,7 +12,7 @@ const ProceduresList = () => {
 
   useEffect(() => {
     const getProcedures = async () => {
-      const response = await axios.get(`${process.env.API_URL}/procedures`);
+      const response = await axios.get(`http://localhost:4000/procedures`);
       setProcedures(response.data);
     };
 

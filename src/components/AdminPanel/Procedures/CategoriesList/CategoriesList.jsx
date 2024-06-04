@@ -1,13 +1,11 @@
 import { useEffect, useState } from "react";
+import { NavLink } from "react-router-dom";
 import axios from "axios";
 import styles from "./CategoriesList.module.scss";
 
-import Category from "../Category/Category";
-
 const CategoriesList = ({ type, selectCategory }) => {
-
   const [categories, setCategories] = useState([]);
-  
+
   const [categoryValue, setCategoryValue] = useState("");
   const [showInputField, setShowInputField] = useState(false);
 
@@ -51,15 +49,24 @@ const CategoriesList = ({ type, selectCategory }) => {
 
   return (
     <>
-      {categories.map((c) => (
-        <Category
-          key={c._id}
-          category={c}
-          selectCategory={selectCategory}
-          type={type}
-        />
+      {categories.map((category) => (
+        <NavLink
+          key={category._id}
+          to={`/admin/${type}/${category._id}`}
+          className={({ isActive }) => (isActive ? `${styles.active}` : "")}
+        >
+          <button
+            onClick={() => selectCategory(category)}
+            className={styles.button}
+          >
+            {category.name}
+          </button>
+        </NavLink>
       ))}
-      <button className={styles.addInput} onClick={() => setShowInputField(true)}>
+      <button
+        className={styles.addInput}
+        onClick={() => setShowInputField(true)}
+      >
         +
       </button>
       {showInputField && (
@@ -73,7 +80,12 @@ const CategoriesList = ({ type, selectCategory }) => {
           <button onClick={addCategory} className={styles.addBtn}>
             Добави
           </button>
-          <button className={styles.addBtn} onClick={() => setShowInputField(false)}>x</button>
+          <button
+            className={styles.addBtn}
+            onClick={() => setShowInputField(false)}
+          >
+            x
+          </button>
         </div>
       )}
     </>
