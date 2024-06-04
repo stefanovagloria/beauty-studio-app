@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import UserApp from "./components/UserApp/UserApp";
 
-import "./App.css";
+import "./App.scss";
 
 import AdminLogin from "./components/AdminPanel/AdminLogin/AdminLogin";
 import AuthProvider from "./context/AuthContext";

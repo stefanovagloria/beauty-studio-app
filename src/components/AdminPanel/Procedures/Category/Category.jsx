@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-import styles from "./Category.module.css";
+import styles from "./Category.module.scss";
 
 const Category = ({ category, selectCategory, type}) => {
   return (

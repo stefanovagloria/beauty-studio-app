@@ -1,8 +1,6 @@
-import styles from "./SelectProduct.module.css";
+import styles from "./SelectProduct.module.scss";
 import image from "../../../../assets/productsImage.png";
-import { Button } from "@mui/material";
 import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 
 import { styled } from "@mui/material/styles";

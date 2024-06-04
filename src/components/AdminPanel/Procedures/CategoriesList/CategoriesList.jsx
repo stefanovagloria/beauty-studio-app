@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import styles from "./CategoriesList.module.css";
+import styles from "./CategoriesList.module.scss";
 
 import Category from "../Category/Category";
 
 const CategoriesList = ({ type, selectCategory }) => {
-  const [categoryValue, setCategoryValue] = useState("");
+
   const [categories, setCategories] = useState([]);
+  
+  const [categoryValue, setCategoryValue] = useState("");
   const [showInputField, setShowInputField] = useState(false);
 
   useEffect(() => {
@@ -57,7 +59,7 @@ const CategoriesList = ({ type, selectCategory }) => {
           type={type}
         />
       ))}
-      <button className={styles.button} onClick={() => setShowInputField(true)}>
+      <button className={styles.addInput} onClick={() => setShowInputField(true)}>
         +
       </button>
       {showInputField && (
@@ -66,7 +68,7 @@ const CategoriesList = ({ type, selectCategory }) => {
             name="category"
             value={categoryValue}
             onChange={onChangeHandler}
-            className={styles.addInput}
+            className={styles.input}
           />
           <button onClick={addCategory} className={styles.addBtn}>
             Добави

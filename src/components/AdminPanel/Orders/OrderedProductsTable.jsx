@@ -26,7 +26,7 @@ const OrderedproductsTable = ({ orderedProducts }) => {
   }, [products]);
 
   return (
-    <TableContainer component={Paper} style={{ width: "550px" }}>
+    <TableContainer component={Paper} style={{ width: "550px", marginBottom: "2em" }}>
       <Table sx={{ width: 550 }} aria-label="simple table">
         <TableHead>
           <TableRow>

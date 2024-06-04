@@ -5,14 +5,14 @@ import ProcedureItem from "../ProcedureItem/ProcedureItem";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 
-import styles from "./ProceduresList.module.css";
+import styles from "./ProceduresList.module.scss";
 
 const ProceduresList = () => {
   const [procedures, setProcedures] = useState([]);
 
   useEffect(() => {
     const getProcedures = async () => {
-      const response = await axios.get("http://localhost:4000/procedures");
+      const response = await axios.get(`${process.env.API_URL}/procedures`);
       setProcedures(response.data);
     };
 

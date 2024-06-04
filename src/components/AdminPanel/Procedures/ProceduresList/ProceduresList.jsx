@@ -1,4 +1,4 @@
-import styles from "./ProceduresList.module.css";
+import styles from "./ProceduresList.module.scss";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";

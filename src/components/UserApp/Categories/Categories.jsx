@@ -8,7 +8,7 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 
-import styles from './Categories.module.css';
+import styles from './Categories.module.scss';
 import image from "../../../assets/productsImage.png";
 
 

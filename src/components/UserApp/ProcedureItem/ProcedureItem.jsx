@@ -6,7 +6,7 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { Button, CardActionArea, CardActions } from "@mui/material";
 
-import styles from "./ProcedureItem.module.css";
+import styles from "./ProcedureItem.module.scss";
 import image from "../../../assets/procedures.png";
 
 const ProcedureItem = ({ procedure }) => {

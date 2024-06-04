@@ -1,7 +1,7 @@
 import ProceduresLink from "./ProceduresLink/ProceduresLink";
 import ArticlesLink from "./ArticlesLink/ArticlesLink";
 
-import styles from "./Navigation.module.css";
+import styles from "./Navigation.module.scss";
 import ShopLink from "./ShopLink/ShopLink";
 import MenuLink from "./MenuLink/MenuLink";
 import Header from "./Header/Header";

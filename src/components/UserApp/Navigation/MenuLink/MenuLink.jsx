@@ -11,7 +11,7 @@ import MenuList from "@mui/material/MenuList";
 import Stack from "@mui/material/Stack";
 import ArrowDropDownSharpIcon from "@mui/icons-material/ArrowDropDownSharp";
 
-import styles from "./MenuLink.module.css";
+import styles from "./MenuLink.module.scss";
 
 const MenuLink = ({ subLinks, name, url }) => {
   const [open, setOpen] = useState(false);

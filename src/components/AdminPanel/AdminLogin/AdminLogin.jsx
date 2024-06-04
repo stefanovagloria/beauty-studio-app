@@ -1,14 +1,11 @@
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { Routes, Route } from "react-router-dom";
-
-import styles from "./AdminLogin.module.css";
+import styles from "./AdminLogin.module.scss";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 
 import { AuthContext } from "../../../context/AuthContext";
-import AdminHomePage from "../AdminHomePage/AdminHomePage";
 
 const AdminLogin = () => {
   const [values, setValues] = useState({

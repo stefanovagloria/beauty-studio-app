@@ -1,9 +1,9 @@
-import { Routes, Route, Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 import Button from "@mui/material/Button";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { styled } from "@mui/material/styles";
-import styles from "./AdminHomePage.module.css";
+import styles from "./AdminHomePage.module.scss";
 
 import { AuthContext } from "../../../context/AuthContext";
 import { useContext } from "react";
@@ -22,6 +22,7 @@ const CustomButton = styled(Button)(({ theme }) => ({
 
 const AdminHomePage = () => {
   const { logout } = useContext(AuthContext);
+
   return (
     <>
       <div className={styles.logoutContainer}>
@@ -37,34 +38,32 @@ const AdminHomePage = () => {
       </div>
 
       <div className={styles.container}>
-        <Link to="/admin/procedures">
-          <CustomButton variant="contained" size="large">
+        <NavLink to={`/admin/procedures`} className={({ isActive }) => isActive ?  `${styles.active}` : ""}>
+          <CustomButton variant="contained" size="large"  > 
             ПРОЦЕДУРИ
           </CustomButton>
-        </Link>
-        <Link to="/admin/products">
-          <CustomButton variant="contained" size="large">
+        </NavLink>
+        <NavLink to="/admin/products" className={({ isActive }) => isActive ?  `${styles.active}` : ""}>
+          <CustomButton variant="contained" size="large" >
             ПРОДУКТИ
           </CustomButton>
-        </Link>
-        <Link to="/admin/promotions">
-          <CustomButton variant="contained" size="large">
+        </NavLink>
+        <NavLink to="/admin/promotions" className={({ isActive }) => isActive ?  `${styles.active}` : ""}>
+          <CustomButton variant="contained" size="large" >
             ПРОМОЦИИ
           </CustomButton>
-        </Link>
-        <Link to="/admin/articles">
-          <CustomButton variant="contained" size="large">
+        </NavLink>
+        <NavLink to="/admin/articles" className={({ isActive }) => isActive ?  `${styles.active}` : ""}>
+          <CustomButton variant="contained" size="large" >
             СТАТИИ
           </CustomButton>
-        </Link>
-        <Link to="/admin/orders">
-          <CustomButton variant="contained" size="large">
+        </NavLink>
+        <NavLink to="/admin/orders" className={({ isActive }) => isActive ?  `${styles.active}` : ""}>
+          <CustomButton variant="contained" size="large" >
             ПОРЪЧКИ
           </CustomButton>
-        </Link>
+        </NavLink>
       </div>
-
-      
     </>
   );
 };

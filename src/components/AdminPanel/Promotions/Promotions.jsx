@@ -1,4 +1,4 @@
-import styles from './Promotions.module.css';
+import styles from './Promotions.module.scss';
 
 const Promotions = () =>{
     return(

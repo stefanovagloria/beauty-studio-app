@@ -5,7 +5,7 @@ import { styled } from "@mui/material/styles";
 import { useState } from "react";
 import OrderDetails from "./OrderDetails";
 
-import styles from './OrderItem.module.css';
+import styles from './OrderItem.module.scss';
 
 const CustomButton = styled(Button)(({ theme }) => ({
   backgroundColor: "rgb(148, 72, 220)",

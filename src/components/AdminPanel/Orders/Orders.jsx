@@ -33,7 +33,7 @@ const Orders = () => {
 
   return (
     <div style={{ display: "flex", justifyContent: "center" }}>
-      <TableContainer component={Paper} sx={{ width: 750 }}>
+      <TableContainer component={Paper}  style={{marginBottom: "2em", width: "750px"}}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>

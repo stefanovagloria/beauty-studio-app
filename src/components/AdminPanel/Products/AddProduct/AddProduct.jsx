@@ -1,4 +1,4 @@
-import styles from "./AddProduct.module.css";
+import styles from "./AddProduct.module.scss";
 
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";

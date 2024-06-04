@@ -6,7 +6,7 @@ import CategoriesList from "./CategoriesList/CategoriesList";
 import AddProcedure from "./AddProcedure/AddProcedure";
 import ProceduresList from "./ProceduresList/ProceduresList";
 
-import styles from "./Procedures.module.css";
+import styles from "./Procedures.module.scss";
 import { Card } from "@mui/material";
 
 const Procedures = () => {

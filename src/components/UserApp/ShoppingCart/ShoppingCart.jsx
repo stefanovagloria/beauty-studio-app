@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import styles from "./ShoppingCart.module.css";
+import styles from "./ShoppingCart.module.scss";
 
 import {
   Button,

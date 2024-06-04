@@ -2,11 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 
-import AddProcedure from "../AddProcedure/AddProcedure";
-import ProceduresList from "../ProceduresList/ProceduresList";
-
-import Card from "@mui/material/Card";
-import styles from "./SelectedCategory.module.css";
+import styles from "./SelectedCategory.module.scss";
 
 const SelectedCategory = () => {
   const { id } = useParams();

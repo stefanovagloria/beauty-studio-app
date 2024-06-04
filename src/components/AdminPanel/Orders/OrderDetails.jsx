@@ -10,7 +10,7 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 
 import { styled } from "@mui/material/styles";
-import styles from "./OrderDetails.module.css";
+import styles from "./OrderDetails.module.scss";
 import OrderConfirmation from "./OrderConfirmation";
 
 const CustomButton = styled(Button)(({ theme }) => ({

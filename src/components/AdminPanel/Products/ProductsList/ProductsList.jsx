@@ -1,4 +1,4 @@
-import styles from "./ProductsList.module.css";
+import styles from "./ProductsList.module.scss";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";

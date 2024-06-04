@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 
-import styles from "./BookAppointment.module.css";
+import styles from "./BookAppointment.module.scss";
 
 const BookAppointment = () => {
   const { id } = useParams();
