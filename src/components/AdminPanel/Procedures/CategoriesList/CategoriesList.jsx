@@ -13,7 +13,7 @@ const CategoriesList = ({ type, selectCategory }) => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:4000/admin/categories"
+          "http://localhost:4000/categories"
         );
         setCategories(response.data);
       } catch (error) {
@@ -31,7 +31,7 @@ const CategoriesList = ({ type, selectCategory }) => {
     const categoryData = { name: categoryValue };
     try {
       const response = await axios.post(
-        "http://localhost:4000/admin/categories",
+        "http://localhost:4000/categories",
         categoryData,
         {
           headers: {

@@ -48,7 +48,7 @@ const OrderDetails = ({ open, closeDetails, order, updateOrder }) => {
 
   useEffect(() => {
     const getProducts = async () => {
-      const response = await axios.get(`http://localhost:4000/admin/products`);
+      const response = await axios.get(`http://localhost:4000/products`);
       const data = response.data.filter((p) => order.products.includes(p._id));
       setOrderedProducts(data);
     };

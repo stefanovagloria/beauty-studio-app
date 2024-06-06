@@ -123,7 +123,7 @@ const AddProcedure = ({
   const onEditSubmitHandler = async (e) => {
     e.preventDefault();
     const response = await axios.put(
-      `http://localhost:4000/admin/procedures/${selectedProcedure._id}`,
+      `http://localhost:4000/procedures/${selectedProcedure._id}`,
       procedureValues
     );
 
@@ -171,7 +171,7 @@ const AddProcedure = ({
 
             // Now that images are uploaded, proceed with sending POST request to procedures
             const postResponse = await axios.post(
-                "http://localhost:4000/admin/procedures",
+                "http://localhost:4000/procedures",
                 procedureValues // Send updated procedureValues with image URLs
             );
 

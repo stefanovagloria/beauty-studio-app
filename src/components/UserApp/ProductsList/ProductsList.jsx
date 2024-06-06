@@ -17,8 +17,8 @@ const ProductsList = () => {
   const [products, setProducts] = useState([]);
   const navigate = useNavigate();
 
-  const navigateToDetailsPage = () => {
-    navigate(`/products/${product._id}`);
+  const navigateToDetailsPage = (productId) => {
+    navigate(`/products/${productId}`);
   };
 
   useEffect(() => {
@@ -37,7 +37,7 @@ const ProductsList = () => {
           products.map((product) => (
             <Grid item xs={4} key={product._id}>
               <Card>
-                <CardActionArea onClick={navigateToDetailsPage}>
+                <CardActionArea onClick={() => navigateToDetailsPage(product._id)}>
                   <CardMedia
                     component="img"
                     height="300"

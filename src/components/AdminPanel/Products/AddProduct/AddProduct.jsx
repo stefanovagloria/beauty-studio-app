@@ -137,7 +137,7 @@ const AddProduct = ({
     setProductsValues((values) => ({...values, characteristics: updatedCharacteristics}))
 
     const response = await axios.post(
-      "http://localhost:4000/admin/products",
+      "http://localhost:4000/products",
       productsValues
     );
 
@@ -159,7 +159,7 @@ const AddProduct = ({
     e.preventDefault();
 
     const response = await axios.put(
-      `http://localhost:4000/admin/products/${selectedProduct._id}`,
+      `http://localhost:4000/products/${selectedProduct._id}`,
       productsValues
     );
 

@@ -25,7 +25,6 @@ const OrderItem = ({ order, updateOrder }) => {
 
   const closeDetails = () => {
     setOpenDetails(false);
-  console.log(order)
   };
 
   const date = new Date(order.date).toLocaleDateString("en-GB");

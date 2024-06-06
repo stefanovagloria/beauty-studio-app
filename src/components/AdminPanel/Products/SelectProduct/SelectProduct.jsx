@@ -25,7 +25,7 @@ const SelectProduct = ({ show, hide, addToRelatedProducts, selectedRelatedProduc
 
   useEffect(() => {
     const getProducts = async () => {
-      const response = await axios.get("http://localhost:4000/admin/products");
+      const response = await axios.get("http://localhost:4000/products");
 
       setProducts(() => response.data);
       setFilteredProducts(() => response.data);

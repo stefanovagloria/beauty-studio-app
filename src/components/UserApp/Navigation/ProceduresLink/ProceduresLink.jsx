@@ -9,7 +9,7 @@ const ProceduresLink = () => {
   useEffect(() => {
     const getCategories = async () => {
       const response = await axios.get(
-        "http://localhost:4000/admin/categories"
+        "http://localhost:4000/categories"
       );
       setCategories(response.data);
     };

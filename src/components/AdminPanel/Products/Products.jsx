@@ -18,7 +18,7 @@ const Products = () => {
     if (selectedCategory && selectedCategory._id) {
       const getProducts = async () => {
         const response = await axios.get(
-          `http://localhost:4000/admin/products/${selectedCategory._id}`
+          `http://localhost:4000/products/category/${selectedCategory._id}`
         );
 
         setProducts(response.data);

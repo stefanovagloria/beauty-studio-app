@@ -19,7 +19,7 @@ const Procedures = () => {
     if (selectedCategory && selectedCategory._id) {
       const getProceduresByCategory = async () => {
         const response = await axios.get(
-          `http://localhost:4000/admin/procedures/${selectedCategory._id}`
+          `http://localhost:4000/procedures/${selectedCategory._id}`
         );
         setProcedures(response.data);
       };

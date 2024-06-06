@@ -21,7 +21,7 @@ const Categories = () => {
     const getProcedures = async () => {
       const [proceduresResponse, categoryResponse] = await Promise.all([
         axios.get(`http://localhost:4000/procedures/${id}`),
-        axios.get(`http://localhost:4000/admin/categories/${id}`),
+        axios.get(`http://localhost:4000/categories/${id}`),
       ]);
       setProcedures(proceduresResponse.data);
       setCategory(categoryResponse.data.name);

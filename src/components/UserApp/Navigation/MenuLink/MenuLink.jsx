@@ -95,7 +95,7 @@ const MenuLink = ({ subLinks, name, url }) => {
                       aria-labelledby="composition-button"
                       onKeyDown={handleListKeyDown}
                     >
-                      {subLinks.map((link) => (
+                      {subLinks && subLinks.map((link) => (
                         <MenuItem
                           key={link._id}
                           id={link._id}

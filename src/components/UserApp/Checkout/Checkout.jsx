@@ -58,7 +58,7 @@ const Checkout = () => {
     };
 
     const response = await axios.post(
-      "http://localhost:4000/checkout",
+      "http://localhost:4000/orders/checkout",
       orderData
     );
 
