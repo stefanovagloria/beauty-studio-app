@@ -77,7 +77,6 @@ const MenuLink = ({ subLinks, name, url }) => {
             placement="bottom-start"
             transition
             disablePortal
-           
           >
             {({ TransitionProps, placement }) => (
               <Grow
@@ -87,7 +86,7 @@ const MenuLink = ({ subLinks, name, url }) => {
                     placement === "bottom-start" ? "left top" : "left bottom",
                 }}
               >
-                <Paper style={{ zIndex: 2, }}>
+                <Paper style={{ zIndex: 2 }}>
                   <ClickAwayListener onClickAway={handleClose}>
                     <MenuList
                       autoFocusItem={open}
@@ -95,17 +94,20 @@ const MenuLink = ({ subLinks, name, url }) => {
                       aria-labelledby="composition-button"
                       onKeyDown={handleListKeyDown}
                     >
-                      {subLinks && subLinks.map((link) => (
-                        <MenuItem
-                          key={link._id}
-                          id={link._id}
-                          onClick={handleToggle}
-                        >
-                          <Link to={link.url ? link.url : `${url}/${link._id}`}>
-                            {link.name}
-                          </Link>
-                        </MenuItem>
-                      ))}
+                      {subLinks &&
+                        subLinks.map((link) => (
+                          <MenuItem
+                            key={link._id}
+                            id={link._id}
+                            onClick={handleToggle}
+                          >
+                            <Link
+                              to={link.url ? link.url : `${url}/${link._id}`}
+                            >
+                              {link.name}
+                            </Link>
+                          </MenuItem>
+                        ))}
                     </MenuList>
                   </ClickAwayListener>
                 </Paper>

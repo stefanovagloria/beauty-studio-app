@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import axios from "axios";
 
 import { Grid, Container, CssBaseline } from "@mui/material";
@@ -8,9 +9,8 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 
-import styles from './Categories.module.scss';
+import styles from "./Categories.module.scss";
 import image from "../../../assets/productsImage.png";
-
 
 const Categories = () => {
   const { id } = useParams();
@@ -35,7 +35,12 @@ const Categories = () => {
       <h2 className={styles.title}>Категория - {category}</h2>
       <Container>
         <CssBaseline />
-        <Grid container rowSpacing={1} columnSpacing={5} style={{ height: "400px" }}>
+        <Grid
+          container
+          rowSpacing={1}
+          columnSpacing={5}
+          style={{ height: "400px" }}
+        >
           {procedures &&
             procedures.map((p) => (
               <Grid
@@ -46,18 +51,20 @@ const Categories = () => {
                 md={4}
                 style={{ height: "100%" }}
               >
-                <Card sx={{ maxWidth: 345 }} className={styles.card}>
-                  <CardMedia
-                    sx={{ height: 140 }}
-                    image={image}
-                    title={p.name}
-                  />
-                  <CardContent>
-                    <Typography gutterBottom variant="h6" component="div">
-                      {p.name}
-                    </Typography>
-                  </CardContent>
-                </Card>
+                <Link to={`/procedures/:${p._id}`}>
+                  <Card sx={{ maxWidth: 345 }} className={styles.card}>
+                    <CardMedia
+                      sx={{ height: 140 }}
+                      image={image}
+                      title={p.name}
+                    />
+                    <CardContent>
+                      <Typography gutterBottom variant="h6" component="div">
+                        {p.name}
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Link>
               </Grid>
             ))}
         </Grid>

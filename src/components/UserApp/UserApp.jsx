@@ -11,6 +11,7 @@ import BookAppointment from "./BookAppointment/BookAppointment";
 import ShoppingCart from "./ShoppingCart/ShoppingCart";
 import Checkout from "./Checkout/Checkout";
 import ProductItemDetails from "./ProductItem/ProductItemDetails";
+import ProcedureItemDetails from "./ProcedureItem/ProcedureItemDetails";
 
 const UserApp = () => {
   return (
@@ -18,6 +19,7 @@ const UserApp = () => {
       <Navigation />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/procedures/:id" element={<ProcedureItemDetails />} />
         <Route path="/procedures/*" element={<ProceduresList />} />
         <Route path="/products/*" element={<ProductsList />} />
         <Route path="/products/:id" element={<ProductItemDetails />} />
