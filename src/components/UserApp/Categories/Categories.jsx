@@ -51,7 +51,7 @@ const Categories = () => {
                 md={4}
                 style={{ height: "100%" }}
               >
-                <Link to={`/procedures/:${p._id}`}>
+                <Link to={`/procedures/${p._id}`}>
                   <Card sx={{ maxWidth: 345 }} className={styles.card}>
                     <CardMedia
                       sx={{ height: 140 }}
