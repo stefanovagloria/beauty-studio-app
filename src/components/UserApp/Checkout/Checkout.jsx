@@ -1,6 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+
+import { CartContext } from "../../../context/CartContext";
+
 import { TextField, Button, Container, Typography } from "@mui/material";
 import OrderTable from "../OrderTable/OrderTable";
 
@@ -8,8 +11,7 @@ import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
 
 const Checkout = () => {
-  const [orderedProducts, setOrderedProducts] = useState([]);
-  const [totalPrice, setTotalPrice] = useState(null);
+
   const [userData, setUserData] = useState({
     name: "",
     surname: "",
@@ -23,17 +25,7 @@ const Checkout = () => {
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const orderedProductsArr = localStorage.getItem("orderedItems");
-    let orderedItems = orderedProductsArr ? JSON.parse(orderedProductsArr) : [];
-    setOrderedProducts(orderedItems);
-    console.log(orderedItems)
 
-    const total = orderedItems.reduce((acc, product) => {
-      return acc + product.price * product.quantity;
-    }, 0);
-    setTotalPrice(total);
-  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -45,16 +37,21 @@ const Checkout = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(orderedProducts)
-    const products = orderedProducts.map((p) => ({name: p.name, price: p.price, product: p._id, quantity: p.quantity}));
-    console.log(products)
+
+    const products = orderedProducts.map((p) => ({
+      name: p.name,
+      price: p.price,
+      product: p._id,
+      quantity: p.quantity,
+    }));
+
     const date = Date.now();
     const orderData = {
       user: userData,
       products: products,
       totalPrice: totalPrice,
       date: date,
-      status: "нова"
+      status: "нова",
     };
 
     const response = await axios.post(
@@ -183,7 +180,7 @@ const Checkout = () => {
         <Typography variant="h4" gutterBottom>
           Вашата поръчка
         </Typography>
-        <OrderTable products={orderedProducts} totalPrice={totalPrice} />
+        <OrderTable />
       </Container>
       <Container>
         <Snackbar

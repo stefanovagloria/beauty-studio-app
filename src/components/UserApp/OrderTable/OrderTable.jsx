@@ -6,10 +6,26 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TableFooter from "@mui/material/TableFooter";
 import Paper from "@mui/material/Paper";
+import { useContext, useEffect, useState } from "react";
+import { CartContext } from "../../../context/CartContext";
 
-const OrderTable = ({ products, totalPrice }) => {
+const OrderTable = () => {
+  const [products, setProducts] = useState([]);
+  const [totalPrice, setTotalPrice] = useState(0);
+  const { items, total, getItemsAndTotalPrice } = useContext(CartContext);
+
+  useEffect(() => {
+    const setState = async () => {
+      const contextData = await getItemsAndTotalPrice();
+      setProducts(contextData.items);
+      setTotalPrice(contextData.total);
+    };
+
+    setState();
+  }, []);
+
   return (
-    <TableContainer component={Paper}>
+    <TableContainer component={Paper} style={{ marginBottom: "2em" }}>
       <Table sx={{ minWidth: 500 }} aria-label="simple table">
         <TableHead>
           <TableRow>
@@ -19,18 +35,19 @@ const OrderTable = ({ products, totalPrice }) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {products.map((product) => (
-            <TableRow
-              key={product._id}
-              sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-            >
-              <TableCell component="th" scope="row">
-                {product.name}
-              </TableCell>
-              <TableCell align="right">x {product.quantity}</TableCell>
-              <TableCell align="right">{product.price} лв.</TableCell>
-            </TableRow>
-          ))}
+          {products &&
+            products.map((product) => (
+              <TableRow
+                key={product._id}
+                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+              >
+                <TableCell component="th" scope="row">
+                  {product.name}
+                </TableCell>
+                <TableCell align="right">x {product.quantity}</TableCell>
+                <TableCell align="right">{product.price} лв.</TableCell>
+              </TableRow>
+            ))}
         </TableBody>
         <TableFooter>
           <TableRow>

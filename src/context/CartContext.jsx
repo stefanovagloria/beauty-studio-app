@@ -4,7 +4,7 @@ const CartContext = createContext(null);
 
 const CartProvider = ({ children }) => {
   const [items, setItems] = useState([]);
-  const [totalPrice, setTotalPrice] = useState(0);
+  const [total, setTotal] = useState(0);
 
   useEffect(() => {
     const productsArr = localStorage.getItem("orderedItems");
@@ -14,7 +14,8 @@ const CartProvider = ({ children }) => {
         return (acc += product.price * product.quantity);
       }, 0);
       setItems(products);
-      setTotalPrice(total);
+      setTotal(total);
+      console.log("CartContext re-render")
     }
   }, []);
 
@@ -41,8 +42,8 @@ const CartProvider = ({ children }) => {
     localStorage.setItem("orderedItems", JSON.stringify(orderedItems));
 
     setItems((itemValues) => [...itemValues, product]);
-    setTotalPrice(
-      (totalPrice) => totalPrice + product.price * product.quantity
+    setTotal(
+      (totalPrice) => totalPrice + product.price *quantity
     );
   };
 
@@ -50,10 +51,14 @@ const CartProvider = ({ children }) => {
     const itemValues = items;
     const updatedValues = itemValues.filter((p) => p._id !== product._id);
     setItems(updatedValues);
-    setTotalPrice((totalPrice) => totalPrice - product.price);
+    setTotal((totalPrice) => totalPrice - product.price);
   };
+
+  const getItemsAndTotalPrice = () =>{
+    return {items, total};
+  }
   return (
-    <CartContext.Provider value={{ items, totalPrice, addItem, removeItem }}>
+    <CartContext.Provider value={{ addItem, removeItem, getItemsAndTotalPrice, items, total }}>
       {children}
     </CartContext.Provider>
   );
