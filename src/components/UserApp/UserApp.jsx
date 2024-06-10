@@ -1,5 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 
+import { CartProvider } from "../../context/CartContext";
+
 import Home from "./Home/Home";
 import Navigation from "./Navigation/Navigation";
 import ProceduresList from "./ProceduresList/ProceduresList";
@@ -15,7 +17,7 @@ import ProcedureItemDetails from "./ProcedureItem/ProcedureItemDetails";
 
 const UserApp = () => {
   return (
-    <>
+    <CartProvider>
       <Navigation />
       <Routes>
         <Route path="/" element={<Home />} />
@@ -33,7 +35,7 @@ const UserApp = () => {
         <Route path="/gallery" element={<Gallery />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
-    </>
+    </CartProvider>
   );
 };
 

@@ -1,6 +1,8 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import axios from "axios";
+
+import { CartContext } from "../../../context/CartContext";
 
 import styles from "./ProductItemDetails.module.css";
 import image from "../../../assets/productsImage.png";
@@ -22,6 +24,7 @@ const CustomButton = styled(Button)({
 const ProductItemDetails = () => {
   const [product, setProduct] = useState({});
   const [quantity, setQuantity] = useState(1);
+  const { addItem } = useContext(CartContext);
   const navigate = useNavigate();
   const { id } = useParams();
 
@@ -30,7 +33,6 @@ const ProductItemDetails = () => {
       const response = await axios.get(`http://localhost:4000/products/${id}`);
       const characteristics = response.data.characteristics;
       const updatedCharacteristics = characteristics.slice(1);
-      console.log(updatedCharacteristics);
       setProduct({ ...response.data, characteristics: updatedCharacteristics });
       console.log(response.data);
     };
@@ -42,28 +44,12 @@ const ProductItemDetails = () => {
     setQuantity(e.target.value);
   };
 
-  const addProductToLocalStorage = () => {
-    let orderedItemsArr = localStorage.getItem("orderedItems");
-    let orderedItems = orderedItemsArr ? JSON.parse(orderedItemsArr) : [];
-
-    const productIndex = orderedItems.findIndex((i) => i._id === product._id);
-
-    if (productIndex !== -1) {
-      const currentProduct = orderedItems.find((i) => i._id === product._id);
-      console.log(currentProduct);
-      orderedItems.splice(productIndex, 1, {
-        ...product,
-        quantity: Number(currentProduct.quantity) + Number(quantity),
-      });
-    } else {
-      orderedItems.push({ ...product, quantity: Number(quantity) });
-    }
-
-    localStorage.setItem("orderedItems", JSON.stringify(orderedItems));
+  const addProductToShoppingCart = () => {
+    addItem(product, quantity);
   };
 
   const navigateToCheckout = () => {
-    addProductToLocalStorage();
+    addProductToShoppingCart();
     navigate("/checkout");
   };
 
@@ -83,18 +69,18 @@ const ProductItemDetails = () => {
               </p>
             ))}
           <p className={styles.price}>{product.price} лв</p>
-          <Input 
+          <Input
             className={styles.inputField}
             id="outlined-number"
             type="number"
             size="smaller"
-            InputLabelProps={{
+            inputlabelprops={{
               shrink: true,
             }}
             value={quantity}
             onChange={handleQuantityChange}
           />
-          <CustomButton onClick={addProductToLocalStorage}>
+          <CustomButton onClick={addProductToShoppingCart}>
             Добави в количка
           </CustomButton>
         </div>

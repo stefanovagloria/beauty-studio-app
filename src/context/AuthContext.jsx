@@ -33,7 +33,6 @@ const AuthProvider = ({ children }) => {
         email,
         password,
       });
-      console.log(data);
       localStorage.setItem("authToken", data.token);
       setAuthData(data.token);
 
