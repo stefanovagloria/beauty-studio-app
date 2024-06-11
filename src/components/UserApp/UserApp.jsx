@@ -14,10 +14,12 @@ import ShoppingCart from "./ShoppingCart/ShoppingCart";
 import Checkout from "./Checkout/Checkout";
 import ProductItemDetails from "./ProductItem/ProductItemDetails";
 import ProcedureItemDetails from "./ProcedureItem/ProcedureItemDetails";
+import Footer from "./Footer/Footer";
 
 const UserApp = () => {
   return (
     <CartProvider>
+
       <Navigation />
       <Routes>
         <Route path="/" element={<Home />} />
@@ -35,6 +37,8 @@ const UserApp = () => {
         <Route path="/gallery" element={<Gallery />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
+      <Footer/>
+  
     </CartProvider>
   );
 };

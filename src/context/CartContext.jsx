@@ -15,14 +15,11 @@ const CartProvider = ({ children }) => {
       }, 0);
       setItems(products);
       setTotal(total);
-      console.log("CartContext re-render")
+      console.log("CartContext re-render");
     }
   }, []);
 
   const addItem = (product, quantity) => {
-
-    console.log(product, quantity)
-
     let orderedItemsArr = localStorage.getItem("orderedItems");
     let orderedItems = orderedItemsArr ? JSON.parse(orderedItemsArr) : [];
 
@@ -30,7 +27,6 @@ const CartProvider = ({ children }) => {
 
     if (productIndex !== -1) {
       const currentProduct = orderedItems.find((i) => i._id === product._id);
-      console.log(currentProduct);
       orderedItems.splice(productIndex, 1, {
         ...product,
         quantity: Number(currentProduct.quantity) + Number(quantity),
@@ -41,24 +37,64 @@ const CartProvider = ({ children }) => {
 
     localStorage.setItem("orderedItems", JSON.stringify(orderedItems));
 
-    setItems((itemValues) => [...itemValues, product]);
-    setTotal(
-      (totalPrice) => totalPrice + product.price *quantity
-    );
+    const updatedTotal = orderedItems.reduce((acc, product) => {
+      return (acc += product.price * product.quantity);
+    }, 0);
+
+    setItems(orderedItems);
+    setTotal(updatedTotal);
   };
 
-  const removeItem = (product) => {
-    const itemValues = items;
-    const updatedValues = itemValues.filter((p) => p._id !== product._id);
-    setItems(updatedValues);
-    setTotal((totalPrice) => totalPrice - product.price);
+  const removeItem = (productId) => {
+    const updatedItems = items.filter((p) => p._id !== productId);
+    const updatedTotal = updatedItems.reduce((acc, product) => {
+      return (acc += product.price * product.quantity);
+    }, 0);
+
+    localStorage.setItem("orderedItems", JSON.stringify(updatedItems));
+
+    setItems(updatedItems);
+    setTotal(updatedTotal);
   };
 
-  const getItemsAndTotalPrice = () =>{
-    return {items, total};
-  }
+  const updateItem = (e, itemId) => {
+    const value = e.target.value;
+
+    if (value > 0) {
+      const productIndex = items.findIndex((p) => p._id === itemId);
+
+      const updatedProducts = [...items];
+      updatedProducts[productIndex] = {
+        ...updatedProducts[productIndex],
+        quantity: value,
+      };
+
+      setItems(updatedProducts);
+      localStorage.setItem("orderedItems", JSON.stringify(updatedProducts));
+
+      const total = updatedProducts.reduce(
+        (acc, item) => acc + item.price * item.quantity,
+        0
+      );
+      setTotal(total);
+    }
+  };
+
+  const getItemsAndTotalPrice = () => {
+    return { items, total };
+  };
+
   return (
-    <CartContext.Provider value={{ addItem, removeItem, getItemsAndTotalPrice, items, total }}>
+    <CartContext.Provider
+      value={{
+        addItem,
+        removeItem,
+        getItemsAndTotalPrice,
+        updateItem,
+        items,
+        total,
+      }}
+    >
       {children}
     </CartContext.Provider>
   );

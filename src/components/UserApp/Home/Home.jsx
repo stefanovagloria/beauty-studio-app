@@ -1,8 +1,9 @@
 import styles from './Home.module.scss';
+import image from "../../../assets/studioNefertiti.jpg";
 
 const Home = () =>{
     return(
-        <h1>Home Page!</h1>
+        <img src={image} className={styles.img}/>
     )
 }
 

@@ -10,20 +10,19 @@ import { useContext, useEffect, useState } from "react";
 import { CartContext } from "../../../context/CartContext";
 
 const OrderTable = () => {
-  const [products, setProducts] = useState([]);
+  const [orderedProducts, setOrderedProducts] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
   const { items, total, getItemsAndTotalPrice } = useContext(CartContext);
 
   useEffect(() => {
     const setState = async () => {
       const contextData = await getItemsAndTotalPrice();
-      setProducts(contextData.items);
+      setOrderedProducts(contextData.items);
       setTotalPrice(contextData.total);
     };
 
     setState();
-  }, []);
-
+  }, [items, total]);
   return (
     <TableContainer component={Paper} style={{ marginBottom: "2em" }}>
       <Table sx={{ minWidth: 500 }} aria-label="simple table">
@@ -35,8 +34,8 @@ const OrderTable = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {products &&
-            products.map((product) => (
+          {orderedProducts &&
+            orderedProducts.map((product) => (
               <TableRow
                 key={product._id}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}

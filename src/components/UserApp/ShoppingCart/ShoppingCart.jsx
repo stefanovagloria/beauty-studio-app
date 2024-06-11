@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { CartContext } from "../../../context/CartContext";
 import styles from "./ShoppingCart.module.scss";
 
 import {
@@ -22,25 +23,21 @@ import DialogTitle from "@mui/material/DialogTitle";
 const ShoppingCart = () => {
   const [orderedProducts, setOrderedProducts] = useState([]);
   const [totalPrice, setTotalPrice] = useState(null);
+  const { items, total, getItemsAndTotalPrice, updateItem, removeItem } =
+    useContext(CartContext);
+
   const [openModal, setOpenModal] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const orderedProductsArr = localStorage.getItem("orderedItems");
-    let orderedItems;
-    if (orderedProductsArr !== null && orderedProductsArr.length > 0) {
-      orderedItems = JSON.parse(orderedProductsArr);
-      setOrderedProducts(orderedItems);
-      const total = calculateTotal(orderedItems);
-      setTotalPrice(total);
-    }
-  }, []);
+    const setState = async () => {
+      const contextData = await getItemsAndTotalPrice();
+      setOrderedProducts(contextData.items);
+      setTotalPrice(contextData.total);
+    };
 
-  const removeFromCart = (productId) => {
-    setOrderedProducts(
-      orderedProducts.filter((item) => item._id !== productId)
-    );
-  };
+    setState();
+  }, [items, total]);
 
   const handleOpen = () => {
     setOpenModal(true);
@@ -52,29 +49,6 @@ const ShoppingCart = () => {
 
   const handleNavigate = () => {
     navigate("/checkout");
-  };
-
-  const handleChange = (e, itemId) => {
-    const value = e.target.value;
-
-    if (value > 0) {
-      const productIndex = orderedProducts.findIndex((p) => p._id === itemId);
-
-      const updatedProducts = [...orderedProducts];
-      updatedProducts[productIndex] = {
-        ...updatedProducts[productIndex],
-        quantity: value,
-      };
-
-      setOrderedProducts(updatedProducts);
-      localStorage.setItem("orderedItems", JSON.stringify(updatedProducts));
-      const total = calculateTotal(updatedProducts);
-      setTotalPrice(total);
-    }
-  };
-
-  const calculateTotal = (products) => {
-    return products.reduce((acc, item) => acc + item.price * item.quantity, 0);
   };
 
   return (
@@ -108,7 +82,7 @@ const ShoppingCart = () => {
                         shrink: true,
                       }}
                       value={item.quantity}
-                      onChange={(e) => handleChange(e, item._id)}
+                      onChange={(e) => updateItem(e, item._id)}
                     />
                     <Button
                       style={{
@@ -117,7 +91,7 @@ const ShoppingCart = () => {
                         padding: "1em",
                         borderRadius: "0.7em",
                       }}
-                      onClick={() => removeFromCart(item._id)}
+                      onClick={() => removeItem(item._id)}
                       className={styles.btn}
                     >
                       X
@@ -183,9 +157,11 @@ const ShoppingCart = () => {
               </Button>
             </DialogActions>
           </Dialog>
-        </Container> 
+        </Container>
       )}
-      {orderedProducts.length == 0 && <p>Все още няма добавени продукти в количката!</p>}
+      {orderedProducts.length == 0 && (
+        <p>Все още няма добавени продукти в количката!</p>
+      )}
     </>
   );
 };
