@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 import ImageUpload from "./ImageUpload";
+import SelectItem from "../../Products/SelectProduct/SelectItem";
 
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
@@ -9,6 +10,8 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import styles from "./AddProcedure.module.scss";
 import { styled } from "@mui/material/styles";
+
+import productsImage from "../../../../assets/productsImage.png"
 
 const CustomButton = styled(Button)(({ theme }) => ({
   backgroundColor: "rgb(148, 72, 220)",
@@ -43,6 +46,11 @@ const AddProcedure = ({
   });
 
   const [currentPhotos, setCurrentPhotos] = useState([]);
+
+  const [showProcedures, setShowProcedures] = useState(false);
+  const [selectedRelatedProceduresIds, setSelectedRelatedProceduresIds] = useState(
+    []
+  );
 
   useEffect(() => {
     if (Object.keys(selectedProcedure).length !== 0) {
@@ -184,12 +192,47 @@ const AddProcedure = ({
     }
 };
 
+const showAllProcedures = () => {
+  setShowProcedures(true);
+};
+
+const hideAllProcedures = () => {
+  setShowProcedures(false);
+};
+
+
 
   const onImageAdd = (image) => {
     const updatedPhotos = currentPhotos;
     updatedPhotos.push(image);
 
     setCurrentPhotos(updatedPhotos);
+  };
+
+  const addToRelatedProcedures = (product) => {
+    console.log('procedures - addToRelatedProcedures')
+    if (!selectedRelatedProceduresIds.includes(product._id)) {
+      const relatedProductsArr = procedureValues.relatedProducts;
+      const updatedRelatedProducts = [...relatedProductsArr, product];
+      setProcedureValues((values) => ({
+        ...values,
+        relatedProducts: updatedRelatedProducts,
+      }));
+      setSelectedRelatedProceduresIds((ids) => [...ids, product._id]);
+    } else {
+      const relatedProductsArr = procedureValues.relatedProducts;
+      const updatedRelatedProducts = relatedProductsArr.filter(
+        (p) => p._id !== product._id
+      );
+      setProcedureValues((values) => ({
+        ...values,
+        relatedProducts: updatedRelatedProducts,
+      }));
+      const updatedIds = selectedRelatedProceduresIds.filter(
+        (id) => id !== product._id
+      );
+      setSelectedRelatedProceduresIds(updatedIds);
+    }
   };
 
   return (
@@ -315,8 +358,27 @@ const AddProcedure = ({
           </div>
           <div className={styles.fields}>
             Сходни продукти:
-            <div>
-              <Button>+</Button>
+            <div className={styles.relatedProductsContainer}>
+              {procedureValues.relatedProducts.map((p) => (
+                <img
+                  key={p._id}
+                  src={productsImage}
+                  className={styles.relatedProductImg}
+                />
+              ))}
+              <Button
+                style={{
+                  height: "100%",
+                  backgroundColor: "white",
+                  color: "black",
+                  border: "1px solid black",
+                  borderRadius: "0.5em",
+                  fontWeight: "bold",
+                }}
+                onClick={showAllProcedures}
+              >
+                +
+              </Button>
             </div>
           </div>
           <DialogActions>
@@ -329,6 +391,15 @@ const AddProcedure = ({
           </DialogActions>
         </form>
       </DialogContent>
+      {showProcedures && (
+        <SelectItem
+          type="procedures"
+          show={showProcedures}
+          hide={hideAllProcedures}
+          addToRelatedItems={addToRelatedProcedures}
+          selectedRelatedItems={selectedRelatedProceduresIds}
+        />
+      )}
     </Dialog>
   );
 };

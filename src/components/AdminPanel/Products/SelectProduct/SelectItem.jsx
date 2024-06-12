@@ -1,4 +1,4 @@
-import styles from "./SelectProduct.module.scss";
+import styles from "./SelectItem.module.scss";
 import image from "../../../../assets/productsImage.png";
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
@@ -18,28 +18,41 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
-const SelectProduct = ({ show, hide, addToRelatedProducts, selectedRelatedProductsIds }) => {
-  const [products, setProducts] = useState([]);
+const SelectItem = ({
+  type,
+  show,
+  hide,
+  addToRelatedItems,
+  selectedRelateditemsIds,
+}) => {
+  const [items, setitems] = useState([]);
   const [input, setInput] = useState("");
-  const [filteredProducts, setFilteredProducts] = useState([]);
+  const [filtereditems, setFiltereditems] = useState([]);
 
   useEffect(() => {
-    const getProducts = async () => {
-      const response = await axios.get("http://localhost:4000/products");
+    const getitems = async () => {
+      console.log(type)
+      let result = {};
+      if (type === "products") {
+        const response = await axios.get("http://localhost:4000/products");
+        result = response.data;
+      } else {
+        const response = await axios.get("http://localhost:4000/procedures");
+        result = response.data;
+      }
 
-      setProducts(() => response.data);
-      setFilteredProducts(() => response.data);
-
+      setitems(() => result);
+      setFiltereditems(() => result);
     };
 
-    getProducts();
+    getitems();
   }, []);
 
   useEffect(() => {
-    const updatedProducts = products.filter((p) =>
+    const updateditems = items.filter((p) =>
       p.name.toLowerCase().includes(input.toLowerCase())
     );
-    setFilteredProducts(updatedProducts);
+    setFiltereditems(updateditems);
   }, [input]);
 
   const onInputChange = (e) => {
@@ -47,7 +60,7 @@ const SelectProduct = ({ show, hide, addToRelatedProducts, selectedRelatedProduc
   };
 
   const onItemSelect = (product) => {
-    addToRelatedProducts(product);
+    addToRelatedItems(product);
   };
 
   return (
@@ -82,9 +95,18 @@ const SelectProduct = ({ show, hide, addToRelatedProducts, selectedRelatedProduc
             rowSpacing={2}
             columnSpacing={{ xs: 2, sm: 3, md: 4 }}
           >
-            {filteredProducts.map((p) => (
-              <Grid item xs={12} sm={6}  >
-                <Item key={p.id} onClick={() => onItemSelect(p)}   className={`${styles.item}  ${selectedRelatedProductsIds !== undefined && selectedRelatedProductsIds.includes(p._id) ? styles.selectedItem : ''}`} >
+            {filtereditems.map((p) => (
+              <Grid item xs={12} sm={6}>
+                <Item
+                  key={p.id}
+                  onClick={() => onItemSelect(p)}
+                  className={`${styles.item}  ${
+                    selectedRelateditemsIds !== undefined &&
+                    selectedRelateditemsIds.includes(p._id)
+                      ? styles.selectedItem
+                      : ""
+                  }`}
+                >
                   <img className={styles.img} src={image} alt={p.name} />
                   <p>{p.name}</p>
                 </Item>
@@ -97,4 +119,4 @@ const SelectProduct = ({ show, hide, addToRelatedProducts, selectedRelatedProduc
   );
 };
 
-export default SelectProduct;
+export default SelectItem;

@@ -8,7 +8,7 @@ import Input from "@mui/material/Input";
 import { TextField } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState, useRef } from "react";
-import SelectProduct from "../SelectProduct/SelectProduct";
+import SelectItem from "../SelectProduct/SelectItem";
 
 import { styled } from "@mui/material/styles";
 import productsImage from "../../../../assets/productsImage.png";
@@ -131,10 +131,15 @@ const AddProduct = ({
     e.preventDefault();
 
     const characteristics = productsValues.characteristics;
-    const updatedCharacteristics = characteristics.filter((ch) => ch.key !== '');
-    console.log(updatedCharacteristics)
+    const updatedCharacteristics = characteristics.filter(
+      (ch) => ch.key !== ""
+    );
+    console.log(updatedCharacteristics);
 
-    setProductsValues((values) => ({...values, characteristics: updatedCharacteristics}))
+    setProductsValues((values) => ({
+      ...values,
+      characteristics: updatedCharacteristics,
+    }));
 
     const response = await axios.post(
       "http://localhost:4000/products",
@@ -339,7 +344,6 @@ const AddProduct = ({
                     name="key"
                     onChange={(e) => onCharacteristicsChange(e)}
                     style={{ marginRight: "1em", width: "12em" }}
-                    
                   />
                   <Input
                     value={currentInputs.value}
@@ -347,7 +351,6 @@ const AddProduct = ({
                     name="value"
                     onChange={(e) => onCharacteristicsChange(e)}
                     style={{ marginRight: "1em", width: "7em" }}
-                    
                   />
                   <Button
                     onClick={onSave}
@@ -357,7 +360,9 @@ const AddProduct = ({
                       border: "1px solid black",
                       borderRadius: "0.5em",
                     }}
-                    disabled={currentInputs.key === '' || currentInputs.value === ''}
+                    disabled={
+                      currentInputs.key === "" || currentInputs.value === ""
+                    }
                   >
                     Запази
                   </Button>
@@ -381,7 +386,11 @@ const AddProduct = ({
             Сходни продукти:
             <div className={styles.relatedProductsContainer}>
               {productsValues.relatedProducts.map((p) => (
-                <img key={p._id} src={productsImage} className={styles.relatedProductImg} />
+                <img
+                  key={p._id}
+                  src={productsImage}
+                  className={styles.relatedProductImg}
+                />
               ))}
               <Button
                 style={{
@@ -409,11 +418,12 @@ const AddProduct = ({
         </form>
       </DialogContent>
       {showAllProducts && (
-        <SelectProduct
+        <SelectItem
+          type="products"
           show={showProducts}
           hide={hideAllProducts}
-          addToRelatedProducts={addToRelatedProducts}
-          selectedRelatedProductsIds={selectedRelatedProductsIds}
+          addToRelatedItems={addToRelatedProducts}
+          selectedRelateditemsIds={selectedRelatedProductsIds}
         />
       )}
     </Dialog>

@@ -32,3 +32,17 @@
   height: 1.5em;
 
 }
+
+.relatedProductsContainer{
+    display: flex;
+    align-items: center;
+    height: 70px;
+}
+
+.relatedProductImg{
+    width: 70px;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 3px;
+    margin-right: 0.5em;
+}
