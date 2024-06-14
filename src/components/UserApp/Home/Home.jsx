@@ -43,8 +43,12 @@ const procedures = [
 const Home = () => {
   return (
     <div>
-      <div className={styles.homeImg}>
-        <img src={image} className={styles.img} />
+      <div className={styles.imageContainer}>
+        <img src={image} className={styles.homeImg} alt="Studio Nefertiti" />
+        <div className={styles.overlay}>
+          <h1 className={styles.overlayText}>Beauty Studio Nefertiti</h1>
+          <p  className={styles.overlayAddress}>гр.Бургас | кв.Възраждане | ул.Гладстон 35 |</p>
+        </div>
       </div>
 
       <div className={styles.proceduresSection}>
