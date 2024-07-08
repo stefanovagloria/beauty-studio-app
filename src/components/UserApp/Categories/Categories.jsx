@@ -31,7 +31,7 @@ const Categories = () => {
   }, [id]);
 
   return (
-    <>
+    <div className={styles.categoriesContainer}>
       <h2 className={styles.title}>Категория - {category}</h2>
       <Container>
         <CssBaseline />
@@ -69,7 +69,7 @@ const Categories = () => {
             ))}
         </Grid>
       </Container>
-    </>
+    </div>
   );
 };
 

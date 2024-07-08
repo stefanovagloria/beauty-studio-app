@@ -52,7 +52,7 @@ const ShoppingCart = () => {
   };
 
   return (
-    <>
+    <div className={styles.container}>
       {orderedProducts.length > 0 && (
         <Container
           style={{
@@ -162,7 +162,7 @@ const ShoppingCart = () => {
       {orderedProducts.length == 0 && (
         <p>Все още няма добавени продукти в количката!</p>
       )}
-    </>
+    </div>
   );
 };
 

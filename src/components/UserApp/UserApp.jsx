@@ -16,29 +16,33 @@ import ProductItemDetails from "./ProductItem/ProductItemDetails";
 import ProcedureItemDetails from "./ProcedureItem/ProcedureItemDetails";
 import Footer from "./Footer/Footer";
 
+import styles from "./UserApp.module.scss";
+
 const UserApp = () => {
   return (
     <CartProvider>
-
-      <Navigation />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/procedures/:id" element={<ProcedureItemDetails />} />
-        <Route path="/procedures/*" element={<ProceduresList />} />
-        <Route path="/products/*" element={<ProductsList />} />
-        <Route path="/products/:id" element={<ProductItemDetails />} />
-        <Route
-          path="/book-appointment/procedures/:id"
-          element={<BookAppointment />}
-        />
-        <Route path="/shopping-cart" element={<ShoppingCart />} />
-        <Route path="/checkout" element={<Checkout />} />
-        <Route path="/categories/:id" element={<Categories />} />
-        <Route path="/gallery" element={<Gallery />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-      <Footer/>
-  
+      <div className={styles.appContainer}>
+        <Navigation />
+        <div className={styles.content}>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/procedures/:id" element={<ProcedureItemDetails />} />
+            <Route path="/procedures/*" element={<ProceduresList />} />
+            <Route path="/products/*" element={<ProductsList />} />
+            <Route path="/products/:id" element={<ProductItemDetails />} />
+            <Route
+              path="/book-appointment/procedures/:id"
+              element={<BookAppointment />}
+            />
+            <Route path="/shopping-cart" element={<ShoppingCart />} />
+            <Route path="/checkout" element={<Checkout />} />
+            <Route path="/categories/:id" element={<Categories />} />
+            <Route path="/gallery" element={<Gallery />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </div>
+        <Footer />
+      </div>
     </CartProvider>
   );
 };
