@@ -1,30 +1,26 @@
-.mainContainer{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+.mainContainer {
+  display: flex;
+  flex-direction: row;
 
 }
 
 .btnContainer {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 150px;
-    height: 150px;
-    font-weight: bold;
-    font-size: 30px;
-    margin: 0px 20px 0px 20px;
-    cursor: pointer; /* Change cursor to pointer on hover */
-  }
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 150px;
+  height: 150px;
+  font-weight: bold;
+  font-size: 30px;
+  margin: 0px 20px 0px 20px;
+  cursor: pointer; /* Change cursor to pointer on hover */
+}
 
-  
-  .btnContainer:hover{
-    background-color: whitesmoke;
-  }
+.btnContainer:hover {
+  background-color: whitesmoke;
+}
 
-
-  .proceduresContainer{
-    display: flex;
-    flex-direction: row;
-    max-height: 300px;
-  }
+.proceduresContainer {
+  display: flex;
+  flex-direction: row;
+}

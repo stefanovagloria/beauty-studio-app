@@ -1,20 +1,19 @@
 .mainContainer{
     display: flex;
     flex-direction: row;
-    height: auto;
-    align-items: center;
+
 }
 
 .btnContainer {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 150px;
-    height: 150px;
-    font-weight: bold;
-    font-size: 30px;
-    margin: 0px 20px 0px 20px;
-    cursor: pointer; /* Change cursor to pointer on hover */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 150px;
+  height: 150px;
+  font-weight: bold;
+  font-size: 30px;
+  margin: 0px 20px 0px 20px;
+  cursor: pointer; /* Change cursor to pointer on hover */
   }
 
   .btnContainer:hover{

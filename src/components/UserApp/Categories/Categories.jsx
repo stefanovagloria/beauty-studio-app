@@ -34,12 +34,12 @@ const Categories = () => {
     <div className={styles.categoriesContainer}>
       <h2 className={styles.title}>Категория - {category}</h2>
       <Container>
-        <CssBaseline />
+      <CssBaseline />
         <Grid
           container
-          rowSpacing={1}
+          rowSpacing={5}
           columnSpacing={5}
-          style={{ height: "400px" }}
+          style={{marginBottom: "50px"}}
         >
           {procedures &&
             procedures.map((p) => (

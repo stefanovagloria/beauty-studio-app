@@ -58,6 +58,7 @@ const Products = () => {
   return (
     <>
       <CategoriesList type="products" selectCategory={handleSelectCategory} />
+      
       {selectedCategory && (
         <>
           <h1>Категория - {selectedCategory.name}</h1>

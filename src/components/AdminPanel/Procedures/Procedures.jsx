@@ -42,7 +42,7 @@ const Procedures = () => {
   };
 
   const setProcedure = (procedure) => {
-    console.log(procedure)
+    console.log(procedure);
     setSelectedProcedure(procedure);
     setShowModal(true);
   };
@@ -64,6 +64,7 @@ const Procedures = () => {
   return (
     <>
       <CategoriesList type="procedures" selectCategory={handleSelectCategory} />
+
       {selectedCategory && (
         <>
           <h1>Категория - {selectedCategory.name}</h1>
@@ -73,12 +74,10 @@ const Procedures = () => {
                 +
               </Card>
             </div>
-            <div className={styles.proceduresContainer}>
-              <ProceduresList
-                procedures={procedures}
-                setProcedure={setProcedure}
-              />
-            </div>
+            <ProceduresList
+              procedures={procedures}
+              setProcedure={setProcedure}
+            />
           </div>
           <AddProcedure
             show={showModal}

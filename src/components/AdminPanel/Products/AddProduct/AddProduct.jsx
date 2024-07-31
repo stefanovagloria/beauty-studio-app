@@ -116,6 +116,7 @@ const AddProduct = ({
         [inputName]: e.target.value,
       }));
     } else {
+      console.log(e.target.files[0]);
       setProductsValues((values) => ({
         ...values,
         [inputName]: [...values[inputName], e.target.files[0]],
