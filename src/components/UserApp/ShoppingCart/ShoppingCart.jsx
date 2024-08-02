@@ -1,6 +1,9 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { CartContext } from "../../../context/CartContext";
+import { useSelector, useDispatch } from "react-redux";
+
+import { cartActions } from "../../../store/cart-slice";
+
 import styles from "./ShoppingCart.module.scss";
 
 import {
@@ -21,23 +24,17 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 
 const ShoppingCart = () => {
-  const [orderedProducts, setOrderedProducts] = useState([]);
-  const [totalPrice, setTotalPrice] = useState(null);
-  const { items, total, getItemsAndTotalPrice, updateItem, removeItem } =
-    useContext(CartContext);
+  const items = useSelector((state) => state.cart.items);
+  const totalPrice = useSelector((state) => state.cart.totalPrice);
+
+  const dispatch = useDispatch();
 
   const [openModal, setOpenModal] = useState(false);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const setState = async () => {
-      const contextData = await getItemsAndTotalPrice();
-      setOrderedProducts(contextData.items);
-      setTotalPrice(contextData.total);
-    };
-
-    setState();
-  }, [items, total]);
+  useEffect(() =>{
+console.log(items)
+  }, [])
 
   const handleOpen = () => {
     setOpenModal(true);
@@ -51,9 +48,17 @@ const ShoppingCart = () => {
     navigate("/checkout");
   };
 
+  const addItemHandler = (e,item) =>{
+    dispatch(cartActions.additem(item))
+  }
+
+  const removeItemHandler = (e,itemId) =>{
+    dispatch(cartActions.removeItem(itemId));
+  }
+
   return (
     <div className={styles.container}>
-      {orderedProducts.length > 0 && (
+      {items.length > 0 && (
         <Container
           style={{
             display: "flex",
@@ -65,37 +70,18 @@ const ShoppingCart = () => {
               Количка
             </Typography>
             <List>
-              {orderedProducts.map((item) => (
+              {items.map((item) => (
                 <ListItem key={item._id} className={styles.listItem}>
                   <ListItemText
                     primary={item.name}
                     secondary={`${item.price} лв`}
                   />
                   <ListItemSecondaryAction>
-                    <TextField
-                      className={styles.inputField}
-                      id="outlined-number"
-                      type="number"
-                      size="small"
-                      name="quantity"
-                      InputLabelProps={{
-                        shrink: true,
-                      }}
-                      value={item.quantity}
-                      onChange={(e) => updateItem(e, item._id)}
-                    />
-                    <Button
-                      style={{
-                        backgroundColor: "black",
-                        color: "white",
-                        padding: "1em",
-                        borderRadius: "0.7em",
-                      }}
-                      onClick={() => removeItem(item._id)}
-                      className={styles.btn}
-                    >
-                      X
-                    </Button>
+                    <button className={styles.quantityButtons} onClick={(e) => removeItemHandler(e,item._id)}>-</button>
+                    <span className={styles.quantityValue}>
+                      {item.quantity}
+                    </span>
+                    <button className={styles.quantityButtons} onClick={(e) => addItemHandler(e,item)}>+</button>
                   </ListItemSecondaryAction>
                 </ListItem>
               ))}
@@ -159,9 +145,7 @@ const ShoppingCart = () => {
           </Dialog>
         </Container>
       )}
-      {orderedProducts.length == 0 && (
-        <p>Все още няма добавени продукти в количката!</p>
-      )}
+      {items.length == 0 && <p>Все още няма добавени продукти в количката!</p>}
     </div>
   );
 };

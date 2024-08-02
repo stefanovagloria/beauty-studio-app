@@ -2,6 +2,9 @@ import { useContext, useEffect, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 
+import { useDispatch } from "react-redux";
+import { cartActions } from "../../../store/cart-slice";
+
 import { CartContext } from "../../../context/CartContext";
 
 import styles from "./ProductItemDetails.module.css";
@@ -23,10 +26,10 @@ const CustomButton = styled(Button)({
 
 const ProductItemDetails = () => {
   const [product, setProduct] = useState({});
-  const [quantity, setQuantity] = useState(1);
-  const { addItem } = useContext(CartContext);
   const navigate = useNavigate();
   const { id } = useParams();
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const getProduct = async () => {
@@ -34,18 +37,14 @@ const ProductItemDetails = () => {
       const characteristics = response.data.characteristics;
       const updatedCharacteristics = characteristics.slice(1);
       setProduct({ ...response.data, characteristics: updatedCharacteristics });
-      console.log(response.data);
     };
 
     getProduct();
   }, [id]);
 
-  const handleQuantityChange = (e) => {
-    setQuantity(e.target.value);
-  };
-
   const addProductToShoppingCart = () => {
-    addItem(product, quantity);
+    console.log(product)
+    dispatch(cartActions.additem(product));
   };
 
   const navigateToCheckout = () => {
@@ -69,17 +68,6 @@ const ProductItemDetails = () => {
               </p>
             ))}
           <p className={styles.price}>{product.price} лв</p>
-          <Input
-            className={styles.inputField}
-            id="outlined-number"
-            type="number"
-            size="smaller"
-            inputlabelprops={{
-              shrink: true,
-            }}
-            value={quantity}
-            onChange={handleQuantityChange}
-          />
           <CustomButton onClick={addProductToShoppingCart}>
             Добави в количка
           </CustomButton>

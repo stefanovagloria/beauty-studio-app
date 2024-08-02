@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import { Provider } from "react-redux";
 
-import store from "./store";
+import store from "./store/index";
 
 import UserApp from "./components/UserApp/UserApp";
 import AdminLogin from "./components/AdminPanel/AdminLogin/AdminLogin";

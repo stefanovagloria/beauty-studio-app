@@ -1,12 +1,11 @@
-import { useState, useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 import styles from "./Header.module.scss";
 import { styled } from "@mui/material/styles";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import Badge from "@mui/material/Badge";
 import IconButton from "@mui/material/IconButton";
-import { CartContext } from "../../../../context/CartContext";
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
   "& .MuiBadge-badge": {
@@ -18,12 +17,10 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 }));
 
 const Header = () => {
-  const [itemsCount, setItemsCount] =  useState(0);
-  const {items} = useContext(CartContext);
 
-  useEffect(()=>{
-    setItemsCount(items.length)
-  }, [items])
+  const itemsCount = useSelector((state) => state.cart.totalItems);
+
+  
   return (
     <div className={styles.container}>
       <div>Понеделник до Неделя : 09:00-19:00ч. БЕЗ ПОЧИВЕН ДЕН</div>
