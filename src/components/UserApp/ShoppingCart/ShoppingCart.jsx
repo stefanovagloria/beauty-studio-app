@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
-import { cartActions } from "../../../store/cart-slice";
+import { cartActions, sendItemData } from "../../../store/cart-slice";
 
 import styles from "./ShoppingCart.module.scss";
 
@@ -33,7 +33,7 @@ const ShoppingCart = () => {
   const navigate = useNavigate();
 
   useEffect(() =>{
-console.log(items)
+
   }, [])
 
   const handleOpen = () => {
@@ -49,7 +49,7 @@ console.log(items)
   };
 
   const addItemHandler = (e,item) =>{
-    dispatch(cartActions.additem(item))
+    dispatch(sendItemData(item))
   }
 
   const removeItemHandler = (e,itemId) =>{

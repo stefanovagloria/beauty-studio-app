@@ -11,7 +11,6 @@ import image from "../../../assets/procedures.png";
 import { Box } from "@mui/material";
 
 import Grid from "@mui/material/Grid";
-import styles from "./ProductsList.module.scss";
 
 const ProductsList = () => {
   const [products, setProducts] = useState([]);

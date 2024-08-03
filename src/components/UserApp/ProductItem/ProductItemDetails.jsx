@@ -3,7 +3,7 @@ import { useParams, useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 
 import { useDispatch } from "react-redux";
-import { cartActions } from "../../../store/cart-slice";
+import { cartActions, sendItemData } from "../../../store/cart-slice";
 
 import { CartContext } from "../../../context/CartContext";
 
@@ -44,7 +44,7 @@ const ProductItemDetails = () => {
 
   const addProductToShoppingCart = () => {
     console.log(product)
-    dispatch(cartActions.additem(product));
+    dispatch(sendItemData(product));
   };
 
   const navigateToCheckout = () => {
