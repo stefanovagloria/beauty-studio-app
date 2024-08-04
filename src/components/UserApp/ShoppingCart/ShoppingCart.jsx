@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
-import { cartActions, sendItemData } from "../../../store/cart-slice";
+import { cartActions, getItemData, removeItemData, sendItemData } from "../../../store/cart-slice";
 
 import styles from "./ShoppingCart.module.scss";
 
@@ -33,7 +33,7 @@ const ShoppingCart = () => {
   const navigate = useNavigate();
 
   useEffect(() =>{
-
+    dispatch(getItemData());
   }, [])
 
   const handleOpen = () => {
@@ -52,8 +52,8 @@ const ShoppingCart = () => {
     dispatch(sendItemData(item))
   }
 
-  const removeItemHandler = (e,itemId) =>{
-    dispatch(cartActions.removeItem(itemId));
+  const removeItemHandler = (e,item) =>{
+    dispatch(removeItemData(item));
   }
 
   return (
@@ -77,7 +77,7 @@ const ShoppingCart = () => {
                     secondary={`${item.price} лв`}
                   />
                   <ListItemSecondaryAction>
-                    <button className={styles.quantityButtons} onClick={(e) => removeItemHandler(e,item._id)}>-</button>
+                    <button className={styles.quantityButtons} onClick={(e) => removeItemHandler(e,item)}>-</button>
                     <span className={styles.quantityValue}>
                       {item.quantity}
                     </span>

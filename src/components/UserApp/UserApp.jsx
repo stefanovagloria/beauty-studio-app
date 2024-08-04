@@ -1,4 +1,6 @@
 import { Routes, Route } from "react-router-dom";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 
 import { CartProvider } from "../../context/CartContext";
 
@@ -17,8 +19,13 @@ import ProcedureItemDetails from "./ProcedureItem/ProcedureItemDetails";
 import Footer from "./Footer/Footer";
 
 import styles from "./UserApp.module.scss";
+import { cartActions, getItemData } from "../../store/cart-slice";
 
 const UserApp = () => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getItemData());
+  }, []);
   return (
     <CartProvider>
       <div className={styles.appContainer}>

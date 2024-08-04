@@ -43,7 +43,9 @@ const cartSlice = createSlice({
                 return acc + value.price
             }, 0);
             state.totalPrice = sum;
-            state.totalItems = cartItems.length;
+            state.totalItems = cartItems.reduce((acc, value) => {
+                return acc + value.quantity
+            }, 0);
         }
     }
 });
@@ -53,15 +55,16 @@ export const getItemData = () => {
 
         const getCartItems = async () => {
             const response = await axios.get(`http://localhost:4000/cart`);
+            return response.data;
         }
 
         try {
-            const response = await getCartItems();
-            dispatch()
-            return response.json();
+            const data = await getCartItems();
+            dispatch(cartActions.replaceCart(data))
         } catch (error) {
             throw new Error(error.message);
         }
+
     }
 }
 
@@ -99,20 +102,20 @@ export const sendItemData = (itemData) => {
     }
 }
 
-export const removeItemData = (product) =>{
-    return async (dispatch) =>{
+export const removeItemData = (product) => {
+    return async (dispatch, getState) => {
 
-        const removeFromProductCart = async () =>{
+        const removeFromProductCart = async () => {
             const state = getState();
             const existingItem = state.cart.items.find(i => i._id === product._id);
 
-            if(existingItem.quantity === 1){
+            if (existingItem.quantity === 1) {
                 // DELETE 
                 return await axios.delete(`http://localhost:4000/cart/${product._id}`, product._id);
-            }else{
+            } else {
 
                 //PUT
-                return await axios.put(`http://localhost:4000/cart/${id}`,);
+                return await axios.put(`http://localhost:4000/cart/${product._id}`, { ...product, quantity: existingItem.quantity - 1 });
 
             }
         }
