@@ -40,7 +40,7 @@ const cartSlice = createSlice({
             const cartItems = action.payload;
             state.items = cartItems;
             const sum = cartItems.reduce((acc, value) => {
-                return acc + value.price
+                return acc + value.price * value.quantity
             }, 0);
             state.totalPrice = sum;
             state.totalItems = cartItems.reduce((acc, value) => {

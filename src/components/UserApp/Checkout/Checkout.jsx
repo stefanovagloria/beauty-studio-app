@@ -1,8 +1,8 @@
-import { useState, useEffect, useContext } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useSelector } from "react-redux";
 
-import { CartContext } from "../../../context/CartContext";
 
 import { TextField, Button, Container, Typography } from "@mui/material";
 import OrderTable from "../OrderTable/OrderTable";
@@ -24,8 +24,6 @@ const Checkout = () => {
   const [open, setOpen] = useState(false);
 
   const navigate = useNavigate();
-
-
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -79,7 +77,9 @@ const Checkout = () => {
   };
 
   return (
-    <Container style={{ display: "flex", flexDirection: "row" }}>
+    <Container
+      style={{ display: "flex", flexDirection: "row", marginBottom: "30px" }}
+    >
       <Container sx={{ minWidth: 650 }}>
         <Typography variant="h4" gutterBottom>
           Фактуриране и доставка

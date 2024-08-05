@@ -8,10 +8,12 @@ import TableFooter from "@mui/material/TableFooter";
 import Paper from "@mui/material/Paper";
 import { useContext, useEffect, useState } from "react";
 import { CartContext } from "../../../context/CartContext";
+import { useSelector } from "react-redux";
+
 
 const OrderTable = () => {
-  const [orderedProducts, setOrderedProducts] = useState([]);
-  const [totalPrice, setTotalPrice] = useState(0);
+
+  const state = useSelector((state) => state.cart);
   const { items, total, getItemsAndTotalPrice } = useContext(CartContext);
 
   useEffect(() => {
@@ -34,8 +36,8 @@ const OrderTable = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {orderedProducts &&
-            orderedProducts.map((product) => (
+          {state.items &&
+            state.items.map((product) => (
               <TableRow
                 key={product._id}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -55,7 +57,7 @@ const OrderTable = () => {
             </TableCell>
             <TableCell></TableCell>
             <TableCell style={{ fontWeight: "bold" }} align="right">
-              {totalPrice} лв
+              {state.totalPrice} лв
             </TableCell>
           </TableRow>
         </TableFooter>

@@ -15,24 +15,28 @@ import CheckIcon from "@mui/icons-material/Check";
 
 const procedures = [
   {
+    _id:1,
     name: "Маникюр & Педикюр",
     photoUrl: procedure1,
     description:
       "Студио Nefertiti ще се погрижи за Вашия маникюр и педикюр. Професионалната грижа за ръцете и краката е важна част от визията на всеки клиент.",
   },
   {
+    _id:2,
     name: "Козметика лице и тяло",
     photoUrl: procedure2,
     description:
       "Козметични процедури и терапии - грижи за сияйно лице, шия, деколте и тяло. Комплексната грижа за здравата и стегна кожа на лицето и тялото е гаранция за самочувствие.",
   },
   {
+    _id:3,
     name: "Оформяне на тяло с NuEra Tight",
     photoUrl: procedure3,
     description:
       "NuEra Tight е неинвазивна радиочестотна терапия с контролирана температура, която ефективно намалява мастната тъкан, стяга кожата и изглажда бръчките. ",
   },
   {
+    _id:4,
     name: "Лазерна епилация Жени | Мъже",
     photoUrl: procedure4,
     description:
@@ -59,7 +63,7 @@ const Home = () => {
         </p>
         <div className={styles.proceduresContainer}>
           {procedures.map((p) => (
-            <Card>
+            <Card key={p._id}>
               <CardActionArea>
                 <CardMedia
                   component="img"
