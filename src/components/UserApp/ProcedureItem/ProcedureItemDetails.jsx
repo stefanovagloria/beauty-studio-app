@@ -35,7 +35,6 @@ const ProcedureItemDetails = () => {
       const response = await axios.get(
         `http://localhost:4000/procedures/byId/${id}`
       );
-      console.log(response.data);
       setProcedure(response.data);
     };
     getProcedure();
@@ -52,14 +51,16 @@ const ProcedureItemDetails = () => {
       <div>
         <p className={styles.description}>{procedure.description}</p>
       </div>
-      <div className={styles.relatedProducts}>
-        <h3>Подходящи продукти</h3>
-        <div className={styles.imgContainer}>
-          {relatedProducts.map((p) => (
-            <img src={image} className={styles.img}/>
-          ))}
+      {relatedProducts && (
+        <div className={styles.relatedProducts}>
+          <h3>Подходящи продукти</h3>
+          <div className={styles.imgContainer}>
+            {relatedProducts.map((p, index) => (
+              <img key={index} src={image} className={styles.img} />
+            ))}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

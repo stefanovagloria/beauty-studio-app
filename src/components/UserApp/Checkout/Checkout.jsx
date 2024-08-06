@@ -1,14 +1,13 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useSelector } from "react-redux";
-
 
 import { TextField, Button, Container, Typography } from "@mui/material";
 import OrderTable from "../OrderTable/OrderTable";
 
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
 const Checkout = () => {
 
@@ -170,9 +169,14 @@ const Checkout = () => {
             />
           </div>
           <div>
-            <Button type="submit" variant="contained" color="secondary">
+            <Button type="submit" variant="contained" color="secondary"  style={{ marginRight: '8px' }}>
               Поръчване
             </Button>
+            <Link to='/shopping-cart'>
+            <Button variant="contained" color="secondary">
+              Коригирай поръчката   <ArrowForwardIcon style={{ textAlign: 'right' }}/>
+            </Button>
+            </Link>
           </div>
         </form>
       </Container>
