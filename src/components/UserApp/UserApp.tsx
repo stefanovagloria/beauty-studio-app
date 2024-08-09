@@ -9,7 +9,7 @@ import Navigation from "./Navigation/Navigation";
 import ProceduresList from "./ProceduresList/ProceduresList";
 import ProductsList from "./ProductsList/ProductsList";
 import Gallery from "./Gallery/Gallery";
-import NotFound from "./../NotFound/NotFound";
+import NotFound from "../NotFound/NotFound";
 import Categories from "./Categories/Categories";
 import BookAppointment from "./BookAppointment/BookAppointment";
 import ShoppingCart from "./ShoppingCart/ShoppingCart";
@@ -19,7 +19,7 @@ import ProcedureItemDetails from "./ProcedureItem/ProcedureItemDetails";
 import Footer from "./Footer/Footer";
 
 import styles from "./UserApp.module.scss";
-import { cartActions, getItemData } from "../../store/cart-slice";
+import { getItemData } from "../../store/cart-slice";
 
 const UserApp = () => {
   const dispatch = useDispatch();

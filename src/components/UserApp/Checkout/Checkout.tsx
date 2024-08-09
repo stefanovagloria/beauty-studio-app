@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -32,7 +32,7 @@ const Checkout = () => {
     }));
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
     const products = orderedProducts.map((p) => ({
@@ -67,7 +67,7 @@ const Checkout = () => {
     setOpen(true);
   };
 
-  const handleClose = (event, reason) => {
+  const handleClose = (event, reason: string) => {
     if (reason === "clickaway") {
       return;
     }

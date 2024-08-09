@@ -1,6 +1,6 @@
 
 import { Routes, Route } from "react-router-dom";
-import { Provider, useDispatch } from "react-redux";
+import { Provider } from "react-redux";
 
 import store from "./store/index";
 
@@ -12,10 +12,6 @@ import AdminApp from "./components/AdminPanel/AdminApp";
 import "./App.scss";
 
 function App() {
-
-
-
-
 
   return (
     <AuthProvider>
