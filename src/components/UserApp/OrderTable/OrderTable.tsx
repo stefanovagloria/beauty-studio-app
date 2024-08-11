@@ -6,25 +6,13 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TableFooter from "@mui/material/TableFooter";
 import Paper from "@mui/material/Paper";
-import { useContext, useEffect, useState } from "react";
-import { CartContext } from "../../../context/CartContext";
 import { useSelector } from "react-redux";
-
+import { Product } from "../../../models/product";
 
 const OrderTable = () => {
-
+  // Typing the useSelector hook with RootState to ensure type safety
   const state = useSelector((state) => state.cart);
-  const { items, total, getItemsAndTotalPrice } = useContext(CartContext);
 
-  useEffect(() => {
-    const setState = async () => {
-      const contextData = await getItemsAndTotalPrice();
-      setOrderedProducts(contextData.items);
-      setTotalPrice(contextData.total);
-    };
-
-    setState();
-  }, [items, total]);
   return (
     <TableContainer component={Paper} style={{ marginBottom: "2em" }}>
       <Table sx={{ minWidth: 500 }} aria-label="simple table">
@@ -37,7 +25,7 @@ const OrderTable = () => {
         </TableHead>
         <TableBody>
           {state.items &&
-            state.items.map((product) => (
+            state.items.map((product: Product) => (
               <TableRow
                 key={product._id}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}

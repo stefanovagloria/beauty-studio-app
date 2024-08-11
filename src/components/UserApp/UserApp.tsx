@@ -2,8 +2,6 @@ import { Routes, Route } from "react-router-dom";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 
-import { CartProvider } from "../../context/CartContext";
-
 import Home from "./Home/Home";
 import Navigation from "./Navigation/Navigation";
 import ProceduresList from "./ProceduresList/ProceduresList";
@@ -17,17 +15,21 @@ import Checkout from "./Checkout/Checkout";
 import ProductItemDetails from "./ProductItem/ProductItemDetails";
 import ProcedureItemDetails from "./ProcedureItem/ProcedureItemDetails";
 import Footer from "./Footer/Footer";
-
 import styles from "./UserApp.module.scss";
 import { getItemData } from "../../store/cart-slice";
 
-const UserApp = () => {
-  const dispatch = useDispatch();
+// Import the AppDispatch type from your store setup
+import { AppDispatch } from "../../store";
+
+const UserApp: React.FC = () => {
+  // Use typed dispatch
+  const dispatch = useDispatch<AppDispatch>();
+
   useEffect(() => {
     dispatch(getItemData());
-  }, []);
+  }, [dispatch]);
+
   return (
-    <CartProvider>
       <div className={styles.appContainer}>
         <Navigation />
         <div className={styles.content}>
@@ -50,7 +52,6 @@ const UserApp = () => {
         </div>
         <Footer />
       </div>
-    </CartProvider>
   );
 };
 

@@ -12,6 +12,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import { styled } from "@mui/material/styles";
 import styles from "./OrderDetails.module.scss";
 import OrderConfirmation from "./OrderConfirmation";
+import { Product } from "../../../models/product";
 
 const CustomButton = styled(Button)(({ theme }) => ({
   backgroundColor: "rgb(148, 72, 220)",
@@ -49,7 +50,7 @@ const OrderDetails = ({ open, closeDetails, order, updateOrder }) => {
   useEffect(() => {
     const getProducts = async () => {
       const response = await axios.get(`http://localhost:4000/products`);
-      const data = response.data.filter((p) => order.products.includes(p._id));
+      const data = response.data.filter((p: Product) => order.products.includes(p._id));
       setOrderedProducts(data);
     };
 
