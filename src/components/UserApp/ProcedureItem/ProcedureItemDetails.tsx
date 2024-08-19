@@ -36,8 +36,10 @@ const ProcedureItemDetails = () => {
         `http://localhost:4000/procedures/byId/${id}`
       );
       setProcedure(response.data);
+      console.log(procedure)
     };
     getProcedure();
+    
   }, []);
 
   return (

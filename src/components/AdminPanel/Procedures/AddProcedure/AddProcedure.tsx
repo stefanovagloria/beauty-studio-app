@@ -125,7 +125,7 @@ const AddProcedure = ({
     });
 
     hide();
-    updateProcedures({ type: "add", procedure: response.data });
+    updateProcedures({ type: "add", procedure: procedureValues });
   };
 
   const onEditSubmitHandler = async (e) => {
@@ -177,13 +177,13 @@ const AddProcedure = ({
             console.log(imageURLs)
             console.log("Updated procedureValues:", procedureValues);
 
-            // Now that images are uploaded, proceed with sending POST request to procedures
+            console.log(procedureValues);
             const postResponse = await axios.post(
                 "http://localhost:4000/procedures",
                 procedureValues // Send updated procedureValues with image URLs
             );
 
-            console.log(`Response from POST - ${postResponse.data}`);
+            console.log(postResponse);
         } else {
             console.error("Invalid response data:", response.data);
         }
