@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 import styles from "./ProcedureItemDetails.module.scss";
 import { styled } from "@mui/material/styles";
@@ -19,12 +19,6 @@ const CustomButton = styled(Button)(({ theme }) => ({
   },
 }));
 
-const relatedProducts = [
-  "Хидратиращ крем",
-  "Хидратиращ крем",
-  "Хидратиращ крем",
-  "Хидратиращ крем",
-];
 
 const ProcedureItemDetails = () => {
   const { id } = useParams();
@@ -36,11 +30,12 @@ const ProcedureItemDetails = () => {
         `http://localhost:4000/procedures/byId/${id}`
       );
       setProcedure(response.data);
-      console.log(procedure)
+      console.log(response.data.relatedProducts.length)
+     
     };
     getProcedure();
     
-  }, []);
+  }, [id]);
 
   return (
     <div className={styles.container}>
@@ -53,12 +48,18 @@ const ProcedureItemDetails = () => {
       <div>
         <p className={styles.description}>{procedure.description}</p>
       </div>
-      {relatedProducts && (
+      {procedure &&  procedure.relatedProducts.length > 0 && (
         <div className={styles.relatedProducts}>
           <h3>Подходящи продукти</h3>
-          <div className={styles.imgContainer}>
-            {relatedProducts.map((p, index) => (
-              <img key={index} src={image} className={styles.img} />
+          <div className={styles.subContainer}>
+            {procedure && procedure.relatedProducts && procedure.relatedProducts.map((p, index) => (
+              <div className={styles.imgContainer} key={index}>
+              <Link to={`/procedures/${p._id}`} >
+              <img  src={image} className={styles.img} />
+              <div className={styles.overlayText}>{p.name}</div>
+              </Link>
+              </div>
+             
             ))}
           </div>
         </div>

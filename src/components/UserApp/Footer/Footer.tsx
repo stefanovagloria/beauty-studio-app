@@ -37,8 +37,6 @@ const Footer = () => {
           <img src={image} className={styles.img} />
           <img src={image} className={styles.img} />
           <img src={image} className={styles.img} />
-          <img src={image} className={styles.img} />
-          <img src={image} className={styles.img} />
         </div>
       </div>
       <div className={styles.contacts}>

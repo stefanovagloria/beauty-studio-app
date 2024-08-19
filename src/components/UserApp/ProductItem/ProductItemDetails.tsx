@@ -3,9 +3,7 @@ import { useParams, useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 
 import { useDispatch } from "react-redux";
-import { cartActions, sendItemData } from "../../../store/cart-slice";
-
-import { CartContext } from "../../../context/CartContext";
+import {  sendItemData } from "../../../store/cart-slice";
 
 import styles from "./ProductItemDetails.module.css";
 import image from "../../../assets/productsImage.png";
@@ -37,13 +35,14 @@ const ProductItemDetails = () => {
       const characteristics = response.data.characteristics;
       const updatedCharacteristics = characteristics.slice(1);
       setProduct({ ...response.data, characteristics: updatedCharacteristics });
+      console.log(product)
     };
 
     getProduct();
   }, [id]);
 
   const addProductToShoppingCart = () => {
-    console.log(product)
+
     dispatch(sendItemData(product));
   };
 
