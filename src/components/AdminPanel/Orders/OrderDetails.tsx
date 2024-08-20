@@ -97,7 +97,7 @@ const OrderDetails = ({ open, closeDetails, order, updateOrder }) => {
           <p className={styles.orderNumber}> Поръчка Номер 3 </p>
           <button className={styles.closeBtn} onClick={closeDetails}>X</button>
         </DialogTitle>
-        <DialogContent dividers={scroll === "paper"}>
+        <DialogContent dividers={scroll === "paper"} className={styles.content}>
           <DialogContentText
             id="scroll-dialog-description"
             ref={descriptionElementRef}

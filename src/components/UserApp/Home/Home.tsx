@@ -12,6 +12,7 @@ import Typography from "@mui/material/Typography";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { CardActionArea, CardActions } from "@mui/material";
 import CheckIcon from "@mui/icons-material/Check";
+import { styled } from '@mui/material/styles';
 
 const procedures = [
   {
@@ -43,6 +44,27 @@ const procedures = [
       "Студио Nefertiti разполага с два лазерни апарата за лазерна епилация. Diolaze XL и GentleLase PRO с което предоставя по-голяма гъвкавост и ефективност на услугата.",
   },
 ];
+
+
+const StyledCheckIcon = styled(CheckIcon)(({ theme }) => ({
+  fontSize: 50,
+  color: "green",
+  padding: "5px 20px",
+  border: "1px solid green",
+  borderRadius: "20em",
+  transition: "all 0.3s ease",
+}));
+
+const StyledCard = styled(Card)(({ theme }) => ({
+  transition: "all 0.3s ease",
+  "&:hover": {
+    [`& .MuiSvgIcon-root`]: {  // Targeting the icon within the card on hover
+      color: "white",
+      backgroundColor: "green",
+      borderColor: "white",
+    }
+  }
+}));
 
 const Home = () => {
   return (
@@ -97,10 +119,10 @@ const Home = () => {
         <h1>При нас ще получите</h1>
 
         <div className={styles.aboutCards}>
-          <Card>
+          <StyledCard>
             <CardActionArea>
               <CardContent>
-                <CheckIcon sx={{ fontSize: 50, color: "green", padding: "5px 20px", border: "1px solid green", borderRadius: "20em" }} />
+                <StyledCheckIcon />
                 <Typography gutterBottom variant="h5" component="div" sx={{ fontWeight: "bold"}}>
                   Качествено обслужване
                 </Typography>
@@ -113,11 +135,11 @@ const Home = () => {
                 </Typography>
               </CardContent>
             </CardActionArea>
-          </Card>
-          <Card>
+          </StyledCard>
+          <StyledCard>
             <CardActionArea>
               <CardContent>
-              <CheckIcon sx={{ fontSize: 50, color: "green", padding: "5px 20px", border: "1px solid green", borderRadius: "20em" }} />
+              <StyledCheckIcon  />
                 <Typography gutterBottom variant="h5" component="div" sx={{ fontWeight: "bold"}}>
                   Висок клас апарати в естетиката
                 </Typography>
@@ -130,11 +152,11 @@ const Home = () => {
                 </Typography>
               </CardContent>
             </CardActionArea>
-          </Card>
-          <Card>
+          </StyledCard>
+          <StyledCard>
             <CardActionArea>
               <CardContent>
-              <CheckIcon sx={{ fontSize: 50, color: "green", padding: "5px 20px", border: "1px solid green", borderRadius: "20em" }} />
+              <StyledCheckIcon  />
                 <Typography gutterBottom variant="h5" component="div" sx={{ fontWeight: "bold"}}>
                   Внимание към детайлите
                 </Typography>
@@ -147,7 +169,7 @@ const Home = () => {
                 </Typography>
               </CardContent>
             </CardActionArea>
-          </Card>
+          </StyledCard>
         </div>
       </div>
     </div>

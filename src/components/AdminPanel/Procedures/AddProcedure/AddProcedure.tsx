@@ -89,7 +89,7 @@ const AddProcedure = ({
     }));
   };
 
-  const onCharacteristicsRemove = (index) => {
+  const onCharacteristicsRemove = (index: number) => {
     const updatedCharacteristics = [...procedureValues.characteristics];
     updatedCharacteristics.splice(index, 1);
 

@@ -1,8 +1,22 @@
+
 .container {
     width: 35em; /* Adjust the width as needed */
     height: 35em;
     max-width: none;
     margin: auto;
+    animation: slide-up-fade-in 1s ease-out forwards;
+}
+
+@keyframes slide-up-fade-in {
+    0%{
+        transform: translateY(30px);
+        opacity: 0;
+    }
+    100%{
+        transform: translateY(0);
+        opacity: 1;
+    }
+    
 }
 
 
