@@ -4,16 +4,16 @@ import axios from "axios";
 import ProcedureItem from "../ProcedureItem/ProcedureItem";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
-
-import styles from "./ProceduresList.module.scss";
+import { Procedure } from "../../../models/procedure";
 
 const ProceduresList = () => {
-  const [procedures, setProcedures] = useState([]);
+  const [procedures, setProcedures] = useState<Procedure[]>([]);
 
   useEffect(() => {
     const getProcedures = async () => {
       const response = await axios.get(`http://localhost:4000/procedures`);
       setProcedures(response.data);
+      console.log(response.data)
     };
 
     getProcedures();
@@ -25,7 +25,7 @@ const ProceduresList = () => {
         {procedures &&
           procedures.map((p) => (
             <Grid item xs={4} key={p._id}>
-              <ProcedureItem procedure={p}/>
+              <ProcedureItem {...p}/>
             </Grid>
           ))}
       </Grid>

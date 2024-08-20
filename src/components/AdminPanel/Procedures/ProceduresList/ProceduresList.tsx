@@ -5,8 +5,16 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import image from "../../../../assets/productsImage.png";
 import { Grid, Container } from "@mui/material";
+import { Procedure } from "../../../../models/procedure";
+import React from "react";
 
-const ProceduresList = ({ procedures, setProcedure }) => {
+interface ProceduresProps {
+  procedures: Procedure[],
+  setProcedure: (procedure: Procedure) => void; // Function type
+
+}
+
+const ProceduresList: React.FC<ProceduresProps> = ({ procedures, setProcedure }) => {
   return (
     <Container>
     <Grid
@@ -16,7 +24,7 @@ const ProceduresList = ({ procedures, setProcedure }) => {
       spacing={2}
       style={{ marginBottom: "50px" }}
     >
-      {procedures.map((procedure) => (
+      {procedures.map((procedure: Procedure) => (
         <Card
           className={styles.card}
           key={procedure._id}

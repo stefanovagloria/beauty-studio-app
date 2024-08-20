@@ -2,7 +2,7 @@ import MenuLink from "../MenuLink/MenuLink"
 
 const ArticlesLink = () => {
     return(
-        <MenuLink name={'Как да подобрим'}/>
+        <MenuLink name={'Как да подобрим'} url={'/'}/>
     )
 }
 

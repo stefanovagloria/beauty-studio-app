@@ -8,10 +8,12 @@ import TableFooter from "@mui/material/TableFooter";
 import Paper from "@mui/material/Paper";
 import { useSelector } from "react-redux";
 import { Product } from "../../../models/product";
+import { RootState } from "../../../store";
+import { CartItem } from "../../../models/cartItem";
 
 const OrderTable = () => {
   // Typing the useSelector hook with RootState to ensure type safety
-  const state = useSelector((state) => state.cart);
+  const state = useSelector((state: RootState) => state.cart);
 
   return (
     <TableContainer component={Paper} style={{ marginBottom: "2em" }}>
@@ -25,16 +27,16 @@ const OrderTable = () => {
         </TableHead>
         <TableBody>
           {state.items &&
-            state.items.map((product: Product) => (
+            state.items.map((cartItem: CartItem) => (
               <TableRow
-                key={product._id}
+                key={cartItem._id}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
                 <TableCell component="th" scope="row">
-                  {product.name}
+                {cartItem.name}
                 </TableCell>
-                <TableCell align="right">x {product.quantity}</TableCell>
-                <TableCell align="right">{product.price} лв.</TableCell>
+                <TableCell align="right">x {cartItem.quantity}</TableCell>
+                <TableCell align="right">{cartItem.price} лв.</TableCell>
               </TableRow>
             ))}
         </TableBody>

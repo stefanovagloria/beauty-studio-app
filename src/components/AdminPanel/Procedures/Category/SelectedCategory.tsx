@@ -3,10 +3,13 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 
 import styles from "./SelectedCategory.module.scss";
+import { Category } from "../../../../models/category";
 
 const SelectedCategory = () => {
   const { id } = useParams();
-  const [selectedCategory, setSelectedCategory] = useState({});
+  const [selectedCategory, setSelectedCategory] = useState<Category | null>(
+    null
+  );
 
   useEffect(() => {
     const getCategory = async () => {
@@ -21,7 +24,7 @@ const SelectedCategory = () => {
 
   return (
     <div className={styles.mainContainer}>
-      <h1>Selected Category - {selectedCategory.name}</h1>
+      {selectedCategory && <h1>Selected Category - {selectedCategory.name}</h1>}
     </div>
   );
 };

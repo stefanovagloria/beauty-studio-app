@@ -8,12 +8,20 @@ import ProceduresList from "./ProceduresList/ProceduresList";
 
 import styles from "./Procedures.module.scss";
 import { Card } from "@mui/material";
+import { Category } from "../../../models/category";
+import { Procedure } from "../../../models/procedure";
+
+interface UpdateProceduresParams {
+  type: "add" | "edit";
+  procedure: Procedure;
+}
+
 
 const Procedures = () => {
   const [showModal, setShowModal] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState("");
-  const [selectedProcedure, setSelectedProcedure] = useState({});
-  const [procedures, setProcedures] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState<Category | "">("");
+  const [selectedProcedure, setSelectedProcedure] = useState<Procedure | {}>({});
+  const [procedures, setProcedures] = useState<Procedure[]>([]);
 
   useEffect(() => {
     if (selectedCategory && selectedCategory._id) {
@@ -37,17 +45,17 @@ const Procedures = () => {
     setSelectedProcedure({});
   };
 
-  const handleSelectCategory = (category) => {
+  const handleSelectCategory = (category: Category) => {
     setSelectedCategory(category);
   };
 
-  const setProcedure = (procedure) => {
+  const setProcedure = (procedure: Procedure) => {
     console.log(procedure);
     setSelectedProcedure(procedure);
     setShowModal(true);
   };
 
-  const updateProcedures = ({ type, procedure }) => {
+  const updateProcedures = ({ type, procedure }: UpdateProceduresParams) => {
     if (type === "add") {
       setProcedures((values) => [...values, procedure]);
     } else if (type === "edit") {

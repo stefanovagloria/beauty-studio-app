@@ -2,19 +2,10 @@ import { createSlice, PayloadAction, Dispatch } from "@reduxjs/toolkit";
 import axios from "axios";
 import { RootState } from "./index"; // Make sure this points to the correct file
 import { Product } from "./../models/product"; // Assuming Product is a TypeScript interface or class
+import { CartItem, CartState } from "../models/cartItem";
 
 // Define CartItem and CartState interfaces
-interface CartItem {
-  _id: string;
-  price: number;
-  quantity: number;
-}
 
-interface CartState {
-  items: CartItem[];
-  totalPrice: number;
-  totalItems: number;
-}
 
 // Initialize the initial state
 const initialState: CartState = { items: [], totalPrice: 0, totalItems: 0 };

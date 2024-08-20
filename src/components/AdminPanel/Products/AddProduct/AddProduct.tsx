@@ -12,6 +12,7 @@ import SelectItem from "../SelectProduct/SelectItem";
 
 import { styled } from "@mui/material/styles";
 import productsImage from "../../../../assets/productsImage.png";
+import { Product } from "../../../../models/product";
 
 const CustomButton = styled(Button)(({ theme }) => ({
   backgroundColor: "rgb(148, 72, 220)",
@@ -191,7 +192,7 @@ const AddProduct = ({
     setShowProducts(false);
   };
 
-  const addToRelatedProducts = (product) => {
+  const addToRelatedProducts = (product: Product) => {
     if (!selectedRelatedProductsIds.includes(product._id)) {
       const relatedProductsArr = productsValues.relatedProducts;
       const updatedRelatedProducts = [...relatedProductsArr, product];

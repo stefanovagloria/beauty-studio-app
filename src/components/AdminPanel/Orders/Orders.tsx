@@ -10,20 +10,22 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import { Order } from "../../../models/order";
 
 const Orders = () => {
-  const [orders, setOrders] = useState([]);
+  const [orders, setOrders] = useState<Order[]>([]);
 
   useEffect(() => {
     const getOrders = async () => {
       const response = await axios.get("http://localhost:4000/orders");
       setOrders(response.data);
+      console.log(response.data)
     };
 
     getOrders();
   }, []);
 
-  const updateOrder = (orderId) => {
+  const updateOrder = (orderId: string) => {
     const orderIndex = orders.findIndex((o) => o._id === orderId);
     const updatedOrders = orders;
     updatedOrders[orderIndex]["status"] = "изпратена";

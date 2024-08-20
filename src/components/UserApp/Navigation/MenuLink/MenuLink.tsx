@@ -11,9 +11,20 @@ import MenuList from "@mui/material/MenuList";
 import Stack from "@mui/material/Stack";
 import ArrowDropDownSharpIcon from "@mui/icons-material/ArrowDropDownSharp";
 
-import styles from "./MenuLink.module.scss";
+interface SubLink {
+  _id: string;
+  name: string;
+  url?: string;
+}
 
-const MenuLink = ({ subLinks, name, url }) => {
+// Define an interface for MenuLink props
+interface MenuLinkProps {
+  subLinks?: SubLink[];  // Optional subLinks array
+  name: string;
+  url: string;
+}
+
+const MenuLink: React.FC<MenuLinkProps> = ({ subLinks, name, url }) => {
   const [open, setOpen] = useState(false);
   const [currentlyOpenLinkId, setCurrentlyOpenLinkId] = useState(null);
   const anchorRef = useRef(null);
@@ -22,14 +33,14 @@ const MenuLink = ({ subLinks, name, url }) => {
     setOpen(true);
   };
 
-  const handleClose = (event) => {
+  const handleClose = (event: MouseEvent) => {
     if (anchorRef.current && anchorRef.current.contains(event.target)) {
       return;
     }
     setOpen(false);
   };
 
-  function handleListKeyDown(event) {
+  function handleListKeyDown(event: KeyboardEvent) {
     if (event.key === "Tab") {
       event.preventDefault();
       setOpen(false);
@@ -42,7 +53,10 @@ const MenuLink = ({ subLinks, name, url }) => {
   const prevOpen = useRef(open);
   useEffect(() => {
     if (prevOpen.current === true && open === false) {
-      anchorRef.current.focus();
+      if(anchorRef.current){
+        anchorRef.current.focus();
+      }
+     
     }
 
     prevOpen.current = open;

@@ -11,6 +11,7 @@ import Typography from "@mui/material/Typography";
 
 import styles from "./Categories.module.scss";
 import image from "../../../assets/productsImage.png";
+import { Procedure } from "../../../models/procedure";
 
 const Categories = () => {
   const { id } = useParams();
@@ -42,7 +43,7 @@ const Categories = () => {
           style={{marginBottom: "50px"}}
         >
           {procedures &&
-            procedures.map((p) => (
+            procedures.map((p: Procedure) => (
               <Grid
                 key={p._id}
                 item

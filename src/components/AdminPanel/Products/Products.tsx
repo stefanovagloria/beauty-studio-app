@@ -7,9 +7,11 @@ import CategoriesList from "../Procedures/CategoriesList/CategoriesList";
 import styles from "./Products.module.css";
 import Card from "@mui/material/Card";
 import axios from "axios";
+import { Category } from "../../../models/category";
+import { Product } from "../../../models/product";
 
 const Products = () => {
-  const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
   const [products, setProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState({});
   const [showModal, setShowModal] = useState(false);
@@ -33,17 +35,17 @@ const Products = () => {
     setSelectedProduct({});
   };
 
-  const handleSelectCategory = (category) => {
+  const handleSelectCategory = (category: Category) => {
     setSelectedCategory(category);
   };
 
-  const handleSelectProduct = (product) => {
+  const handleSelectProduct = (product: Product) => {
     console.log(product);
     setSelectedProduct(product);
     setShowModal(true);
   };
 
-  const updateProducts = ({ type, product }) => {
+  const updateProducts = ({ type, product}) => {
     if (type === "add") {
       setProducts((values) => [...values, product]);
     } else if (type === "edit") {

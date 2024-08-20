@@ -11,12 +11,13 @@ import image from "../../../assets/procedures.png";
 import { Box } from "@mui/material";
 
 import Grid from "@mui/material/Grid";
+import { Product } from "../../../models/product";
 
 const ProductsList = () => {
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState<Product[]>([]);
   const navigate = useNavigate();
 
-  const navigateToDetailsPage = (productId) => {
+  const navigateToDetailsPage = (productId: string) => {
     navigate(`/products/${productId}`);
   };
 

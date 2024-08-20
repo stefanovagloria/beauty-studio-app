@@ -5,12 +5,11 @@ import axios from "axios";
 import { TextField, Button, Container, Typography } from "@mui/material";
 import OrderTable from "../OrderTable/OrderTable";
 
-import Snackbar from "@mui/material/Snackbar";
+import Snackbar, { SnackbarCloseReason } from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
 const Checkout = () => {
-
   const [userData, setUserData] = useState({
     name: "",
     surname: "",
@@ -24,7 +23,7 @@ const Checkout = () => {
 
   const navigate = useNavigate();
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setUserData((prevState) => ({
       ...prevState,
@@ -35,6 +34,7 @@ const Checkout = () => {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
+    // Assuming `orderedProducts` and `totalPrice` are defined elsewhere
     const products = orderedProducts.map((p) => ({
       name: p.name,
       price: p.price,
@@ -51,27 +51,25 @@ const Checkout = () => {
       status: "нова",
     };
 
-    const response = await axios.post(
-      "http://localhost:4000/orders/checkout",
-      orderData
-    );
-
-    localStorage.clear();
-
-    handleClick();
-
-    setTimeout(() => navigate("/"), 6000);
+    try {
+      await axios.post("http://localhost:4000/orders/checkout", orderData);
+      localStorage.clear();
+      handleClick();
+      setTimeout(() => navigate("/"), 6000);
+    } catch (error) {
+      // Handle error (e.g., show an error message)
+      console.error("Order submission failed", error);
+    }
   };
 
   const handleClick = () => {
     setOpen(true);
   };
 
-  const handleClose = (event, reason: string) => {
+  const handleClose = (event: React.SyntheticEvent<SnackbarCloseReason>, reason: string) => {
     if (reason === "clickaway") {
       return;
     }
-
     setOpen(false);
   };
 
@@ -169,13 +167,13 @@ const Checkout = () => {
             />
           </div>
           <div>
-            <Button type="submit" variant="contained" color="secondary"  style={{ marginRight: '8px' }}>
+            <Button type="submit" variant="contained" color="secondary" style={{ marginRight: '8px' }}>
               Поръчване
             </Button>
             <Link to='/shopping-cart'>
-            <Button variant="contained" color="secondary">
-              Коригирай поръчката   <ArrowForwardIcon style={{ textAlign: 'right' }}/>
-            </Button>
+              <Button variant="contained" color="secondary">
+                Коригирай поръчката <ArrowForwardIcon style={{ textAlign: 'right' }} />
+              </Button>
             </Link>
           </div>
         </form>

@@ -6,6 +6,7 @@ import { styled } from "@mui/material/styles";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import Badge from "@mui/material/Badge";
 import IconButton from "@mui/material/IconButton";
+import { RootState } from "../../../../store";
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
   "& .MuiBadge-badge": {
@@ -18,7 +19,7 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 
 const Header = () => {
 
-  const itemsCount = useSelector((state) => state.cart.totalItems);
+  const itemsCount = useSelector((state: RootState) => state.cart.totalItems);
 
   
   return (
