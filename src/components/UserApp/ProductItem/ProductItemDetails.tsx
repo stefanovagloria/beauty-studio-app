@@ -7,9 +7,10 @@ import { sendItemData } from "../../../store/cart-slice";
 import styles from "./ProductItemDetails.module.css";
 import image from "../../../assets/productsImage.png";
 import { styled } from "@mui/system";
-import { Button, Input } from "@mui/material";
+import { Button } from "@mui/material";
 import { Product } from "../../../models/product";
 import { useAppDispatch } from "../../../store";
+import { CartItem } from "../../../models/cartItem";
 
 const CustomButton = styled(Button)({
   margin: "2em",
@@ -24,7 +25,7 @@ const CustomButton = styled(Button)({
 });
 
 const ProductItemDetails = () => {
-  const [product, setProduct] = useState<Product | null>(null);
+  const [product, setProduct] = useState<Product  | null>(null);
   const navigate = useNavigate();
   const { id } = useParams();
 

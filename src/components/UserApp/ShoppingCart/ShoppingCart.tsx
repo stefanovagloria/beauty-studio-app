@@ -2,7 +2,11 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
-import { cartActions, getItemData, removeItemData, sendItemData } from "../../../store/cart-slice";
+import {
+  getItemData,
+  removeItemData,
+  sendItemData,
+} from "../../../store/cart-slice";
 
 import styles from "./ShoppingCart.module.scss";
 
@@ -22,19 +26,22 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import { RootState, useAppDispatch } from "../../../store";
+import { CartItem } from "../../../models/cartItem";
+import { Product } from "../../../models/product";
 
 const ShoppingCart = () => {
-  const items = useSelector((state) => state.cart.items);
-  const totalPrice = useSelector((state) => state.cart.totalPrice);
+  const items = useSelector((state: RootState) => state.cart.items);
+  const totalPrice = useSelector((state: RootState) => state.cart.totalPrice);
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const [openModal, setOpenModal] = useState(false);
   const navigate = useNavigate();
 
-  useEffect(() =>{
+  useEffect(() => {
     dispatch(getItemData());
-  }, [])
+  }, []);
 
   const handleOpen = () => {
     setOpenModal(true);
@@ -48,13 +55,13 @@ const ShoppingCart = () => {
     navigate("/checkout");
   };
 
-  const addItemHandler = (e,item) =>{
-    dispatch(sendItemData(item))
-  }
+  const addItemHandler = (item: Product) => {
+    dispatch(sendItemData(item));
+  };
 
-  const removeItemHandler = (e,item) =>{
+  const removeItemHandler = (item: Product) => {
     dispatch(removeItemData(item));
-  }
+  };
 
   return (
     <div className={styles.container}>
@@ -77,11 +84,21 @@ const ShoppingCart = () => {
                     secondary={`${item.price} лв`}
                   />
                   <ListItemSecondaryAction>
-                    <button className={styles.quantityButtons} onClick={(e) => removeItemHandler(e,item)}>-</button>
+                    <button
+                      className={styles.quantityButtons}
+                      onClick={(e) => removeItemHandler(item)}
+                    >
+                      -
+                    </button>
                     <span className={styles.quantityValue}>
                       {item.quantity}
                     </span>
-                    <button className={styles.quantityButtons} onClick={(e) => addItemHandler(e,item)}>+</button>
+                    <button
+                      className={styles.quantityButtons}
+                      onClick={(e) => addItemHandler(item)}
+                    >
+                      +
+                    </button>
                   </ListItemSecondaryAction>
                 </ListItem>
               ))}

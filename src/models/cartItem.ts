@@ -1,3 +1,5 @@
+import { Product } from "./product";
+
 export interface CartItem {
     _id: string;
     name: string;
@@ -6,7 +8,7 @@ export interface CartItem {
   }
   
   export interface CartState {
-    items: CartItem[];
+    items: Product[];
     totalPrice: number;
     totalItems: number;
   }

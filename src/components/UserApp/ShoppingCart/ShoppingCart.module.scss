@@ -1,54 +1,52 @@
-.quantityButtons{
- background-color: white;
- border: 1px solid black;
- margin: 10px;
- padding: 5px;
+.quantityButtons {
+  background-color: white;
+  border: 1px solid black;
+  margin: 10px;
+  padding: 5px;
 }
 
-.quantity{
-    padding: 5px;
-    text-align: center;
+.quantity {
+  padding: 5px;
+  text-align: center;
 }
 
 .items {
-    width: 65em;
+  width: 65em;
 }
 
-.listItem{
-    border-bottom: 0.5px solid black;
-    margin-bottom: 2em;
+.listItem {
+  border-bottom: 0.5px solid black;
+  margin-bottom: 2em;
 }
 
-.checkout{
-    text-align: center;
-    width: 35em;
-    height: 9.5em;
-    margin-left: 2em;
-    border-bottom: 1px solid black;
-    border-right: 1px solid black;
+.checkout {
+  text-align: center;
+  width: 35em;
+  height: 9.5em;
+  margin-left: 2em;
+  border-bottom: 1px solid black;
+  border-right: 1px solid black;
 }
 
-.container{
-    display: flex;
-    flex-direction: row;
-    padding-bottom: 100px;
+.container {
+  display: flex;
+  flex-direction: row;
+  padding-bottom: 100px;
 }
 
-.btn{
-    background-color: black;
-    color: white;
-    padding: 1em;
-    border-radius: 0.7em;
+.btn {
+  background-color: black;
+  color: white;
+  padding: 1em;
+  border-radius: 0.7em;
 }
 
-.btn:hover{
-    background: rgb(68, 62, 62);
+.btn:hover {
+  background: rgb(68, 62, 62);
 }
-
 
 .inputField {
-    width: 5em;
-    height: auto;
-    margin-right: 2em;
-
+  width: 5em;
+  height: auto;
+  margin-right: 2em;
 }

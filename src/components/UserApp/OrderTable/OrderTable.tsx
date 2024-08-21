@@ -7,7 +7,6 @@ import TableRow from "@mui/material/TableRow";
 import TableFooter from "@mui/material/TableFooter";
 import Paper from "@mui/material/Paper";
 import { useSelector } from "react-redux";
-import { Product } from "../../../models/product";
 import { RootState } from "../../../store";
 import { CartItem } from "../../../models/cartItem";
 
@@ -33,7 +32,7 @@ const OrderTable = () => {
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
                 <TableCell component="th" scope="row">
-                {cartItem.name}
+                  {cartItem.name}
                 </TableCell>
                 <TableCell align="right">x {cartItem.quantity}</TableCell>
                 <TableCell align="right">{cartItem.price} лв.</TableCell>

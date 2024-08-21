@@ -1,5 +1,5 @@
-h3{
-    text-align: center;
+h3 {
+  text-align: center;
 }
 
 .container {
@@ -16,68 +16,67 @@ h3{
   margin: 2em;
 }
 
-.buttons{
-    margin: 1em;
+.buttons {
+  margin: 1em;
 }
 
-.relatedProducts{
-    display: flex;
-    flex-direction: column;
+.relatedProducts {
+  display: flex;
+  flex-direction: column;
 }
 
-.subContainer{
-    display: flex;
-    height: 150px;
-    margin: 0.5em;
-    padding: 0.5em;
-    border: 1px solid rgb(111, 106, 106);
-    border-radius: 1.5em;
-    position: relative;
-   
+.subContainer {
+  display: flex;
+  height: 150px;
+  margin: 0.5em;
+  padding: 0.5em;
+  border: 1px solid rgb(111, 106, 106);
+  border-radius: 1.5em;
+  position: relative;
 }
 
-.img{
-    display: block;
-    width: 150px;
-    object-fit: cover;
-    height: 120px;
-    margin: 1em;
-    border-radius: 0.7em;
+.img {
+  display: block;
+  width: 150px;
+  object-fit: cover;
+  height: 120px;
+  margin: 1em;
+  border-radius: 0.7em;
 }
 
 .imgContainer {
-    position: relative;
-    display: inline-block; /* Make sure the container fits the content */
+  position: relative;
+  display: inline-block; /* Make sure the container fits the content */
 }
 
-.img:hover{
-    opacity: 0.5;
-    cursor: pointer;
+.img:hover {
+  opacity: 0.5;
+  cursor: pointer;
 }
 
-.overlayText{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: white;
-    font-size: 24px; /* Adjust the size as needed */
-    opacity: 0; /* Hide the text initially */
-    pointer-events: none; /* Make sure the text doesn't interfere with mouse events */
-    transition: opacity 0.3s ease; /* Smooth transition for text appearance */
+.overlayText {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 24px; /* Adjust the size as needed */
+  opacity: 0; /* Hide the text initially */
+  pointer-events: none; /* Make sure the text doesn't interfere with mouse events */
+  transition: opacity 0.3s ease; /* Smooth transition for text appearance */
 }
 
 .imgContainer:hover .img {
-    opacity: 0.5; /* Fade the image */
-    cursor: pointer;
+  opacity: 0.5; /* Fade the image */
+  cursor: pointer;
 }
 
 .imgContainer:hover .overlayText {
-    opacity: 1; /* Show the text on hover */
-    font-weight: bolder;
-    color: black;
+  opacity: 1; /* Show the text on hover */
+  font-weight: bolder;
+  color: black;
 }
 
-.procedureImg{
-    border-radius: 1em;
+.procedureImg {
+  border-radius: 1em;
 }

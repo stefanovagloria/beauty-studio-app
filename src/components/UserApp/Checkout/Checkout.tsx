@@ -1,6 +1,7 @@
 import { FormEvent, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useSelector, UseSelector } from "react-redux";
 
 import { TextField, Button, Container, Typography } from "@mui/material";
 import OrderTable from "../OrderTable/OrderTable";
@@ -8,6 +9,7 @@ import OrderTable from "../OrderTable/OrderTable";
 import Snackbar, { SnackbarCloseReason } from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import { RootState } from "../../../store";
 
 const Checkout = () => {
   const [userData, setUserData] = useState({
@@ -17,11 +19,11 @@ const Checkout = () => {
     city: "",
     street: "",
     phoneNumber: "",
-    email: "",
   });
   const [open, setOpen] = useState(false);
 
   const navigate = useNavigate();
+  const state = useSelector((state: RootState) => state.cart.items);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;

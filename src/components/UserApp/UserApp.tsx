@@ -18,11 +18,9 @@ import Footer from "./Footer/Footer";
 import styles from "./UserApp.module.scss";
 import { getItemData } from "../../store/cart-slice";
 
-// Import the AppDispatch type from your store setup
 import { AppDispatch } from "../../store";
 
 const UserApp: React.FC = () => {
-  // Use typed dispatch
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
