@@ -60,7 +60,7 @@ const AddProduct = ({
   const [showInputs, setShowInputs] = useState(false);
   const [currentInputs, setCurrentInputs] = useState({ key: "", value: "" });
   const [showProducts, setShowProducts] = useState(false);
-  const [selectedRelatedProductsIds, setSelectedRelatedProductsIds] = useState(
+  const [selectedRelatedProductsIds, setSelectedRelatedProductsIds] = useState<number[]>(
     []
   );
 
@@ -82,7 +82,7 @@ const AddProduct = ({
     }
   }, [selectedProduct]);
 
-  const onRemove = (index) => {
+  const onRemove = (index: number) => {
     const updatedCharacteristics = [...productsValues.characteristics];
     updatedCharacteristics.splice(index, 1);
 
@@ -269,7 +269,7 @@ const AddProduct = ({
                 <img src={productsImage} className={styles.photoCard} />
               ))}
               <div>
-                <AddButton onClick={() => inputRef.current.click()}>
+                <AddButton onClick={() => inputRef.current.click() }>
                   +
                 </AddButton>
               </div>

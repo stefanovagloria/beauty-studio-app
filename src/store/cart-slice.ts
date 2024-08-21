@@ -6,7 +6,7 @@ import { CartItem, CartState } from "../models/cartItem";
 
 const initialState: CartState = { items: [], totalPrice: 0, totalItems: 0 };
 
-// Create a slice for cart state management
+// slice for cart state management
 const cartSlice = createSlice({
   name: "cart",
   initialState,
@@ -38,14 +38,12 @@ const cartSlice = createSlice({
             state.totalPrice -= existingItem.price;
           }
         }
-        
       }
     },
     replaceCart(state, action: PayloadAction<Product[]>) {
       state.items = action.payload;
       state.totalPrice = state.items.reduce(
-        
-        (acc, item) => item.quantity? acc + item.price * item.quantity: 0,
+        (acc, item) => (item.quantity ? acc + item.price * item.quantity : 0),
         0
       );
       state.totalItems = state.items.length;
@@ -53,7 +51,6 @@ const cartSlice = createSlice({
   },
 });
 
-// Define the getItemData function with proper typing
 export const getItemData = () => {
   return async (dispatch: Dispatch) => {
     const getCartItems = async (): Promise<Product[]> => {
@@ -93,16 +90,17 @@ export const sendItemData = (itemData: Product) => {
 
     try {
       const state = getState();
-      console.log(state)
+
       const existingItem = state.cart?.items
         ? state.cart.items.find((i) => i._id === itemData._id)
         : undefined;
-        console.log(existingItem)
 
       const itemDataWithQuantity = existingItem
-        ? { ...itemData, quantity: existingItem.quantity ? existingItem.quantity +1 : 1 }
+        ? {
+            ...itemData,
+            quantity: existingItem.quantity ? existingItem.quantity + 1 : 1,
+          }
         : { ...itemData, quantity: 1 };
-        console.log(itemDataWithQuantity)
 
       await addProductsToCart(itemDataWithQuantity);
       dispatch(cartActions.addItem(itemDataWithQuantity));
