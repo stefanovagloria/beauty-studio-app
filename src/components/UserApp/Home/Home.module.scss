@@ -95,7 +95,10 @@
 }
 
 .cardBtn:hover {
-  color: rgb(81, 46, 156);
+  font-weight: bold;
+  border: 1px solid black;
+  border-radius: 3em;
+  padding: 15px;
 }
 
 .description {

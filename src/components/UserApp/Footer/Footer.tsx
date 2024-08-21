@@ -42,10 +42,11 @@ const Footer = () => {
       <div className={styles.contacts}>
         <h3>Контакти</h3>
         <div>
-          Работно време: Понеделник-Неделя 
-          09:00-19:00ч. 
-          Без почивен ден
-          studio.nefertiti1@gmail.com 0894 791 917
+          Работно време: Понеделник-Неделя 09:00-19:00ч. Без почивен ден
+          <br></br>
+          studio.nefertiti1@gmail.com
+          <br></br>
+          0894 791 917
         </div>
       </div>
     </div>

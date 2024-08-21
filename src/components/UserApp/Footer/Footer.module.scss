@@ -2,12 +2,12 @@
   display: flex;
   background: #4a4848;
   color: #fff;
-  text-align: center;
-  justify-content: center;
+  text-align: left;
+  justify-content: left;
 }
 
 .container div {
-  max-width: 350px;
+  max-width: 450px;
   height: auto;
   padding: 30px;
 }
@@ -15,8 +15,8 @@
 .gallery {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  align-items: left;
+  justify-content: left;
 }
 
 .img {
