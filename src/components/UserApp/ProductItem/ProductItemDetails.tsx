@@ -25,7 +25,7 @@ const CustomButton = styled(Button)({
 });
 
 const ProductItemDetails = () => {
-  const [product, setProduct] = useState<Product  | null>(null);
+  const [product, setProduct] = useState<Product | null>(null);
   const navigate = useNavigate();
   const { id } = useParams();
 
@@ -44,6 +44,7 @@ const ProductItemDetails = () => {
   }, [id]);
 
   const addProductToShoppingCart = () => {
+    console.log(product);
     if (product) {
       dispatch(sendItemData(product));
     }

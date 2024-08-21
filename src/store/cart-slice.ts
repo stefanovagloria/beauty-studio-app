@@ -18,7 +18,6 @@ const cartSlice = createSlice({
         if (existingItem.quantity) {
           existingItem.quantity++;
           state.totalPrice += newItem.price;
-          state.totalItems++;
         }
       } else {
         state.items.push({ ...newItem, quantity: 1 });
@@ -32,19 +31,21 @@ const cartSlice = createSlice({
       if (existingItem) {
         if (existingItem.quantity === 1) {
           state.items = state.items.filter((i) => i._id !== itemId);
+          state.totalItems--;
         } else {
           if (existingItem.quantity) {
             existingItem.quantity--;
             state.totalPrice -= existingItem.price;
           }
         }
-        state.totalItems--;
+        
       }
     },
     replaceCart(state, action: PayloadAction<Product[]>) {
       state.items = action.payload;
       state.totalPrice = state.items.reduce(
-        (acc, item) => acc + item.price * item.quantity,
+        
+        (acc, item) => item.quantity? acc + item.price * item.quantity: 0,
         0
       );
       state.totalItems = state.items.length;
@@ -55,7 +56,7 @@ const cartSlice = createSlice({
 // Define the getItemData function with proper typing
 export const getItemData = () => {
   return async (dispatch: Dispatch) => {
-    const getCartItems = async (): Promise<CartItem[]> => {
+    const getCartItems = async (): Promise<Product[]> => {
       const response = await axios.get(`http://localhost:4000/cart`);
       return response.data;
     };
@@ -92,13 +93,16 @@ export const sendItemData = (itemData: Product) => {
 
     try {
       const state = getState();
+      console.log(state)
       const existingItem = state.cart?.items
         ? state.cart.items.find((i) => i._id === itemData._id)
         : undefined;
+        console.log(existingItem)
 
       const itemDataWithQuantity = existingItem
-        ? { ...itemData, quantity: (existingItem.quantity || 1) + 1 }
+        ? { ...itemData, quantity: existingItem.quantity ? existingItem.quantity +1 : 1 }
         : { ...itemData, quantity: 1 };
+        console.log(itemDataWithQuantity)
 
       await addProductsToCart(itemDataWithQuantity);
       dispatch(cartActions.addItem(itemDataWithQuantity));
