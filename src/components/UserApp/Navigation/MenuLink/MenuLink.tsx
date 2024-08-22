@@ -74,10 +74,9 @@ const MenuLink: React.FC<MenuLinkProps> = ({ subLinks, name, url }) => {
         aria-expanded={open ? "true" : undefined}
         aria-haspopup="true"
         sx={{
-
           color: "black",
           fontWeight: currentlyActiveUrl === url ? "bold" : "",
-           fontSize: "1em"
+          fontSize: "1em",
         }}
         onClick={() => handleToggle(url || "")}
       >
@@ -92,7 +91,7 @@ const MenuLink: React.FC<MenuLinkProps> = ({ subLinks, name, url }) => {
             style={{
               color: "black",
               fontWeight: currentlyActiveUrl === url ? "bold" : "",
-              fontSize: "1em"
+              fontSize: "1em",
             }}
           >
             {name}
@@ -117,7 +116,12 @@ const MenuLink: React.FC<MenuLinkProps> = ({ subLinks, name, url }) => {
                   placement === "bottom-start" ? "left top" : "left bottom",
               }}
             >
-              <Paper style={{ zIndex: 2 }}>
+              <Paper
+                style={{
+                  zIndex: 2,
+                  paddingRight: "1em",
+                }}
+              >
                 <ClickAwayListener onClickAway={handleClose}>
                   <MenuList
                     component="ul"
@@ -133,6 +137,12 @@ const MenuLink: React.FC<MenuLinkProps> = ({ subLinks, name, url }) => {
                         key={link._id}
                       >
                         <MenuItem
+                          sx={{
+                            color: "black",
+                            "&:hover": {
+                              fontWeight: "bold",
+                            },
+                          }}
                           onClick={() => {
                             setOpen(false); // Close the menu after selecting
                           }}
