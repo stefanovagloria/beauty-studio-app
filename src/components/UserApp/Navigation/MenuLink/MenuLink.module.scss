@@ -1,12 +1,4 @@
-a {
-  text-decoration: none; /* Remove default text decoration for links */
-  font-weight: bolder;
-}
 
-a:active a:visited {
-  text-decoration: underline; /* Apply underline style when link is active (clicked) */
-}
-
-.activeLink{
-  text-decoration: underline;
+.activeUrl{
+ background-color: aqua !important;
 }

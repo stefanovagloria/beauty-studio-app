@@ -5,8 +5,14 @@ import styles from "./Navigation.module.scss";
 import ShopLink from "./ShopLink/ShopLink";
 import MenuLink from "./MenuLink/MenuLink";
 import Header from "./Header/Header";
+import { useState } from "react";
 
 const Navigation = () => {
+  const [currentlyActiveUrl, setCurrentlyActiveUrl] = useState<string>("");
+
+  const changeActiveUrl = (url: string) => {
+    setCurrentlyActiveUrl(url);
+  };
   return (
     <>
       <Header />

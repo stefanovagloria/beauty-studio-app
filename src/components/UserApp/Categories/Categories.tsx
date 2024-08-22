@@ -55,8 +55,8 @@ const Categories = () => {
                 <Link to={`/procedures/${p._id}`}>
                   <Card sx={{ maxWidth: 345 }} className={styles.card}>
                     <CardMedia
-                      sx={{ height: 140 }}
-                      image={image}
+                      sx={{ height: 140 , objectFit: "fill"}}
+                      image={p.photos[0]}
                       title={p.name}
                     />
                     <CardContent>

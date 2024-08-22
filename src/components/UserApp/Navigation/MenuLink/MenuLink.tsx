@@ -1,6 +1,9 @@
 import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 
+import { useDispatch, useSelector } from "react-redux";
+import { setActiveUrl } from "../../../../store/activeUrlSlice";
+
 import Button from "@mui/material/Button";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
 import Grow from "@mui/material/Grow";
@@ -8,8 +11,8 @@ import Paper from "@mui/material/Paper";
 import Popper from "@mui/material/Popper";
 import MenuItem from "@mui/material/MenuItem";
 import MenuList from "@mui/material/MenuList";
-import Stack from "@mui/material/Stack";
 import ArrowDropDownSharpIcon from "@mui/icons-material/ArrowDropDownSharp";
+import { RootState } from "../../../../store";
 
 interface SubLink {
   _id: number;
@@ -25,12 +28,13 @@ interface MenuLinkProps {
 
 const MenuLink: React.FC<MenuLinkProps> = ({ subLinks, name, url }) => {
   const [open, setOpen] = useState(false);
-  const [currentlyActiveId, setCurrentlyActiveId] = useState("");
   const anchorRef = useRef<HTMLButtonElement | null>(null);
+  const dispatch = useDispatch();
+  const currentlyActiveUrl = useSelector((state: RootState) => state.activeUrl.url);
 
   const handleToggle = (url: string) => {
     setOpen((prevOpen) => !prevOpen);
-    setCurrentlyActiveId(url);
+    dispatch(setActiveUrl(url));
   };
 
   const handleClose = (event: MouseEvent | TouchEvent) => {
@@ -60,69 +64,87 @@ const MenuLink: React.FC<MenuLinkProps> = ({ subLinks, name, url }) => {
   }, [open]);
 
   return (
-    <Stack direction="row" spacing={2}>
-      <div>
-        <Button
-          ref={anchorRef}
-          id="composition-button"
-          aria-controls={open ? "composition-menu" : undefined}
-          aria-expanded={open ? "true" : undefined}
-          aria-haspopup="true"
-          style={{ color: "blueviolet", fontSize: "1em", fontWeight: "300" }}
-          onClick={handleToggle}
-        >
-          {subLinks ? (
-            <>
-              {name}
-              <ArrowDropDownSharpIcon />
-            </>
-          ) : (
-            <Link to={url ?? "#"}> {name}</Link>
-          )}
-        </Button>
+    <div>
+      <Button
+        ref={anchorRef}
+        id="composition-button"
+        aria-controls={open ? "composition-menu" : undefined}
+        aria-expanded={open ? "true" : undefined}
+        aria-haspopup="true"
+        sx={{
+          fontSize: "1em",
+          fontWeight: 300,
+          color: currentlyActiveUrl === url ? "red" : "black"
+        }}
+        onClick={() => handleToggle(url || "")}
+      >
+        {subLinks ? (
+          <>
+            {name}
+            <ArrowDropDownSharpIcon />
+          </>
+        ) : (
+          <Link
+            to={url ?? "#"}
+            style={{
+              color: currentlyActiveUrl === url ? "red" : "black"
 
-        {subLinks && (
-          <Popper
-            open={open}
-            anchorEl={anchorRef.current}
-            role={undefined}
-            placement="bottom-start"
-            transition
-            disablePortal
+            }}
           >
-            {({ TransitionProps, placement }) => (
-              <Grow
-                {...TransitionProps}
-                style={{
-                  transformOrigin:
-                    placement === "bottom-start" ? "left top" : "left bottom",
-                }}
-              >
-                <Paper style={{ zIndex: 2 }}>
-                  <ClickAwayListener onClickAway={handleClose}>
-                    <MenuList
-                      component="ul"
-                      autoFocusItem={open}
-                      id="composition-menu"
-                      aria-labelledby="composition-button"
-                      onKeyDown={handleListKeyDown}
-                    >
-                      {subLinks.map((link) => (
-                        <Link to={link.url ? link.url : `${url}/${link._id}`} className={link.url === currentlyActiveId ? 'activeLink': ""}>
-                          <MenuItem key={link._id} onClick={() => handleToggle(link.url)}>
-                            {link.name}
-                          </MenuItem>
-                        </Link>
-                      ))}
-                    </MenuList>
-                  </ClickAwayListener>
-                </Paper>
-              </Grow>
-            )}
-          </Popper>
+            {name}
+          </Link>
         )}
-      </div>
-    </Stack>
+      </Button>
+
+      {subLinks && (
+        <Popper
+          open={open}
+          anchorEl={anchorRef.current}
+          role={undefined}
+          placement="bottom-start"
+          transition
+          disablePortal
+        >
+          {({ TransitionProps, placement }) => (
+            <Grow
+              {...TransitionProps}
+              style={{
+                transformOrigin:
+                  placement === "bottom-start" ? "left top" : "left bottom",
+              }}
+            >
+              <Paper style={{ zIndex: 2 }}>
+                <ClickAwayListener onClickAway={handleClose}>
+                  <MenuList
+                    component="ul"
+                    autoFocusItem={open}
+                    id="composition-menu"
+                    aria-labelledby="composition-button"
+                    onKeyDown={handleListKeyDown}
+                  >
+                    {subLinks.map((link) => (
+                      <Link
+                        to={link.url ? link.url : `${url}/${link._id}`}
+                        style={{ textDecoration: "none" }}
+                        key={link._id}
+                      >
+                        <MenuItem
+                          onClick={() => {
+                            setOpen(false); // Close the menu after selecting
+                          }}
+                        >
+                          {link.name}
+                        </MenuItem>
+                      </Link>
+                    ))}
+                  </MenuList>
+                </ClickAwayListener>
+              </Paper>
+            </Grow>
+          )}
+        </Popper>
+      )}
+    </div>
   );
 };
 

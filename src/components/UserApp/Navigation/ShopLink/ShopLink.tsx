@@ -1,5 +1,7 @@
 import MenuLink from "../MenuLink/MenuLink";
 
+
+
 const ShopLink = () => {
   const subLinks = [
     {
@@ -13,7 +15,7 @@ const ShopLink = () => {
       url: "/products",
     },
   ];
-  return <MenuLink name={"Магазин"} subLinks={subLinks} />;
+  return <MenuLink name={"Магазин"} subLinks={subLinks}  url="/shop"/>;
 };
 
 export default ShopLink;
