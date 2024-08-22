@@ -30,7 +30,9 @@ const MenuLink: React.FC<MenuLinkProps> = ({ subLinks, name, url }) => {
   const [open, setOpen] = useState(false);
   const anchorRef = useRef<HTMLButtonElement | null>(null);
   const dispatch = useDispatch();
-  const currentlyActiveUrl = useSelector((state: RootState) => state.activeUrl.url);
+  const currentlyActiveUrl = useSelector(
+    (state: RootState) => state.activeUrl.url
+  );
 
   const handleToggle = (url: string) => {
     setOpen((prevOpen) => !prevOpen);
@@ -72,9 +74,10 @@ const MenuLink: React.FC<MenuLinkProps> = ({ subLinks, name, url }) => {
         aria-expanded={open ? "true" : undefined}
         aria-haspopup="true"
         sx={{
-          fontSize: "1em",
-          fontWeight: 300,
-          color: currentlyActiveUrl === url ? "red" : "black"
+
+          color: "black",
+          fontWeight: currentlyActiveUrl === url ? "bold" : "",
+           fontSize: "1em"
         }}
         onClick={() => handleToggle(url || "")}
       >
@@ -87,8 +90,9 @@ const MenuLink: React.FC<MenuLinkProps> = ({ subLinks, name, url }) => {
           <Link
             to={url ?? "#"}
             style={{
-              color: currentlyActiveUrl === url ? "red" : "black"
-
+              color: "black",
+              fontWeight: currentlyActiveUrl === url ? "bold" : "",
+              fontSize: "1em"
             }}
           >
             {name}
