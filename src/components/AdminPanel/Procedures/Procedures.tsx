@@ -75,7 +75,7 @@ const Procedures = () => {
 
       {selectedCategory && (
         <>
-          <h1>Категория - {selectedCategory.name}</h1>
+          <h1>{selectedCategory.name}</h1>
           <div className={styles.mainContainer}>
             <div className={styles.addContainer}>
               <Card className={styles.btnContainer} onClick={handleClickOpen}>
