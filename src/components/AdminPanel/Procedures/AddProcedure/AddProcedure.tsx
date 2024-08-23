@@ -32,6 +32,7 @@ const AddProcedure = ({
   category,
   selectedProcedure,
   updateProcedures,
+  showLoaderHandler,
 }) => {
   const categoryId = category._id;
 
@@ -52,7 +53,6 @@ const AddProcedure = ({
     useState([]);
   const [showInputs, setShowInputs] = useState(false);
   const [currentInputs, setCurrentInputs] = useState({ key: "", value: "" });
-  const [showLoader, setShowLoader] = useState<boolean>(false);
 
   useEffect(() => {
     if (Object.keys(selectedProcedure).length !== 0) {
@@ -62,9 +62,6 @@ const AddProcedure = ({
     }
   }, [selectedProcedure]);
 
-  useEffect(() => {
-    console.log(procedureValues.photos);
-  }, [procedureValues.photos]);
 
   const resetProcedureValues = () => {
     setProcedureValues({
@@ -112,6 +109,7 @@ const AddProcedure = ({
     setCurrentInputs({ key: "", value: "" });
     setShowInputs(false);
   };
+
   const handleImageUpload = async () => {
     if (currentPhotos.length === 0) return;
 
@@ -134,13 +132,10 @@ const AddProcedure = ({
       if (response.data.fileData && Array.isArray(response.data.fileData)) {
         const imageURLs = response.data.fileData.map((f) => f.downloadUrl);
 
-        console.log("Uploaded Image URLs:", imageURLs);
-
         // Update state with uploaded image URLs
         return new Promise((resolve) => {
           setProcedureValues((prevValues) => {
             const updatedPhotos = [...prevValues.photos, ...imageURLs];
-            console.log("Updated Photos Array:", updatedPhotos);
 
             resolve({
               ...prevValues,
@@ -165,7 +160,7 @@ const AddProcedure = ({
 
   const onAddSubmitHandler = async (e) => {
     e.preventDefault();
-    setShowLoader(true);
+    showLoaderHandler(true);
 
     const updatedValues = await handleImageUpload();
 
@@ -183,7 +178,7 @@ const AddProcedure = ({
     } catch (error) {
       console.error("Error adding procedure:", error.message);
     }
-    setShowLoader(false);
+    showLoaderHandler(false);
   };
 
   const onEditSubmitHandler = async (e) => {
@@ -193,7 +188,6 @@ const AddProcedure = ({
 
     if (!updatedValues) return;
 
-    console.log("Procedure Values at Submission:", updatedValues);
 
     try {
       const response = await axios.put(
@@ -244,168 +238,163 @@ const AddProcedure = ({
   };
 
   return (
-    <>
-    {!showLoader &&  <Dialog
+    <Dialog
       fullScreen={fullScreen}
       open={show}
       onClose={hide}
       aria-labelledby="responsive-dialog-title"
     >
       <DialogContent className={styles.dialog}>
-        {!showLoader && (
-          <form
-            className={styles.container}
-            onSubmit={
-              selectedProcedure && selectedProcedure._id
-                ? onEditSubmitHandler
-                : onAddSubmitHandler
-            }
-          >
-            <div className={styles.category}>{category.name}</div>
-            <div className={`${styles.fields}`}>
-              <label htmlFor="name" className={styles.name}>
-                {" "}
-                {`Име на процедура`}
-              </label>
-              <input
-                id="name"
-                name="name"
-                value={procedureValues.name}
-                onChange={onChangeHandler}
-                className={styles.input}
-                required
-              />
-            </div>
-            <ImageUpload onImageAdd={onImageAdd} />
-            {procedureValues.photos.length > 0 &&
-              procedureValues.photos.map((photo, index) => (
-                <span key={index}>{photo.name || photo}</span>
-              ))}
+        <form
+          className={styles.container}
+          onSubmit={
+            selectedProcedure && selectedProcedure._id
+              ? onEditSubmitHandler
+              : onAddSubmitHandler
+          }
+        >
+          <div className={styles.category}>{category.name}</div>
+          <div className={`${styles.fields}`}>
+            <label htmlFor="name" className={styles.name}>
+              {" "}
+              {`Име на процедура`}
+            </label>
+            <input
+              id="name"
+              name="name"
+              value={procedureValues.name}
+              onChange={onChangeHandler}
+              className={styles.input}
+              required
+            />
+          </div>
+          <ImageUpload onImageAdd={onImageAdd} />
+          {procedureValues.photos.length > 0 &&
+            procedureValues.photos.map((photo, index) => (
+              <span key={index}>{photo.name || photo}</span>
+            ))}
+          <div>
+            <label htmlFor="price">Цена:</label>
+            <input
+              id="price"
+              name="price"
+              value={procedureValues.price || ""}
+              onChange={onChangeHandler}
+              required
+            />
+          </div>
+          <div>
+            <label htmlFor="promoPrice">Промоционална цена:</label>
+            <input
+              id="promoPrice"
+              name="promoPrice"
+              value={procedureValues.promoPrice || ""}
+              onChange={onChangeHandler}
+            />
+          </div>
+          <div className={styles.fields}>
+            <label>Характеристики:</label>
             <div>
-              <label htmlFor="price">Цена:</label>
-              <input
-                id="price"
-                name="price"
-                value={procedureValues.price || ""}
-                onChange={onChangeHandler}
-                required
-              />
-            </div>
-            <div>
-              <label htmlFor="promoPrice">Промоционална цена:</label>
-              <input
-                id="promoPrice"
-                name="promoPrice"
-                value={procedureValues.promoPrice || ""}
-                onChange={onChangeHandler}
-              />
-            </div>
-            <div className={styles.fields}>
-              <label>Характеристики:</label>
-              <div>
-                {procedureValues.characteristics.length > 0 &&
-                  procedureValues.characteristics.some((c) => c.value !== "") &&
-                  procedureValues.characteristics.map(
-                    (ch, index) =>
-                      ch.key !== "" && (
-                        <div key={index}>
-                          <input
-                            value={ch.key}
-                            onChange={(e) =>
-                              onCharacteristicsChange(
-                                e,
-                                index,
-                                e.target.value,
-                                ch.value
-                              )
-                            }
-                          />
-                          <input
-                            value={ch.value}
-                            onChange={(e) =>
-                              onCharacteristicsChange(
-                                e,
-                                index,
-                                ch.key,
-                                e.target.value
-                              )
-                            }
-                          />
-                          <Button
-                            onClick={() => onCharacteristicsRemove(index)}
-                          >
-                            Remove
-                          </Button>
-                        </div>
-                      )
-                  )}
-
-                <CustomButton onClick={() => setShowInputs(true)}>
-                  Add
-                </CustomButton>
-
-                {showInputs && (
-                  <div>
-                    <input
-                      value={currentInputs.key}
-                      name="key"
-                      onChange={onCharacteristicsChange}
-                    />
-                    <input
-                      value={currentInputs.value}
-                      name="value"
-                      onChange={onCharacteristicsChange}
-                    />
-                    <Button onClick={onCharacteristicsAddSave}>Save</Button>
-                  </div>
+              {procedureValues.characteristics.length > 0 &&
+                procedureValues.characteristics.some((c) => c.value !== "") &&
+                procedureValues.characteristics.map(
+                  (ch, index) =>
+                    ch.key !== "" && (
+                      <div key={index}>
+                        <input
+                          value={ch.key}
+                          onChange={(e) =>
+                            onCharacteristicsChange(
+                              e,
+                              index,
+                              e.target.value,
+                              ch.value
+                            )
+                          }
+                        />
+                        <input
+                          value={ch.value}
+                          onChange={(e) =>
+                            onCharacteristicsChange(
+                              e,
+                              index,
+                              ch.key,
+                              e.target.value
+                            )
+                          }
+                        />
+                        <Button onClick={() => onCharacteristicsRemove(index)}>
+                          Remove
+                        </Button>
+                      </div>
+                    )
                 )}
-              </div>
-            </div>
-            <div className={styles.fields}>
-              <label htmlFor="description">Описание на продукт:</label>
-              <textarea
-                id="description"
-                name="description"
-                value={procedureValues.description}
-                onChange={onChangeHandler}
-                required
-              />
-            </div>
-            <div className={styles.fields}>
-              Сходни продукти:
-              <div className={styles.relatedProductsContainer}>
-                {procedureValues.relatedProducts.map((p) => (
-                  <img
-                    key={p._id}
-                    src={productsImage}
-                    className={styles.relatedProductImg}
+
+              <CustomButton onClick={() => setShowInputs(true)}>
+                Add
+              </CustomButton>
+
+              {showInputs && (
+                <div>
+                  <input
+                    value={currentInputs.key}
+                    name="key"
+                    onChange={onCharacteristicsChange}
                   />
-                ))}
-                <Button
-                  style={{
-                    height: "100%",
-                    backgroundColor: "white",
-                    color: "black",
-                    border: "1px solid black",
-                    borderRadius: "0.5em",
-                    fontWeight: "bold",
-                  }}
-                  onClick={showAllProcedures}
-                >
-                  +
-                </Button>
-              </div>
+                  <input
+                    value={currentInputs.value}
+                    name="value"
+                    onChange={onCharacteristicsChange}
+                  />
+                  <Button onClick={onCharacteristicsAddSave}>Save</Button>
+                </div>
+              )}
             </div>
-            <DialogActions>
-              <CustomButton autoFocus onClick={hide}>
-                Отказ
-              </CustomButton>
-              <CustomButton autoFocus type="submit">
-                Запази процедура
-              </CustomButton>
-            </DialogActions>
-          </form>
-        )}
+          </div>
+          <div className={styles.fields}>
+            <label htmlFor="description">Описание на продукт:</label>
+            <textarea
+              id="description"
+              name="description"
+              value={procedureValues.description}
+              onChange={onChangeHandler}
+              required
+            />
+          </div>
+          <div className={styles.fields}>
+            Сходни продукти:
+            <div className={styles.relatedProductsContainer}>
+              {procedureValues.relatedProducts.map((p) => (
+                <img
+                  key={p._id}
+                  src={productsImage}
+                  className={styles.relatedProductImg}
+                />
+              ))}
+              <Button
+                style={{
+                  height: "100%",
+                  backgroundColor: "white",
+                  color: "black",
+                  border: "1px solid black",
+                  borderRadius: "0.5em",
+                  fontWeight: "bold",
+                }}
+                onClick={showAllProcedures}
+              >
+                +
+              </Button>
+            </div>
+          </div>
+          <DialogActions>
+            <CustomButton autoFocus onClick={hide}>
+              Отказ
+            </CustomButton>
+            <CustomButton autoFocus type="submit">
+              Запази процедура
+            </CustomButton>
+          </DialogActions>
+        </form>
       </DialogContent>
       {showProcedures && (
         <SelectItem
@@ -416,10 +405,7 @@ const AddProcedure = ({
           selectedRelatedItems={selectedRelatedProceduresIds}
         />
       )}
-    </Dialog>}
-    {showLoader && <LinearLoader/>}
-    </>
-   
+    </Dialog>
   );
 };
 

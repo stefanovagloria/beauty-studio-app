@@ -10,18 +10,21 @@ import styles from "./Procedures.module.scss";
 import { Card } from "@mui/material";
 import { Category } from "../../../models/category";
 import { Procedure } from "../../../models/procedure";
+import LinearLoader from "../../Loader/LinearLoader";
 
 interface UpdateProceduresParams {
   type: "add" | "edit";
   procedure: Procedure;
 }
 
-
 const Procedures = () => {
   const [showModal, setShowModal] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<Category | "">("");
-  const [selectedProcedure, setSelectedProcedure] = useState<Procedure | {}>({});
+  const [selectedProcedure, setSelectedProcedure] = useState<Procedure | {}>(
+    {}
+  );
   const [procedures, setProcedures] = useState<Procedure[]>([]);
+  const [showLoader, setShowLoader] = useState<boolean>(false);
 
   useEffect(() => {
     if (selectedCategory && selectedCategory._id) {
@@ -69,6 +72,10 @@ const Procedures = () => {
     }
   };
 
+  const showLoaderHandler = (value: boolean) => {
+    setShowLoader(value);
+  };
+
   return (
     <>
       <CategoriesList type="procedures" selectCategory={handleSelectCategory} />
@@ -82,18 +89,24 @@ const Procedures = () => {
                 +
               </Card>
             </div>
-            <ProceduresList
-              procedures={procedures}
-              setProcedure={setProcedure}
-            />
+            {showLoader && <LinearLoader />}
+            {!showLoader && (
+              <>
+                <ProceduresList
+                  procedures={procedures}
+                  setProcedure={setProcedure}
+                />
+                <AddProcedure
+                  show={showModal}
+                  hide={handleClose}
+                  category={selectedCategory}
+                  selectedProcedure={selectedProcedure}
+                  updateProcedures={updateProcedures}
+                  showLoaderHandler={showLoaderHandler}
+                />
+              </>
+            )}
           </div>
-          <AddProcedure
-            show={showModal}
-            hide={handleClose}
-            category={selectedCategory}
-            selectedProcedure={selectedProcedure}
-            updateProcedures={updateProcedures}
-          />
         </>
       )}
     </>
