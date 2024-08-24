@@ -18,7 +18,7 @@ interface UpdateProceduresParams {
 }
 
 const Procedures = () => {
-  const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState<boolean>(false);
   const [selectedCategory, setSelectedCategory] = useState<Category | "">("");
   const [selectedProcedure, setSelectedProcedure] = useState<Procedure | {}>(
     {}

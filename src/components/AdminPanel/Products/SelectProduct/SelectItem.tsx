@@ -9,6 +9,8 @@ import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { Product } from "../../../../models/product";
+import { Procedure } from "../../../../models/procedure";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -18,20 +20,29 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
-const SelectItem = ({
+interface SelectItemProps {
+  type: string;
+  show: boolean;
+  hide: () => void;
+  addToRelatedItems: (procedure: Procedure) => void;
+  selectedRelateditemsIds: string[];
+}
+
+const SelectItem: React.FC<SelectItemProps> = ({
   type,
   show,
   hide,
   addToRelatedItems,
   selectedRelateditemsIds,
 }) => {
-  const [items, setitems] = useState([]);
-  const [input, setInput] = useState("");
-  const [filtereditems, setFiltereditems] = useState([]);
+  const [items, setitems] = useState<Product[] | Procedure[]>([]);
+  const [input, setInput] = useState<string>("");
+  const [filtereditems, setFiltereditems] = useState<Product[] | Procedure[]>(
+    []
+  );
 
   useEffect(() => {
     const getitems = async () => {
-      console.log(type)
       let result = {};
       if (type === "products") {
         const response = await axios.get("http://localhost:4000/products");
@@ -59,7 +70,7 @@ const SelectItem = ({
     setInput(e.target.value);
   };
 
-  const onItemSelect = (product) => {
+  const onItemSelect = (product: Product) => {
     addToRelatedItems(product);
   };
 
@@ -73,8 +84,8 @@ const SelectItem = ({
           position: "absolute",
           right: 0,
           margin: 0,
-          width: "400px", // Custom width
-          maxWidth: "400px", // Custom max-width
+          width: "400px",
+          maxWidth: "400px",
           height: "430px",
           maxHeight: "430px",
         },

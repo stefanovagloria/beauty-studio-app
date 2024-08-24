@@ -12,7 +12,7 @@ import styles from "./AddProcedure.module.scss";
 import { styled } from "@mui/material/styles";
 
 import productsImage from "../../../../assets/productsImage.png";
-import LinearLoader from "../../../Loader/LinearLoader";
+import { Procedure } from "../../../../models/procedure";
 
 const CustomButton = styled(Button)(({ theme }) => ({
   backgroundColor: "rgb(148, 72, 220)",
@@ -50,7 +50,7 @@ const AddProcedure = ({
   const [currentPhotos, setCurrentPhotos] = useState([]);
   const [showProcedures, setShowProcedures] = useState(false);
   const [selectedRelatedProceduresIds, setSelectedRelatedProceduresIds] =
-    useState([]);
+    useState<string[]>([]);
   const [showInputs, setShowInputs] = useState(false);
   const [currentInputs, setCurrentInputs] = useState({ key: "", value: "" });
 
@@ -215,23 +215,23 @@ const AddProcedure = ({
     setCurrentPhotos((prevPhotos) => [...prevPhotos, image]);
   };
 
-  const addToRelatedProcedures = (product) => {
-    if (!selectedRelatedProceduresIds.includes(product._id)) {
+  const addToRelatedProcedures = (procedure: Procedure) => {
+    if (!selectedRelatedProceduresIds.includes(procedure._id)) {
       setProcedureValues((values) => ({
         ...values,
-        relatedProducts: [...values.relatedProducts, product],
+        relatedProducts: [...values.relatedProducts, procedure],
       }));
-      setSelectedRelatedProceduresIds((ids) => [...ids, product._id]);
+      setSelectedRelatedProceduresIds((ids) => [...ids, procedure._id]);
     } else {
       const updatedRelatedProducts = procedureValues.relatedProducts.filter(
-        (p) => p._id !== product._id
+        (p) => p._id !== procedure._id
       );
       setProcedureValues((values) => ({
         ...values,
         relatedProducts: updatedRelatedProducts,
       }));
       const updatedIds = selectedRelatedProceduresIds.filter(
-        (id) => id !== product._id
+        (id) => id !== procedure._id
       );
       setSelectedRelatedProceduresIds(updatedIds);
     }
