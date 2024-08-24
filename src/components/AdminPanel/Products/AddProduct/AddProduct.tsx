@@ -219,7 +219,6 @@ const AddProduct = ({
 
   return (
     <Dialog
-      fullScreen={fullScreen}
       open={show}
       onClose={hide}
       aria-labelledby="responsive-dialog-title"
@@ -296,7 +295,6 @@ const AddProduct = ({
               name="promoPrice"
               value={productsValues.promoPrice || ""}
               onChange={onChangeHandler}
-              required
             />
           </div>
           <div className={styles.fields}>

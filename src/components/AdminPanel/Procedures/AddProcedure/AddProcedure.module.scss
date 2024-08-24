@@ -60,3 +60,18 @@
     border-radius: 3px;
     margin-right: 0.5em;
 }
+
+.photosContainer {
+    display: flex;
+    align-items: center;
+    height: 120px;
+  }
+  
+  .photoCard {
+    width: 113px;
+    object-fit: cover;
+    height: 100%;
+    display: block;
+    border-radius: 3px;
+    margin-right: 1em;
+  }

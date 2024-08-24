@@ -13,6 +13,8 @@ import { styled } from "@mui/material/styles";
 
 import productsImage from "../../../../assets/productsImage.png";
 import { Procedure } from "../../../../models/procedure";
+import { Category } from "../../../../models/category";
+import { Input, TextField } from "@mui/material";
 
 const CustomButton = styled(Button)(({ theme }) => ({
   backgroundColor: "rgb(148, 72, 220)",
@@ -26,7 +28,27 @@ const CustomButton = styled(Button)(({ theme }) => ({
   },
 }));
 
-const AddProcedure = ({
+const AddButton = styled(Button)(({ theme }) => ({
+  backgroundColor: "white",
+  color: "black",
+  border: "1px solid black",
+  borderRadius: "0.5em",
+  padding: "3.3em",
+  maxWidth: "7em",
+  height: "auto",
+  fontWeight: "bold",
+}));
+
+interface AddProcedureProps {
+  show: boolean;
+  hide: () => void;
+  category: Category;
+  selectedProcedure: Procedure;
+  updateProcedures: (params: { type: string; procedure: Procedure }) => void;
+  showLoaderHandler: (value: boolean) => void;
+}
+
+const AddProcedure: React.FC<AddProcedureProps> = ({
   show,
   hide,
   category,
@@ -48,7 +70,7 @@ const AddProcedure = ({
   });
 
   const [currentPhotos, setCurrentPhotos] = useState([]);
-  const [showProcedures, setShowProcedures] = useState(false);
+  const [showProcedures, setShowProcedures] = useState<boolean>(false);
   const [selectedRelatedProceduresIds, setSelectedRelatedProceduresIds] =
     useState<string[]>([]);
   const [showInputs, setShowInputs] = useState(false);
@@ -61,7 +83,6 @@ const AddProcedure = ({
       resetProcedureValues();
     }
   }, [selectedProcedure]);
-
 
   const resetProcedureValues = () => {
     setProcedureValues({
@@ -76,22 +97,24 @@ const AddProcedure = ({
     });
   };
 
-  const onChangeHandler = (e) => {
-    const inputName = e.target.name;
+  const onChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const inputName = event.target.name;
     setProcedureValues((values) => ({
       ...values,
-      [inputName]: e.target.value,
+      [inputName]: event.target.value,
     }));
   };
 
-  const onCharacteristicsChange = (e) => {
+  const onCharacteristicsChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     setCurrentInputs((inputs) => ({
       ...inputs,
-      [e.target.name]: e.target.value,
+      [event.target.name]: event.target.value,
     }));
   };
 
-  const onCharacteristicsRemove = (index) => {
+  const onCharacteristicsRemove = (index: number) => {
     const updatedCharacteristics = [...procedureValues.characteristics];
     updatedCharacteristics.splice(index, 1);
 
@@ -188,7 +211,6 @@ const AddProcedure = ({
 
     if (!updatedValues) return;
 
-
     try {
       const response = await axios.put(
         `http://localhost:4000/procedures/${selectedProcedure._id}`,
@@ -209,10 +231,6 @@ const AddProcedure = ({
 
   const hideAllProcedures = () => {
     setShowProcedures(false);
-  };
-
-  const onImageAdd = (image) => {
-    setCurrentPhotos((prevPhotos) => [...prevPhotos, image]);
   };
 
   const addToRelatedProcedures = (procedure: Procedure) => {
@@ -237,12 +255,22 @@ const AddProcedure = ({
     }
   };
 
+  const onImageChangeHandler = (e) => {
+    const selectedImage = e.target.files[0];
+    setCurrentPhotos((prevPhotos) => [...prevPhotos, selectedImage]);
+  };
+
   return (
     <Dialog
-      fullScreen={fullScreen}
       open={show}
       onClose={hide}
       aria-labelledby="responsive-dialog-title"
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "700px",
+      }}
     >
       <DialogContent className={styles.dialog}>
         <form
@@ -255,11 +283,10 @@ const AddProcedure = ({
         >
           <div className={styles.category}>{category.name}</div>
           <div className={`${styles.fields}`}>
-            <label htmlFor="name" className={styles.name}>
-              {" "}
-              {`Име на процедура`}
-            </label>
-            <input
+            <Input
+              placeholder="Име на процедура"
+              color="secondary"
+              style={{ textAlign: "center", width: "200px" }}
               id="name"
               name="name"
               value={procedureValues.name}
@@ -268,14 +295,36 @@ const AddProcedure = ({
               required
             />
           </div>
-          <ImageUpload onImageAdd={onImageAdd} />
+          <div>
+            <label htmlFor="photos"> Снимки на процедурата</label>
+            <input
+              id="photos"
+              name="photos"
+              type="file"
+              hidden
+              onChange={onChangeHandler}
+            />
+          </div>
+          <div className={styles.photosContainer}>
+            <div>
+              {procedureValues.photos.map((p) => (
+                <img src={productsImage} className={styles.photoCard} />
+              ))}
+            </div>
+            <div>
+              <AddButton onClick={() => inputRef.current.click()}>+</AddButton>
+            </div>
+          </div>
+
           {procedureValues.photos.length > 0 &&
             procedureValues.photos.map((photo, index) => (
               <span key={index}>{photo.name || photo}</span>
             ))}
           <div>
             <label htmlFor="price">Цена:</label>
-            <input
+            <Input
+              color="secondary"
+              style={{ textAlign: "center", width: "70px" }}
               id="price"
               name="price"
               value={procedureValues.price || ""}
@@ -285,7 +334,9 @@ const AddProcedure = ({
           </div>
           <div>
             <label htmlFor="promoPrice">Промоционална цена:</label>
-            <input
+            <Input
+              color="secondary"
+              style={{ textAlign: "center", width: "70px" }}
               id="promoPrice"
               name="promoPrice"
               value={procedureValues.promoPrice || ""}
@@ -303,25 +354,11 @@ const AddProcedure = ({
                       <div key={index}>
                         <input
                           value={ch.key}
-                          onChange={(e) =>
-                            onCharacteristicsChange(
-                              e,
-                              index,
-                              e.target.value,
-                              ch.value
-                            )
-                          }
+                          onChange={(e) => onCharacteristicsChange(e)}
                         />
                         <input
                           value={ch.value}
-                          onChange={(e) =>
-                            onCharacteristicsChange(
-                              e,
-                              index,
-                              ch.key,
-                              e.target.value
-                            )
-                          }
+                          onChange={(e) => onCharacteristicsChange(e)}
                         />
                         <Button onClick={() => onCharacteristicsRemove(index)}>
                           Remove
@@ -330,9 +367,18 @@ const AddProcedure = ({
                     )
                 )}
 
-              <CustomButton onClick={() => setShowInputs(true)}>
-                Add
-              </CustomButton>
+              <Button
+                onClick={() => setShowInputs(true)}
+                style={{
+                  backgroundColor: "white",
+                  color: "black",
+                  border: "1px solid black",
+                  borderRadius: "0.5em",
+                  fontWeight: "bold",
+                }}
+              >
+                +
+              </Button>
 
               {showInputs && (
                 <div>
@@ -352,13 +398,15 @@ const AddProcedure = ({
             </div>
           </div>
           <div className={styles.fields}>
-            <label htmlFor="description">Описание на продукт:</label>
-            <textarea
+            <TextField
               id="description"
+              color="secondary"
               name="description"
+              label="Въведи описание на процедурата.."
+              multiline
+              maxRows={5}
               value={procedureValues.description}
               onChange={onChangeHandler}
-              required
             />
           </div>
           <div className={styles.fields}>

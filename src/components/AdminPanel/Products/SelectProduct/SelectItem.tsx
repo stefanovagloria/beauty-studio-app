@@ -66,8 +66,8 @@ const SelectItem: React.FC<SelectItemProps> = ({
     setFiltereditems(updateditems);
   }, [input]);
 
-  const onInputChange = (e) => {
-    setInput(e.target.value);
+  const onInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setInput(event.target.value);
   };
 
   const onItemSelect = (product: Product) => {
@@ -109,7 +109,7 @@ const SelectItem: React.FC<SelectItemProps> = ({
             {filtereditems.map((p) => (
               <Grid item xs={12} sm={6}>
                 <Item
-                  key={p.id}
+                  key={p._id}
                   onClick={() => onItemSelect(p)}
                   className={`${styles.item}  ${
                     selectedRelateditemsIds !== undefined &&
