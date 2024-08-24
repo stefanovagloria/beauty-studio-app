@@ -352,16 +352,19 @@ const AddProcedure: React.FC<AddProcedureProps> = ({
                   (ch, index) =>
                     ch.key !== "" && (
                       <div key={index}>
-                        <input
-                          value={ch.key}
-                          onChange={(e) => onCharacteristicsChange(e)}
-                        />
-                        <input
-                          value={ch.value}
-                          onChange={(e) => onCharacteristicsChange(e)}
-                        />
-                        <Button onClick={() => onCharacteristicsRemove(index)}>
-                          Remove
+                          <span>{ch.key}</span>
+                        <span>:</span>
+                        <span>{ch.value}</span>
+                        <Button
+                          onClick={() => onCharacteristicsRemove(index)}
+                          style={{
+                            backgroundColor: "white",
+                            color: "black",
+                            border: "1px solid black",
+                            borderRadius: "0.5em",
+                          }}
+                        >
+                          X
                         </Button>
                       </div>
                     )
@@ -382,17 +385,34 @@ const AddProcedure: React.FC<AddProcedureProps> = ({
 
               {showInputs && (
                 <div>
-                  <input
+                  <Input
                     value={currentInputs.key}
+                    color="secondary"
                     name="key"
-                    onChange={onCharacteristicsChange}
+                    onChange={(e) => onCharacteristicsChange(e)}
+                    style={{ marginRight: "1em", width: "12em" }}
                   />
-                  <input
+                  <Input
                     value={currentInputs.value}
+                    color="secondary"
                     name="value"
-                    onChange={onCharacteristicsChange}
+                    onChange={(e) => onCharacteristicsChange(e)}
+                    style={{ marginRight: "1em", width: "7em" }}
                   />
-                  <Button onClick={onCharacteristicsAddSave}>Save</Button>
+                  <Button
+                    onClick={onCharacteristicsAddSave}
+                    style={{
+                      backgroundColor: "white",
+                      color: "black",
+                      border: "1px solid black",
+                      borderRadius: "0.5em",
+                    }}
+                    disabled={
+                      currentInputs.key === "" || currentInputs.value === ""
+                    }
+                  >
+                    Запази
+                  </Button>
                 </div>
               )}
             </div>
