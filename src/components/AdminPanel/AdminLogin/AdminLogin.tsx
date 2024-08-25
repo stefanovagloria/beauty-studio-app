@@ -26,9 +26,9 @@ const AdminLogin = () => {
 
     const response = await login(values.emailValue, values.passwordValue);
 
-    console.log("response", response);
+    console.log("response", response.success);
 
-    if (response.success) {
+    if (response.success === true) {
       navigate("/admin");
     }
   };

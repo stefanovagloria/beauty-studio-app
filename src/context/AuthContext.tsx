@@ -19,6 +19,7 @@ const AuthProvider = ({ children }) => {
           "http://localhost:4000/admin/check-access",
           { token }
         );
+        console.log(authData)
       } catch (error) {
         setAuthData(null);
       }
