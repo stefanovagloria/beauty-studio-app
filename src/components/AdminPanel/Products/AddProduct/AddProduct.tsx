@@ -44,11 +44,11 @@ const AddProduct = ({
   selectedProduct,
   updateProducts,
 }) => {
-  const [productsValues, setProductsValues] = useState({
+  const [productsValues, setProductsValues] = useState<Product>({
     category: category._id,
     name: "",
     photos: [],
-    price: "",
+    price: 0,
     promoPrice: "",
     characteristics: [{ key: "", value: "" }],
     description: "",
@@ -60,9 +60,9 @@ const AddProduct = ({
   const [showInputs, setShowInputs] = useState(false);
   const [currentInputs, setCurrentInputs] = useState({ key: "", value: "" });
   const [showProducts, setShowProducts] = useState(false);
-  const [selectedRelatedProductsIds, setSelectedRelatedProductsIds] = useState<number[]>(
-    []
-  );
+  const [selectedRelatedProductsIds, setSelectedRelatedProductsIds] = useState<
+    number[]
+  >([]);
 
   useEffect(() => {
     if (Object.keys(selectedProduct).length !== 0) {
@@ -108,19 +108,24 @@ const AddProduct = ({
     setShowInputs(false);
   };
 
-  const onChangeHandler = (e) => {
-    const inputName = e.target.name;
+  const onChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const inputName = event.target.name;
+    const inputValue = event.target.value;
 
-    if (inputName !== "photos") {
+    if (inputName === "price" || inputName === "promoPrice") {
       setProductsValues((values) => ({
         ...values,
-        [inputName]: e.target.value,
+        [inputName]: parseFloat(inputValue), // Convert the value to a number
+      }));
+    } else if (inputName !== "photos") {
+      setProductsValues((values) => ({
+        ...values,
+        [inputName]: inputValue,
       }));
     } else {
-      console.log(e.target.files[0]);
       setProductsValues((values) => ({
         ...values,
-        [inputName]: [...values[inputName], e.target.files[0]],
+        [inputName]: [...values[inputName], event.target.files[0]],
       }));
     }
   };
@@ -129,14 +134,13 @@ const AddProduct = ({
     setShowInputs(true);
   };
 
-  const onSubmitHandler = async (e) => {
+  const onSubmitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const characteristics = productsValues.characteristics;
     const updatedCharacteristics = characteristics.filter(
       (ch) => ch.key !== ""
     );
-    console.log(updatedCharacteristics);
 
     setProductsValues((values) => ({
       ...values,
@@ -162,7 +166,7 @@ const AddProduct = ({
     updateProducts({ type: "add", product: response.data });
   };
 
-  const onEditHandler = async (e) => {
+  const onEditHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const response = await axios.put(
@@ -193,7 +197,7 @@ const AddProduct = ({
   };
 
   const addToRelatedProducts = (product: Product) => {
-    if (!selectedRelatedProductsIds.includes(product._id)) {
+    if (!selectedRelatedProductsIds.includes(Number(product._id))) {
       const relatedProductsArr = productsValues.relatedProducts;
       const updatedRelatedProducts = [...relatedProductsArr, product];
       setProductsValues((values) => ({
@@ -264,11 +268,15 @@ const AddProduct = ({
               onChange={onChangeHandler}
             />
             <div className={styles.photosContainer}>
-              {productsValues.photos.map((p) => (
-                <img src={productsImage} className={styles.photoCard} />
+              {productsValues.photos.map((p, index) => (
+                <img
+                  key={index}
+                  src={productsImage}
+                  className={styles.photoCard}
+                />
               ))}
               <div>
-                <AddButton onClick={() => inputRef.current.click() }>
+                <AddButton onClick={() => inputRef.current.click()}>
                   +
                 </AddButton>
               </div>
@@ -417,15 +425,14 @@ const AddProduct = ({
           </DialogActions>
         </form>
       </DialogContent>
-      {showAllProducts && (
-        <SelectItem
-          type="products"
-          show={showProducts}
-          hide={hideAllProducts}
-          addToRelatedItems={addToRelatedProducts}
-          selectedRelateditemsIds={selectedRelatedProductsIds}
-        />
-      )}
+
+      <SelectItem
+        type="products"
+        show={showProducts}
+        hide={hideAllProducts}
+        addToRelatedItems={addToRelatedProducts}
+        selectedRelateditemsIds={selectedRelatedProductsIds}
+      />
     </Dialog>
   );
 };

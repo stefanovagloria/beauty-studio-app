@@ -107,7 +107,7 @@ const SelectItem: React.FC<SelectItemProps> = ({
             columnSpacing={{ xs: 2, sm: 3, md: 4 }}
           >
             {filtereditems.map((p) => (
-              <Grid item xs={12} sm={6}>
+              <Grid key={p._id} item xs={12} sm={6}>
                 <Item
                   key={p._id}
                   onClick={() => onItemSelect(p)}

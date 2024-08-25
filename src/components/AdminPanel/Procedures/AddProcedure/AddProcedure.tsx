@@ -1,7 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import axios from "axios";
 
-import ImageUpload from "./ImageUpload";
 import SelectItem from "../../Products/SelectProduct/SelectItem";
 
 import Button from "@mui/material/Button";
@@ -76,6 +75,8 @@ const AddProcedure: React.FC<AddProcedureProps> = ({
   const [showInputs, setShowInputs] = useState(false);
   const [currentInputs, setCurrentInputs] = useState({ key: "", value: "" });
 
+  const inputRef = useRef(null);
+
   useEffect(() => {
     if (Object.keys(selectedProcedure).length !== 0) {
       setProcedureValues(selectedProcedure);
@@ -99,10 +100,18 @@ const AddProcedure: React.FC<AddProcedureProps> = ({
 
   const onChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const inputName = event.target.name;
-    setProcedureValues((values) => ({
-      ...values,
-      [inputName]: event.target.value,
-    }));
+
+    if (inputName !== "photos") {
+      setProcedureValues((values) => ({
+        ...values,
+        [inputName]: event.target.value,
+      }));
+    } else {
+      setProcedureValues((values) => ({
+        ...values,
+        [inputName]: [...values[inputName], event.target.files[0]],
+      }));
+    }
   };
 
   const onCharacteristicsChange = (
@@ -298,6 +307,7 @@ const AddProcedure: React.FC<AddProcedureProps> = ({
           <div>
             <label htmlFor="photos"> Снимки на процедурата</label>
             <input
+              ref={inputRef}
               id="photos"
               name="photos"
               type="file"
@@ -306,15 +316,15 @@ const AddProcedure: React.FC<AddProcedureProps> = ({
             />
           </div>
           <div className={styles.photosContainer}>
-            <div>
               {procedureValues.photos.map((p) => (
                 <img src={productsImage} className={styles.photoCard} />
               ))}
+              <div>
+                <AddButton onClick={() => inputRef.current.click() }>
+                  +
+                </AddButton>
+              </div>
             </div>
-            <div>
-              <AddButton onClick={() => inputRef.current.click()}>+</AddButton>
-            </div>
-          </div>
 
           {procedureValues.photos.length > 0 &&
             procedureValues.photos.map((photo, index) => (
@@ -352,7 +362,7 @@ const AddProcedure: React.FC<AddProcedureProps> = ({
                   (ch, index) =>
                     ch.key !== "" && (
                       <div key={index}>
-                          <span>{ch.key}</span>
+                        <span>{ch.key}</span>
                         <span>:</span>
                         <span>{ch.value}</span>
                         <Button

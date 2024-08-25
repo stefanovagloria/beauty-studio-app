@@ -4,13 +4,12 @@ import axios from "axios";
 
 import { sendItemData } from "../../../store/cart-slice";
 
-import styles from "./ProductItemDetails.module.css";
+import styles from "./ProductItemDetails.module.scss";
 import image from "../../../assets/productsImage.png";
 import { styled } from "@mui/system";
 import { Button } from "@mui/material";
 import { Product } from "../../../models/product";
 import { useAppDispatch } from "../../../store";
-import { CartItem } from "../../../models/cartItem";
 
 const CustomButton = styled(Button)({
   margin: "2em",
@@ -26,9 +25,8 @@ const CustomButton = styled(Button)({
 
 const ProductItemDetails = () => {
   const [product, setProduct] = useState<Product | null>(null);
-  const navigate = useNavigate();
   const { id } = useParams();
-
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -37,14 +35,12 @@ const ProductItemDetails = () => {
       const characteristics = response.data.characteristics;
       const updatedCharacteristics = characteristics.slice(1);
       setProduct({ ...response.data, characteristics: updatedCharacteristics });
-      console.log(response.data);
     };
 
     getProduct();
   }, [id]);
 
   const addProductToShoppingCart = () => {
-    console.log(product);
     if (product) {
       dispatch(sendItemData(product));
     }
@@ -87,15 +83,13 @@ const ProductItemDetails = () => {
             <p>{product.description}</p>
           </div>
           <div>
-            <p>Сходни продукти</p>
-            <div style={{ height: "100px", marginBottom: "2em" }}>
-              {product.relatedProducts &&
-                product.relatedProducts.length > 0 &&
-                product.relatedProducts.map((p) => (
-                  <Link to={`/products/${p._id}`} key={p._id}>
-                    <img src={image} className={styles.relatedImg} />
-                  </Link>
-                ))}
+            {product.relatedProducts.length > 0 && <p>Сходни продукти</p>}
+            <div style={{ height: "100px", marginBottom: "2em", marginTop: "1em" }}>
+              {product.relatedProducts.map((p) => (
+                <Link to={`/products/${p._id}`} key={p._id}>
+                  <img src={image} className={styles.relatedImg} />
+                </Link>
+              ))}
             </div>
           </div>
         </>
