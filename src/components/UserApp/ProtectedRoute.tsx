@@ -1,19 +1,18 @@
-import { useContext } from "react";
+import { ReactElement, useContext } from "react";
 import { Navigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 
+interface ProtectedRoutePros {
+  element: ReactElement;
+}
 
-const ProtectedRoute = ({ element }) => {
+const ProtectedRoute: React.FC<ProtectedRoutePros> = ({ element }) => {
   const { authData } = useContext(AuthContext);
-  console.log(authData)
 
-  // Check if the user is logged in
   if (authData === null) {
-    // Redirect to the login page if not authenticated
     return <Navigate to="/login" replace />;
   }
 
-  // If authenticated, return the element to be rendered
   return element;
 };
 

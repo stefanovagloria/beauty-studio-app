@@ -134,6 +134,54 @@ const AddProduct = ({
     setShowInputs(true);
   };
 
+  const handleImageUpload = async () => {
+    if (productsValues.photos.length === 0) return;
+
+    const formData = new FormData();
+    productsValues.photos.forEach((image) => {
+      formData.append("images", image);
+    });
+
+    try {
+      const response = await axios.post(
+        "http://localhost:4000/admin/upload",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      if (response.data.fileData && Array.isArray(response.data.fileData)) {
+        const imageURLs = response.data.fileData.map((f) => f.downloadUrl);
+
+        // Update state with uploaded image URLs
+        return new Promise((resolve) => {
+          setProductsValues((prevValues) => {
+            const updatedPhotos = [...prevValues.photos, ...imageURLs];
+
+            resolve({
+              ...prevValues,
+              photos: updatedPhotos,
+            });
+
+            return {
+              ...prevValues,
+              photos: updatedPhotos,
+            };
+          });
+        });
+      } else {
+        console.error("Invalid response data:", response.data);
+        return null;
+      }
+    } catch (error) {
+      console.error("Error uploading images:", error.message);
+      return null;
+    }
+  };
+
   const onSubmitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -146,6 +194,11 @@ const AddProduct = ({
       ...values,
       characteristics: updatedCharacteristics,
     }));
+
+    const updatedValues = await handleImageUpload();
+
+    if (!updatedValues) return;
+
 
     const response = await axios.post(
       "http://localhost:4000/products",

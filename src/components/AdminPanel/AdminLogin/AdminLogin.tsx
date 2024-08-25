@@ -17,16 +17,14 @@ const AdminLogin = () => {
 
   const navigate = useNavigate();
 
-  const onChangeHandler = (e) => {
+  const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValues((values) => ({ ...values, [e.target.name]: e.target.value }));
   };
 
-  const onSubmitHandler = async (e) => {
+  const onSubmitHandler = async (e: HTMLFormElement) => {
     e.preventDefault();
 
     const response = await login(values.emailValue, values.passwordValue);
-
-    console.log("response", response.success);
 
     if (response.success === true) {
       navigate("/admin");
@@ -63,7 +61,6 @@ const AdminLogin = () => {
           </Button>
         </form>
       </div>
-
     </>
   );
 };

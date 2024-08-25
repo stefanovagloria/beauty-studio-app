@@ -5,10 +5,9 @@ import store from "./store/index";
 
 import UserApp from "./components/UserApp/UserApp";
 import AdminLogin from "./components/AdminPanel/AdminLogin/AdminLogin";
-import AuthProvider, { AuthContext } from "./context/AuthContext";
+import AuthProvider from "./context/AuthContext";
 
 import "./App.scss";
-import { useContext } from "react";
 import AdminApp from "./components/AdminPanel/AdminApp";
 import ProtectedRoute from "./components/UserApp/ProtectedRoute";
 
