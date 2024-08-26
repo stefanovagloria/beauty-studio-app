@@ -133,7 +133,6 @@ const AddProduct = ({
   const onAddClickHandler = () => {
     setShowInputs(true);
   };
-
   const handleImageUpload = async () => {
     if (productsValues.photos.length === 0) return;
 
@@ -141,6 +140,8 @@ const AddProduct = ({
     productsValues.photos.forEach((image) => {
       formData.append("images", image);
     });
+
+    console.log(formData)
 
     try {
       const response = await axios.post(
@@ -163,7 +164,7 @@ const AddProduct = ({
 
             resolve({
               ...prevValues,
-              photos: updatedPhotos,
+              photos: updatedPhotos.slice(1),
             });
 
             return {
@@ -194,33 +195,43 @@ const AddProduct = ({
       ...values,
       characteristics: updatedCharacteristics,
     }));
+    console.log(productsValues)
 
     const updatedValues = await handleImageUpload();
 
     if (!updatedValues) return;
+    
 
+    try {
+      const response = await axios.post(
+        "http://localhost:4000/products",
+        updatedValues
+      );
 
-    const response = await axios.post(
-      "http://localhost:4000/products",
-      productsValues
-    );
+      setProductsValues({
+        name: "",
+        photos: [],
+        price: "",
+        promoPrice: "",
+        characteristics: [{ key: "", value: "" }],
+        description: "",
+        relatedProducts: [],
+      });
 
-    setProductsValues({
-      name: "",
-      photos: [],
-      price: "",
-      promoPrice: "",
-      characteristics: [{ key: "", value: "" }],
-      description: "",
-      relatedProducts: [],
-    });
-
-    hide();
-    updateProducts({ type: "add", product: response.data });
+      hide();
+      console.log(response.data);
+      updateProducts({ type: "add", product: response.data });
+    } catch (error) {
+      console.error("Error adding procedure:", error.message);
+    }
   };
 
   const onEditHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    const updatedImageURLs = await handleImageUpload();
+
+    if (!updatedImageURLs) return;
 
     const response = await axios.put(
       `http://localhost:4000/products/${selectedProduct._id}`,
@@ -324,7 +335,7 @@ const AddProduct = ({
               {productsValues.photos.map((p, index) => (
                 <img
                   key={index}
-                  src={productsImage}
+                  src={p}
                   className={styles.photoCard}
                 />
               ))}

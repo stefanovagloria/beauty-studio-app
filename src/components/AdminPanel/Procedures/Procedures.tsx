@@ -53,7 +53,6 @@ const Procedures = () => {
   };
 
   const setProcedure = (procedure: Procedure) => {
-    console.log(procedure);
     setSelectedProcedure(procedure);
     setShowModal(true);
   };

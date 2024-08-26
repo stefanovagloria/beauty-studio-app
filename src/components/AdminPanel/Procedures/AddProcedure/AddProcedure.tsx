@@ -74,6 +74,7 @@ const AddProcedure: React.FC<AddProcedureProps> = ({
     useState<string[]>([]);
   const [showInputs, setShowInputs] = useState(false);
   const [currentInputs, setCurrentInputs] = useState({ key: "", value: "" });
+  const [photoPreviews, setPhotoPreviews] = useState<string[]>([]);
 
   const inputRef = useRef(null);
 
@@ -83,6 +84,7 @@ const AddProcedure: React.FC<AddProcedureProps> = ({
     } else {
       resetProcedureValues();
     }
+    setPhotoPreviews([]);
   }, [selectedProcedure]);
 
   const resetProcedureValues = () => {
@@ -111,6 +113,12 @@ const AddProcedure: React.FC<AddProcedureProps> = ({
         ...values,
         [inputName]: [...values[inputName], event.target.files[0]],
       }));
+
+      const newPreviews = Array.from(event.target.files).map((file) =>
+        URL.createObjectURL(file)
+      );
+
+      setPhotoPreviews((previews) => [...previews, ...newPreviews]);
     }
   };
 
@@ -199,6 +207,7 @@ const AddProcedure: React.FC<AddProcedureProps> = ({
     if (!updatedValues) return;
 
     try {
+      console.log('postt...')
       const postResponse = await axios.post(
         "http://localhost:4000/procedures",
         updatedValues // Send updated procedureValues with image URLs
@@ -206,9 +215,12 @@ const AddProcedure: React.FC<AddProcedureProps> = ({
 
       resetProcedureValues();
       hide();
+      setPhotoPreviews([]);
       updateProcedures({ type: "add", procedure: postResponse.data });
     } catch (error) {
       console.error("Error adding procedure:", error.message);
+      showLoaderHandler(false);
+      console.log('error')
     }
     showLoaderHandler(false);
   };
@@ -228,6 +240,7 @@ const AddProcedure: React.FC<AddProcedureProps> = ({
 
       resetProcedureValues();
       hide();
+      setPhotoPreviews([]);
       updateProcedures({ type: "edit", procedure: response.data });
     } catch (error) {
       console.error("Error editing procedure:", error.message);
@@ -316,20 +329,23 @@ const AddProcedure: React.FC<AddProcedureProps> = ({
             />
           </div>
           <div className={styles.photosContainer}>
-              {procedureValues.photos.map((p) => (
-                <img src={productsImage} className={styles.photoCard} />
+            {selectedProcedure &&
+              selectedProcedure._id &&
+              procedureValues.photos.map((p, index) => (
+                <img
+                  src={p || productsImage}
+                  className={styles.photoCard}
+                  key={index}
+                />
               ))}
-              <div>
-                <AddButton onClick={() => inputRef.current.click() }>
-                  +
-                </AddButton>
-              </div>
+            {photoPreviews.length > 0 &&
+              photoPreviews.map((p, index) => (
+                <img src={p} className={styles.photoCard} key={index} />
+              ))}
+            <div>
+              <AddButton onClick={() => inputRef.current.click()}>+</AddButton>
             </div>
-
-          {procedureValues.photos.length > 0 &&
-            procedureValues.photos.map((photo, index) => (
-              <span key={index}>{photo.name || photo}</span>
-            ))}
+          </div>
           <div>
             <label htmlFor="price">Цена:</label>
             <Input
@@ -442,13 +458,14 @@ const AddProcedure: React.FC<AddProcedureProps> = ({
           <div className={styles.fields}>
             Сходни продукти:
             <div className={styles.relatedProductsContainer}>
-              {procedureValues.relatedProducts.map((p) => (
-                <img
-                  key={p._id}
-                  src={productsImage}
-                  className={styles.relatedProductImg}
-                />
-              ))}
+              {procedureValues.relatedProducts.length > 0 &&
+                procedureValues.relatedProducts.map((p, index) => (
+                  <img
+                    key={index}
+                    src={p.photos[0]}
+                    className={styles.relatedProductImg}
+                  />
+                ))}
               <Button
                 style={{
                   height: "100%",

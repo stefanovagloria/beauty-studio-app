@@ -30,8 +30,8 @@ const ProceduresList: React.FC<ProceduresProps> = ({ procedures, setProcedure })
           >
             <CardMedia 
               sx={{ height: 140 }}
-              image={procedure.photos[0] || image} // Fallback to a default image if none is available
-              alt={procedure.name} // Adding alt text for accessibility
+              image={procedure.photos[0]} 
+              alt={procedure.name}
             />
             <CardContent>
               <Typography gutterBottom variant="h5" component="div">

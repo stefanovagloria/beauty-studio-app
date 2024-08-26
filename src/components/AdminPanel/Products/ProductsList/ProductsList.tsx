@@ -22,7 +22,7 @@ const ProductsList = ({ products, selectProduct }) => {
             key={product._id}
             onClick={() => selectProduct(product)}
           >
-            <CardMedia sx={{ height: 140 }} image={image} />
+            <CardMedia sx={{ height: 140 }} image={product.photos[0]} />
             <CardContent>
               <Typography gutterBottom variant="h5" component="div">
                 {product.name}
