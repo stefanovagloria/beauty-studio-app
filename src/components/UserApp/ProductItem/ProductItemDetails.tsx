@@ -57,7 +57,7 @@ const ProductItemDetails = () => {
         <>
           <div className={styles.container}>
             <div>
-              <img src={image} />
+              <img src={product.photos[0]} />
             </div>
             <div>
               <h1 className={styles.name}>{product.name}</h1>

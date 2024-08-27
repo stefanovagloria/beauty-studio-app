@@ -45,12 +45,13 @@ const OrderDetails = ({ open, closeDetails, order, updateOrder }) => {
   const descriptionElementRef = useRef(null);
   const [openModal, setOpenModal] = useState(false);
   const [orderedProducts, setOrderedProducts] = useState([]);
-  console.log(order);
 
   useEffect(() => {
     const getProducts = async () => {
       const response = await axios.get(`http://localhost:4000/products`);
-      const data = response.data.filter((p: Product) => order.products.includes(p._id));
+      const data = response.data.filter((p: Product) =>
+        order.products.includes(p._id)
+      );
       setOrderedProducts(data);
     };
 
@@ -84,72 +85,76 @@ const OrderDetails = ({ open, closeDetails, order, updateOrder }) => {
   };
 
   return (
-    <>
-      <Dialog
-        open={open}
-        onClose={closeDetails}
-        scroll={"paper"}
-        aria-labelledby="scroll-dialog-title"
-        aria-describedby="scroll-dialog-description"
-        className={styles.container}
+    <Dialog
+      open={open}
+      onClose={closeDetails}
+      scroll={"paper"}
+      aria-labelledby="scroll-dialog-title"
+      aria-describedby="scroll-dialog-description"
+      className={styles.container}
+    >
+      <DialogTitle
+        id="scroll-dialog-title"
+        align="center"
+        className={styles.title}
       >
-        <DialogTitle id="scroll-dialog-title" align="center" className={styles.title}>
-          <p className={styles.orderNumber}> Поръчка Номер 3 </p>
-          <button className={styles.closeBtn} onClick={closeDetails}>X</button>
-        </DialogTitle>
-        <DialogContent dividers={scroll === "paper"} className={styles.content}>
-          <DialogContentText
-            id="scroll-dialog-description"
-            ref={descriptionElementRef}
-            tabIndex={-1}
-          >
-            <div className={styles.status}>
-              Статус:{" "}
-              <CustomButton
-                onClick={openModalHandler}
-                disabled={order.status === "изпратена"}
-              >
-                {order.status}
-              </CustomButton>
-            </div>
+        <div className={styles.orderNumber}> Поръчка Номер 3 </div>
+        <button className={styles.closeBtn} onClick={closeDetails}>
+          X
+        </button>
+      </DialogTitle>
+      <DialogContent dividers={scroll === "paper"} className={styles.content}>
+        <DialogContentText
+          id="scroll-dialog-description"
+          ref={descriptionElementRef}
+          tabIndex={-1}
+        >
+          <div className={styles.status}>
+            Статус:{" "}
+            <CustomButton
+              onClick={openModalHandler}
+              disabled={order.status === "изпратена"}
+            >
+              {order.status}
+            </CustomButton>
+          </div>
+          <div>
+            <div className={styles.products}>Продукти</div>
+            <OrderedProductsTable orderedProducts={order.products} />
+          </div>
+          <div className={styles.delivery}>Доставка: 5лв</div>
+          <div>
+            Данни за доставка:
             <div>
-              <div className={styles.products}>Продукти</div>
-              <OrderedProductsTable orderedProducts={order.products} />
-            </div>
-            <div className={styles.delivery}>Доставка: 5лв</div>
-            <div>
-              Данни за доставка:
               <div>
-                <p>
-                  Име: {order.user.name} {order.user.surname}
-                </p>
-                <p>
-                  Адрес: {order.user.city} - {order.user.street}
-                </p>
-                <p>Телефон: {order.user.phoneNumber}</p>
-                <p>Имейл: {order.user.email}</p>
+                Име: {order.user.name} {order.user.surname}
               </div>
+              <div>
+                Адрес: {order.user.city} - {order.user.street}
+              </div>
+              <div>Телефон: {order.user.phoneNumber}</div>
+              <div>Имейл: {order.user.email}</div>
             </div>
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <ActionButton onClick={closeDetails}>Затвори</ActionButton>
-          <ActionButton
-            onClick={closeDetails}
-            style={{ width: "40em", height: "3.8em" }}
-          >
-            Изпрати имейл потвърждение
-          </ActionButton>
-        </DialogActions>
-        {openModal && (
-          <OrderConfirmation
-            openModal={openModal}
-            closeModalHandler={closeModalHandler}
-            updateOrderStatus={updateOrderStatus}
-          />
-        )}
-      </Dialog>
-    </>
+          </div>
+        </DialogContentText>
+      </DialogContent>
+      <DialogActions>
+        <ActionButton onClick={closeDetails}>Затвори</ActionButton>
+        <ActionButton
+          onClick={closeDetails}
+          style={{ width: "40em", height: "3.8em" }}
+        >
+          Изпрати имейл потвърждение
+        </ActionButton>
+      </DialogActions>
+      {openModal && (
+        <OrderConfirmation
+          openModal={openModal}
+          closeModalHandler={closeModalHandler}
+          updateOrderStatus={updateOrderStatus}
+        />
+      )}
+    </Dialog>
   );
 };
 

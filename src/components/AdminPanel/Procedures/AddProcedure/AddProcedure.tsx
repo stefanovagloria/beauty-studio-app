@@ -151,10 +151,10 @@ const AddProcedure: React.FC<AddProcedureProps> = ({
   };
 
   const handleImageUpload = async () => {
-    if (currentPhotos.length === 0) return;
+    if (procedureValues.photos.length === 0) return;
 
     const formData = new FormData();
-    currentPhotos.forEach((image) => {
+    procedureValues.photos.forEach((image) => {
       formData.append("images", image);
     });
 
@@ -172,14 +172,13 @@ const AddProcedure: React.FC<AddProcedureProps> = ({
       if (response.data.fileData && Array.isArray(response.data.fileData)) {
         const imageURLs = response.data.fileData.map((f) => f.downloadUrl);
 
-        // Update state with uploaded image URLs
         return new Promise((resolve) => {
           setProcedureValues((prevValues) => {
             const updatedPhotos = [...prevValues.photos, ...imageURLs];
 
             resolve({
               ...prevValues,
-              photos: updatedPhotos,
+              photos: updatedPhotos.slice(1),
             });
 
             return {
@@ -207,7 +206,6 @@ const AddProcedure: React.FC<AddProcedureProps> = ({
     if (!updatedValues) return;
 
     try {
-      console.log('postt...')
       const postResponse = await axios.post(
         "http://localhost:4000/procedures",
         updatedValues // Send updated procedureValues with image URLs
@@ -220,7 +218,7 @@ const AddProcedure: React.FC<AddProcedureProps> = ({
     } catch (error) {
       console.error("Error adding procedure:", error.message);
       showLoaderHandler(false);
-      console.log('error')
+      console.log("error");
     }
     showLoaderHandler(false);
   };

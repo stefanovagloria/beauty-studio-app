@@ -104,7 +104,7 @@ const Home = () => {
               </CardActionArea>
               <CardActions>
                 <button className={styles.cardBtn}>
-                  <span>Запази час </span>
+                  <span >Запази час </span>
                   <span className={styles.arrow}>
                     <ArrowForwardIcon />
                   </span>

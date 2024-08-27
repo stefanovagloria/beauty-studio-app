@@ -47,7 +47,7 @@ const ProductsList = () => {
                         component="img"
                         height="300"
                         width="auto"
-                        image={image}
+                        image={product.photos[0]}
                       />
                       <CardContent>
                         <Typography gutterBottom variant="h5" component="div">
