@@ -63,6 +63,7 @@ const AddProduct = ({
   const [selectedRelatedProductsIds, setSelectedRelatedProductsIds] = useState<
     number[]
   >([]);
+  const [photoPreviews, setPhotoPreviews] = useState<string[]>([]);
 
   useEffect(() => {
     if (Object.keys(selectedProduct).length !== 0) {
@@ -80,6 +81,7 @@ const AddProduct = ({
         relatedProducts: [],
       });
     }
+    setPhotoPreviews([]);
   }, [selectedProduct]);
 
   const onRemove = (index: number) => {
@@ -127,6 +129,12 @@ const AddProduct = ({
         ...values,
         [inputName]: [...values[inputName], event.target.files[0]],
       }));
+      const newPreviews = Array.from(event.target.files).map((file) =>
+        URL.createObjectURL(file)
+      );
+
+      console.log(photoPreviews)
+      setPhotoPreviews((previews) => [...previews, ...newPreviews]);
     }
   };
 
@@ -141,7 +149,7 @@ const AddProduct = ({
       formData.append("images", image);
     });
 
-    console.log(formData)
+    console.log(formData);
 
     try {
       const response = await axios.post(
@@ -195,12 +203,11 @@ const AddProduct = ({
       ...values,
       characteristics: updatedCharacteristics,
     }));
-    console.log(productsValues)
+    console.log(productsValues);
 
     const updatedValues = await handleImageUpload();
 
     if (!updatedValues) return;
-    
 
     try {
       const response = await axios.post(
@@ -219,6 +226,7 @@ const AddProduct = ({
       });
 
       hide();
+      setPhotoPreviews([]);
       console.log(response.data);
       updateProducts({ type: "add", product: response.data });
     } catch (error) {
@@ -249,6 +257,7 @@ const AddProduct = ({
     });
 
     hide();
+    setPhotoPreviews([]);
     updateProducts({ type: "edit", product: response.data });
   };
 
@@ -333,11 +342,12 @@ const AddProduct = ({
             />
             <div className={styles.photosContainer}>
               {productsValues.photos.map((p, index) => (
-                <img
-                  key={index}
-                  src={p}
-                  className={styles.photoCard}
-                />
+                <img key={index} src={p} className={styles.photoCard} />
+              ))}
+              {photoPreviews.map((p, index) => (
+
+                <img key={index} src={p} className={styles.photoCard} />
+               
               ))}
               <div>
                 <AddButton onClick={() => inputRef.current.click()}>
