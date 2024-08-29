@@ -329,13 +329,18 @@ const AddProcedure: React.FC<AddProcedureProps> = ({
           <div className={styles.photosContainer}>
             {selectedProcedure &&
               selectedProcedure._id &&
-              procedureValues.photos.map((p, index) => (
-                <img
-                  src={p || productsImage}
-                  className={styles.photoCard}
-                  key={index}
-                />
-              ))}
+              procedureValues.photos.map((p, index) => {
+                if (typeof p === "string") {
+                  return (
+                    <img
+                      src={p || productsImage}
+                      className={styles.photoCard}
+                      key={index}
+                    />
+                  );
+                }
+                return null;
+              })}
             {photoPreviews.length > 0 &&
               photoPreviews.map((p, index) => (
                 <img src={p} className={styles.photoCard} key={index} />
