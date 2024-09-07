@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, FormEventHandler } from "react";
 import axios from "axios";
 
 import SelectItem from "../../Products/SelectProduct/SelectItem";
@@ -57,18 +57,18 @@ const AddProcedure: React.FC<AddProcedureProps> = ({
 }) => {
   const categoryId = category._id;
 
-  const [procedureValues, setProcedureValues] = useState({
+  const [procedureValues, setProcedureValues] = useState<Procedure>({
+    _id: "",
     category: categoryId,
     name: "",
     photos: [],
-    price: "",
+    price: 0,
     promoPrice: "",
     characteristics: [{ key: "", value: "" }],
     description: "",
     relatedProducts: [],
   });
 
-  const [currentPhotos, setCurrentPhotos] = useState([]);
   const [showProcedures, setShowProcedures] = useState<boolean>(false);
   const [selectedRelatedProceduresIds, setSelectedRelatedProceduresIds] =
     useState<string[]>([]);
@@ -89,6 +89,7 @@ const AddProcedure: React.FC<AddProcedureProps> = ({
 
   const resetProcedureValues = () => {
     setProcedureValues({
+      _id: "",
       category: categoryId,
       name: "",
       photos: [],
@@ -102,11 +103,17 @@ const AddProcedure: React.FC<AddProcedureProps> = ({
 
   const onChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const inputName = event.target.name;
+    const inputValue = event.target.value;
 
-    if (inputName !== "photos") {
+    if (inputName === "promoPrice" || inputName === "price") {
       setProcedureValues((values) => ({
         ...values,
-        [inputName]: event.target.value,
+        [inputName]: parseFloat(inputValue) || 0,
+      }));
+    } else if (inputName !== "photos") {
+      setProcedureValues((values) => ({
+        ...values,
+        [inputName]: inputValue,
       }));
     } else {
       setProcedureValues((values) => ({
@@ -197,7 +204,7 @@ const AddProcedure: React.FC<AddProcedureProps> = ({
     }
   };
 
-  const onAddSubmitHandler = async (e) => {
+  const onAddSubmitHandler = async (e: FormEventHandler<HTMLFormElement>) => {
     e.preventDefault();
     showLoaderHandler(true);
 
@@ -223,7 +230,7 @@ const AddProcedure: React.FC<AddProcedureProps> = ({
     showLoaderHandler(false);
   };
 
-  const onEditSubmitHandler = async (e) => {
+  const onEditSubmitHandler = async (e: FormEventHandler<HTMLFormElement>) => {
     e.preventDefault();
 
     const updatedValues = await handleImageUpload();
@@ -273,11 +280,6 @@ const AddProcedure: React.FC<AddProcedureProps> = ({
       );
       setSelectedRelatedProceduresIds(updatedIds);
     }
-  };
-
-  const onImageChangeHandler = (e) => {
-    const selectedImage = e.target.files[0];
-    setCurrentPhotos((prevPhotos) => [...prevPhotos, selectedImage]);
   };
 
   return (
