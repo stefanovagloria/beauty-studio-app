@@ -144,7 +144,7 @@ const MenuLink: React.FC<MenuLinkProps> = ({ subLinks, name, url }) => {
                             },
                           }}
                           onClick={() => {
-                            setOpen(false); // Close the menu after selecting
+                            setOpen(false);
                           }}
                         >
                           {link.name}

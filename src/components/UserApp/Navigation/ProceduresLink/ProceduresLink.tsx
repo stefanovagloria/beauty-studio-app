@@ -3,8 +3,6 @@ import axios from "axios";
 
 import MenuLink from "../MenuLink/MenuLink";
 
-
-
 const ProceduresLink = () => {
   const [categories, setCategories] = useState([]);
 
@@ -22,7 +20,7 @@ const ProceduresLink = () => {
   return (
     <>
       {categories && (
-        <MenuLink subLinks={categories} name={"Процедури"} url="/categories" />
+        <MenuLink subLinks={categories} name={"Процедури"} url={"/categories"} />
       )}
     </>
   );
